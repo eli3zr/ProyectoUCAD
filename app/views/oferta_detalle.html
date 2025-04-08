@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Detalle de Oferta</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/oferta_detalle.css"> </head>
+
+<body>
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                            Inicio</a></li>
+                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
+                            Perfil</a></li>
+                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
+                            Empleo</a></li>
+                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
+                            Aplicaciones</a></li>
+                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li><a href="#" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <section class="mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-3" style="color: #112852;"><i class="fas fa-briefcase me-2"></i> [Nombre del Puesto]</h2>
+                    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-building me-2" style="color: #112852;"></i> [Nombre de la Empresa]</h6>
+                    <p class="card-text mb-2"><i class="fas fa-map-marker-alt me-2" style="color: #112852;"></i> [Ubicación de la Oferta]</p>
+                    <p class="card-text mb-3"><i class="fas fa-calendar-alt me-2" style="color: #112852;"></i> Publicado el: [Fecha de Publicación]</p>
+
+                    <h5 class="mt-4" style="color: #112852;"><i class="fas fa-file-alt me-2"></i> Descripción del Puesto</h5>
+                    <p class="card-text">[Descripción detallada de la oferta de empleo. Aquí se incluirán todos los detalles importantes sobre el rol, responsabilidades, la empresa y la cultura laboral.]</p>
+
+                    <h5 class="mt-4" style="color: #112852;"><i class="fas fa-list-check me-2"></i> Requisitos</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle me-2 text-success"></i> [Requisito 1]</li>
+                        <li><i class="fas fa-check-circle me-2 text-success"></i> [Requisito 2]</li>
+                        <li><i class="fas fa-check-circle me-2 text-success"></i> [Requisito 3]</li>
+                        </ul>
+
+                    <h5 class="mt-4" style="color: #112852;"><i class="fas fa-money-bill-wave me-2"></i> Rango Salarial (Opcional)</h5>
+                    <p class="card-text">[Rango salarial si la empresa lo proporcionó. Ej: $XXX - $YYY]</p>
+
+                    <h5 class="mt-4" style="color: #112852;"><i class="fas fa-laptop me-2"></i> Modalidad</h5>
+                    <p class="card-text">[Modalidad de trabajo: Presencial, Remoto o Híbrido]</p>
+
+                    <div class="mt-5 d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i> Volver a las Ofertas</a>
+                        <a href="aplicar_oferta.html?id=[ID de la Oferta]" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
+                            <i class="fas fa-clipboard-check me-2"></i> Aplicar a la Oferta
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/oferta_detalle.js"></script>
+
+</body>
+
+</html>
