@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<style>
+    .card-color-primary {
+        background-color: #112852 !important;
+        color: #FFFFFF;
+    }
+
+    .card-color-secondary {
+        background-color: #F0C11A !important;
+        color: #112852;
+    }
+
+    .card-color-tertiary {
+        background-color: #112852 !important;
+        color: #FFFFFF;
+    }
+
+    .card-color-primary .card-title,
+    .card-color-primary .card-text {
+        color: #FFFFFF;
+    }
+
+    .card-color-secondary .card-title {
+        color: #112852;
+    }
+
+    .card-color-secondary .card-text {
+        color: rgba(0, 0, 0, 0.5);
+        /* Similar a text-black-50 */
+    }
+
+    .card-color-tertiary .card-text {
+        color: #FFFFFF;
+    }
+
+    .card-zoom {
+        transition: transform 0.3s ease-in-out;
+        /* Transición suave para el efecto */
+    }
+
+    .card-zoom:hover {
+        transform: scale(1.05);
+        /* Aumenta ligeramente la escala al pasar el ratón */
+    }
+
+    .row.row-cols-md-3>.col {
+        overflow: hidden;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Registro Estudiantes</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                            Inicio</a></li>
+                    <li><a href="../views/acerca_de.html" class="text-white text-decoration-none"><i
+                                class="fas fa-info-circle"></i> Acerca
+                            de</a></li>
+                    <li><a href="../views/contactos.html" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> Contacto</a>
+                    </li>
+                    <li><a href="../views/login.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-in-alt"></i> Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="acerca-de" class="py-5">
+        <div class="container">
+            <h1 class="text-dark text-center mb-4"><i class="fas fa-info-circle" style="color: #112852;"></i> Acerca de
+                JobTrack</h1>
+                <h3 class="text-dark text-center mb-4"><i class="fas fa-handshake fa-lg me-2"
+                    style="color: #F0C11A;"></i> Nuestro compromiso es ser el puente entre el talento de la
+                UCAD y el futuro del empleo.</h3>
+<br>
+            <div class="row row-cols-1 row-cols-md-3 gx-4 gy-5">
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-primary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-rocket fa-2x mb-2" style="color: #FFFFFF;"></i>
+                            <h5 class="card-title text-white mb-0">Nuestra Iniciativa</h5>
+                            <p class="card-text text-white-50">JobTrack UCAD nace como una iniciativa para facilitar la
+                                transición de los estudiantes de la Universidad Cristiana de las Asambleas de Dios al
+                                mundo
+                                laboral.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-secondary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-users fa-2x mb-2" style="color: #112852;"></i>
+                            <h5 class="card-title text-dark mb-0">Nuestro Entendimiento</h5>
+                            <p class="card-text text-black-50">Entendemos los desafíos que enfrentan los jóvenes al
+                                buscar
+                                su primer empleo y la necesidad de conectar el talento universitario con las
+                                oportunidades
+                                que ofrecen las empresas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-primary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-bullseye fa-2x mb-2" style="color: #FFFFFF;"></i>
+                            <h5 class="card-title text-white mb-0">Nuestro Objetivo</h5>
+                            <p class="card-text text-white-50">Nuestra plataforma está diseñada para ser un punto de
+                                encuentro donde estudiantes pueden descubrir ofertas laborales relevantes para su perfil
+                                académico y profesional, y donde las empresas pueden encontrar candidatos calificados y
+                                motivados.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-secondary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-list-check fa-2x mb-2" style="color: #112852;"></i>
+                            <h5 class="card-title text-dark mb-0">Nuestros Esfuerzos</h5>
+                            <ul class="list-unstyled text-start">
+                                <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i>Amplia variedad de
+                                    oportunidades.</li>
+                                <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i>Proceso de
+                                    búsqueda
+                                    y aplicación simple.</li>
+                                <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i> Conexión directa
+                                    estudiante-empresa.</li>
+                                <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i> Recursos para
+                                    desarrollo profesional (próximamente).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-primary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-graduation-cap fa-2x mb-2" style="color: #FFFFFF;"></i>
+                            <h5 class="card-title text-white mb-0">Para Estudiantes</h5>
+                            <p class="card-text text-white-50">Ofrecemos un espacio para explorar oportunidades
+                                laborales,
+                                crear perfiles atractivos y conectar con empresas interesadas en talento universitario.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="overflow: hidden;">
+                    <div class="card h-100 shadow-sm border-0 card-color-secondary card-zoom">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                            <i class="fas fa-building fa-2x mb-2" style="color: #112852;"></i>
+                            <h5 class="card-title text-dark mb-0">Para Empresas</h5>
+                            <p class="card-text text-black-50">Brindamos una plataforma para encontrar candidatos
+                                universitarios calificados, publicar ofertas de empleo y construir relaciones con la
+                                comunidad estudiantil de la UCAD.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

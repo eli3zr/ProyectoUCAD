@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Explorar Ofertas</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/explorar_ofertas.css">
+</head>
+
+<body>
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                            Inicio</a></li>
+                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
+                            Perfil</a></li>
+                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
+                            Empleo</a></li>
+                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
+                            Aplicaciones</a></li>
+                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li><a href="#" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <section class="mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3" style="color: #112852;"><i class="fas fa-search me-2"></i> Buscar
+                        Ofertas de Empleo</h5>
+                    <div class="row g-3 align-items-center mb-3">
+                        <div class="col-md-4">
+                            <label for="categoria" class="form-label">Categoría:</label>
+                            <select class="form-select" id="categoria">
+                                <option value="">Todas</option>
+                                <option value="desarrollo">Desarrollo Web</option>
+                                <option value="diseno">Diseño Gráfico</option>
+                                <option value="marketing">Marketing Digital</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="salario" class="form-label">Salario Mínimo:</label>
+                            <input type="number" class="form-control" id="salario" placeholder="Ingrese monto">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="ubicacion" class="form-label">Ubicación:</label>
+                            <input type="text" class="form-control" id="ubicacion" placeholder="Ciudad o Región">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100"
+                                style="background-color: #112852; border-color: #112852;"><i class="fas fa-filter"></i>
+                                Filtrar</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-secondary"><i class="fas fa-share-alt me-2"></i> Compartir</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="mb-3" style="color: #112852;"><i class="fas fa-list me-2"></i> Ofertas de Empleo Encontradas</h2>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #112852;">Desarrollador Web Junior</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-building me-2"
+                            style="color: #112852;"></i> Empresa Ejemplo S.A.</h6>
+                    <p class="card-text">Breve descripción de las responsabilidades y requisitos del puesto.</p>
+                    <a href="#" class="btn btn-outline" style="color: #112852; border-color: #112852;">Ver más <i
+                            class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #112852;">Diseñador Gráfico (Prácticas)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-building me-2"
+                            style="color: #112852;"></i> Otra Empresa Inc.</h6>
+                    <p class="card-text">Pequeño resumen sobre las tareas y lo que busca la empresa en un candidato.</p>
+                    <a href="#" class="btn btn-outline" style="color: #112852; border-color: #112852;">Ver más <i
+                            class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Dashboard Empresa</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard_empresa.css">
+</head>
+
+<body>
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                            Inicio</a></li>
+                    <li><a href="../views/perfil_empresa.html" class="text-white text-decoration-none"><i class="fas fa-building"></i> Mi
+                            Perfil</a></li>
+                    <li><a href="../views/publicar_oferta.html" class="text-white text-decoration-none"><i
+                                class="fas fa-plus-circle"></i> Publicar Oferta</a></li>
+                    <li><a href="../views/administrar_ofertas.html" class="text-white text-decoration-none"><i class="fas fa-list-alt"></i> Administrar
+                            Ofertas</a></li>
+                    <li><a href="../views/mensajes_empresas.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li><a href="#" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
+                        <i class="fas fa-chart-bar me-2" style="color: #F0C11A;"></i> Estadísticas de Publicaciones
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold" style="color: #112852;">Ofertas Activas</h5>
+                        <p class="card-text display-4" style="color: #F0C11A;">5</p>
+                        <a href="#" class="btn btn-outline"
+                            style="color: #112852; border-color: #112852; font-size: 0.9rem;">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header" style="background-color: #F0C11A; color: #112852;">
+                        <i class="fas fa-users me-2" style="color: #112852;"></i> Postulantes Recientes
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 border-bottom pb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="card-title fw-bold style=color: #112852;">Nombre del Estudiante 1</h6>
+                                    <small class="text-muted">para Desarrollador Web Junior</small>
+                                </div>
+                                <div>
+                                    <a href="#" class="btn btn-sm btn-outline"
+                                        style="color: #112852; border-color: #112852;">Ver Perfil</a>
+                                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 border-bottom pb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="card-title fw-bold text-warning mb-0">Nombre del Estudiante 2</h6>
+                                    <small class="text-muted">para Diseñador Gráfico (Prácticas)</small>
+                                </div>
+                                <div>
+                                    <a href="#" class="btn btn-sm btn-outline"
+                                        style="color: #112852; border-color: #112852;">Ver Perfil</a>
+                                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-link" style="color: #112852;">Ver todos los postulantes <i
+                                    class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
+                        <i class="fas fa-envelope me-2" style="color: #F0C11A;"></i> Mensajes con Estudiantes
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 border-bottom pb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="card-title fw-bold style=color: #112852;">Mensaje de Estudiante Tal</h6>
+                                    <small class="text-muted">Sobre su postulación a Desarrollador Web Junior</small>
+                                </div>
+                                <a href="#" class="btn btn-sm btn-outline"
+                                    style="color: #112852; border-color: #112852;">Ver Mensaje</a>
+                            </div>
+                        </div>
+                        <div class="mb-3 border-bottom pb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="card-title fw-bold text-warning mb-0">Consulta de Otro Estudiante</h6>
+                                    <small class="text-muted">Interés en la oferta de Diseñador Gráfico</small>
+                                </div>
+                                <a href="#" class="btn btn-sm btn-outline"
+                                    style="color: #112852; border-color: #112852;">Ver Mensaje</a>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-link" style="color: #112852;">Ver todos los mensajes <i
+                                    class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

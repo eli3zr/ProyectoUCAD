@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<style>
+body {
+    font-family: sans-serif;
+    background-color: #FFFFFF;
+}
+.fa-question-circle {
+    transition: transform 0.3s ease-in-out;
+}
+
+.fa-question-circle:hover {
+    transform: rotate(30deg);
+}
+.display-1 {
+    opacity: 0.8;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.display-1:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Oops! Error 404 - Página no encontrada</title>
+
+    <link rel="stylesheet" href="../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="error-container d-flex flex-column justify-content-center align-items-center vh-100">
+        <div class="error-code text-center mb-4">
+            <i class="fas fa-question-circle fa-5x" style="color: #F0C11A;"></i>
+            <h1 class="display-1 fw-bold" style="color: #112852;">404</h1>
+            <p class="lead" style="color: #112852;">¡Oops! La página que estás buscando no se encuentra por aquí.</p>
+        </div>
+        <div class="error-message text-center mb-3">
+            <p style="color: #112852;">Puede que la dirección sea incorrecta o que la página haya sido movida.</p>
+        </div>
+        <div class="error-actions text-center">
+            <a href="../index.html" class="btn btn-warning btn-lg"
+                style="background-color: #F0C11A; border-color: #F0C11A; color: #112852;">
+                <i class="fas fa-home"></i> Ir a la página principal
+            </a>
+        </div>
+        <div class="fixed-bottom text-center p-3" style="color: #FFFFFF; background-color: #112852;">
+            ¿Perdido? No te preocupes, ¡explora nuestro sitio!
+        </div>
+    </div>
+
+    <script src="../recursos/jquery/jquery.slim.min.js"></script>
+    <script src="../recursos/pooper/popper.min.js"></script>
+    <script src="../recursos/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

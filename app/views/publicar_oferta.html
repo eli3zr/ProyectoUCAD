@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Publicar Oferta</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/publicar_oferta.css"> </head>
+
+<body>
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                            Inicio</a></li>
+                    <li><a href="../views/perfil_empresa.html" class="text-white text-decoration-none"><i class="fas fa-building"></i> Mi
+                            Perfil</a></li>
+                    <li><a href="../views/publicar_oferta.html" class="text-white text-decoration-none"><i
+                                class="fas fa-plus-circle"></i> Publicar Oferta</a></li>
+                    <li><a href="../views/administrar_ofertas.html" class="text-white text-decoration-none"><i class="fas fa-list-alt"></i> Administrar
+                            Ofertas</a></li>
+                    <li><a href="../views/mensajes_empresas.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    </li>
+                    <li><a href="#" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <section>
+            <h2 class="mb-4" style="color: #112852;"><i class="fas fa-plus-circle me-2"></i> Publicar Nueva Oferta de Empleo</h2>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombrePuesto" class="form-label">Nombre del Puesto <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nombrePuesto" placeholder="Ej: Desarrollador Web Junior" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción del Puesto <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="descripcion" rows="5" placeholder="Detalles sobre el rol, responsabilidades y la empresa" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="requisitos" class="form-label">Requisitos <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="requisitos" rows="4" placeholder="Habilidades, experiencia y otros requisitos necesarios" required></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="salarioMinimo" class="form-label">Rango Salarial (Mínimo)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="salarioMinimo" placeholder="Ingrese monto mínimo">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="salarioMaximo" class="form-label">Rango Salarial (Máximo)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="salarioMaximo" placeholder="Ingrese monto máximo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalidad" class="form-label">Modalidad <span class="text-danger">*</span></label>
+                            <select class="form-select" id="modalidad" required>
+                                <option value="">Seleccionar modalidad</option>
+                                <option value="presencial">Presencial</option>
+                                <option value="remoto">Remoto</option>
+                                <option value="hibrido">Híbrido</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
+                            <i class="fas fa-upload me-2"></i> Publicar Oferta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/publicar_oferta.js"></script>
+
+</body>
+
+</html>
