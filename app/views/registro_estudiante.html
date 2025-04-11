@@ -7,6 +7,7 @@
     <title>JobTrack - Registro Estudiantes</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
 </head>
 
 <body>
@@ -40,7 +41,7 @@
             <div class="text-center mb-3">
                 <p>¿Ya estás registrado? <a href="login.html" class="text-warning">Accede</a></p>
             </div>
-            <form>
+            <form id="registroEstudianteForm">
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="nombre" class="form-label"><i class="fas fa-user"></i> Nombre</label>
@@ -134,6 +135,8 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/registro_estudiante.js"></script>
 
     <script>
         function togglePassword(id) {
