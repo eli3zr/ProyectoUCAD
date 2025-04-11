@@ -2,6 +2,17 @@ $(function () {
     $("#registroEstudianteForm").submit(function (event) {
         event.preventDefault(); // Evita el envío tradicional del formulario
 
+        // Validación del CV en el frontend
+        const cvFile = $("#cv")[0].files[0];
+        if (!cvFile) {
+            Swal.fire({
+                title: "Error",
+                text: "Por favor, sube tu currículum vitae.",
+                icon: "error"
+            });
+            return; // Detiene la ejecución si no hay CV
+        }
+
         enviar_registro();
     });
 });
@@ -18,15 +29,15 @@ function enviar_registro() {
     formData.append('repetirClave', $("#repetir-clave").val());
     formData.append('terminos', $("#terminos").prop('checked'));
     formData.append('notificaciones', $("#notificaciones").prop('checked'));
-    formData.append('cv', $("#cv")[0].files[0]); // Añade el archivo CV
+    formData.append('cv', cvFile); // Usa la variable cvFile que ya verificamos
 
     $.ajax({
         url: '/Jobtrack_ucad/app/models/registrar_estudiante.php',
         type: 'POST',
         dataType: 'json',
         data: formData,
-        contentType: false, // Importante para FormData
-        processData: false, // Importante para FormData
+        contentType: false,
+        processData: false,
         beforeSend: function () {
             Swal.showLoading();
         },
