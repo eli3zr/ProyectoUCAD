@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Panel de Administración</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+      
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .card-header {
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border-width: 1px !important;
+        }
+
+        .btn-link {
+            text-decoration: none !important;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline !important;
+        }
+
+        /* Header */
+        header.py-3 {
+            background-color: #112852 !important;
+        }
+
+        header h1 {
+            color: #ffffff !important;
+            margin-bottom: 0;
+        }
+
+        header nav ul li a {
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+
+        header nav ul li a:hover {
+            color: #f0c11a !important;
+        }
+
+
+        header nav ul li .btn:hover {
+            background-color: #d3a800 !important;
+            color: #000000 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Main Content */
+        main.container {
+            margin-top: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        .card-header {
+            color: #ffffff;
+        }
+
+        .card-header.bg-primary {
+            background-color: #112852 !important;
+        }
+
+        .card-header.bg-secondary {
+            background-color: #f0c11a !important;
+            color: #112852 !important;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            color: #112852;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text.display-4 {
+            color: #f0c11a;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .list-unstyled li {
+            margin-bottom: 0.5rem;
+        }
+
+        .list-unstyled li i {
+            color: #f0c11a;
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer.py-3 {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            margin-top: 3rem;
+        }
+
+        footer .social-icons a {
+            color: #ffffff !important;
+            margin: 0 0.5rem;
+        }
+
+        footer .social-icons a:hover {
+            color: #f0c11a !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-cog"></i> Panel Admin</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="../views/usuarios.html" class="text-white text-decoration-none"><i class="fas fa-users"></i> Usuarios</a></li>
+                    <li><a href="../views/empresas.html" class="text-white text-decoration-none"><i class="fas fa-building"></i> Empresas</a></li>
+                    <li><a href="../views/estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-user-graduate"></i> Estudiantes</a></li>
+                    <li><a href="../views/ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i> Ofertas</a></li>
+                    <li><a href="../views/categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i> Categorías</a></li>
+                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                    <li><a href="configuracion.html" class="text-white text-decoration-none"><i class="fas fa-cog"></i> Configuración</a></li>
+                    <li><a href="../../index.html" class="btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary">
+                        <i class="fas fa-users me-2" style="color: #f0c11a;"></i> Usuarios Registrados
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">Total</h5>
+                        <p class="card-text display-4">1500</p>
+                        <a href="usuarios.html" class="btn btn-outline" style="color: #112852; border-color: #112852; font-size: 0.9rem;">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary">
+                        <i class="fas fa-building me-2" style="color: #112852;"></i> Empresas Registradas
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">Total</h5>
+                        <p class="card-text display-4">300</p>
+                        <a href="empresas.html" class="btn btn-outline" style="color: #112852; border-color: #112852; font-size: 0.9rem;">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary">
+                        <i class="fas fa-user-graduate me-2" style="color: #f0c11a;"></i> Estudiantes Registrados
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">Total</h5>
+                        <p class="card-text display-4">1200</p>
+                        <a href="estudiantes.html" class="btn btn-outline" style="color: #112852; border-color: #112852; font-size: 0.9rem;">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary">
+                        <i class="fas fa-briefcase me-2" style="color: #112852;"></i> Ofertas de Empleo Activas
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Total</h5>
+                        <p class="card-text display-4">350</p>
+                        <a href="ofertas.html" class="btn btn-outline" style="color: #112852; border-color: #112852; font-size: 0.9rem;">Administrar Ofertas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary">
+                        <i class="fas fa-tags me-2" style="color: #f0c11a;"></i> Categorías de Empleo
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-tag me-2"></i> Desarrollo Web</li>
+                            <li><i class="fas fa-tag me-2"></i> Diseño Gráfico</li>
+                            <li><i class="fas fa-tag me-2"></i> Marketing Digital</li>
+                            <li><a href="categorias.html" class="btn btn-link" style="color: #112852;">Ver todas las categorías <i class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-3 mt-5">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+ 
+</body>
+
+</html>

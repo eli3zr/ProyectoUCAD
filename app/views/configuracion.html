@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Configuración del Sistema</title>
+    <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .btn-primary-jt {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            border-color: #112852 !important;
+        }
+
+        .btn-primary-jt:hover {
+            background-color: #0a1c3d !important;
+            border-color: #0a1c3d !important;
+        }
+
+        .card-header {
+            background-color: #f0c11a !important;
+            color: #112852 !important;
+            font-weight: bold;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="py-3" style="background-color: #112852;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><i class="fas fa-cog"></i> Configuración del Sistema</h1>
+            <nav>
+                <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <li><a href="panel_admin.html" class="text-white text-decoration-none"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="usuarios.html" class="text-white text-decoration-none"><i class="fas fa-users"></i> Usuarios</a></li>
+                    <li><a href="empresas.html" class="text-white text-decoration-none"><i class="fas fa-building"></i> Empresas</a></li>
+                    <li><a href="estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-user-graduate"></i> Estudiantes</a></li>
+                    <li><a href="ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i> Ofertas</a></li>
+                    <li><a href="categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i> Categorías</a></li>
+                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                    <li><a href="configuracion.html" class="text-white text-decoration-none active"><i class="fas fa-cog"></i> Configuración</a></li>
+                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <h2>Configuración del Sistema</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-bullhorn me-2"></i> Configuración de Publicaciones y Ofertas
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group mb-3">
+                                <label for="ofertaVerification">¿Requiere verificación de ofertas antes de publicación?</label>
+                                <select class="form-control" id="ofertaVerification">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Si se activa, un administrador deberá aprobar las ofertas antes de que sean visibles para los estudiantes.</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="allowCompanyLogoChange">¿Permitir a las empresas cambiar su logo?</label>
+                                <select class="form-control" id="allowCompanyLogoChange">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Define si las empresas pueden personalizar su imagen en el sistema.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary-jt"><i class="fas fa-save me-2"></i> Guardar Configuración</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-user-shield me-2"></i> Configuración de Usuarios y Seguridad
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group mb-3">
+                                <label for="studentRegistration">¿Permitir registro de nuevos estudiantes?</label>
+                                <select class="form-control" id="studentRegistration">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Controla si nuevos estudiantes pueden crear cuentas en el sistema.</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="companyRegistration">¿Permitir registro de nuevas empresas?</label>
+                                <select class="form-control" id="companyRegistration">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Controla si nuevas empresas pueden registrarse en el sistema.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary-jt"><i class="fas fa-save me-2"></i> Guardar Configuración</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-comment-dots me-2"></i> Configuración de Comunicación
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group mb-3">
+                                <label for="allowDirectMessaging">¿Permitir mensajería directa entre usuarios?</label>
+                                <select class="form-control" id="allowDirectMessaging">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Define si los estudiantes y las empresas pueden enviarse mensajes directos.</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="notificationPreferences">¿Permitir a los usuarios configurar sus preferencias de notificación?</label>
+                                <select class="form-control" id="notificationPreferences">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Determina si los usuarios pueden personalizar qué tipo de notificaciones reciben.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary-jt"><i class="fas fa-save me-2"></i> Guardar Configuración</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle me-2"></i> Configuración de Reportes y Moderación
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group mb-3">
+                                <label for="allowUserReports">¿Permitir a los usuarios reportar contenido inapropiado?</label>
+                                <select class="form-control" id="allowUserReports">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Habilita la función para que los usuarios puedan señalar contenido que viole las normas.</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="autoBlockSuspiciousUsers">¿Bloquear automáticamente usuarios sospechosos (basado en reportes)?</label>
+                                <select class="form-control" id="autoBlockSuspiciousUsers">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <small class="form-text text-muted">Define si el sistema debe bloquear automáticamente usuarios con un cierto número de reportes.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary-jt"><i class="fas fa-save me-2"></i> Guardar Configuración</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <div class="social-icons mt-2">
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../recursos/jquery/jquery.min.js"></script>
+    <script src="../../recursos/pooper/popper.min.js"></script>
+    <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
