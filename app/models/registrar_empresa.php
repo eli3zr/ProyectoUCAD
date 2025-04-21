@@ -7,14 +7,14 @@
         // Array para almacenar los errores del servidor
         $errores_servidor = [];
 
-        // Validación del Nombre
+        // Validación del Nombre de la Empresa
         if (empty($params['nombre'])) {
-            $errores_servidor['nombre'] = "El nombre es requerido.";
+            $errores_servidor['nombre'] = "El nombre de la empresa es requerido.";
         }
 
-        // Validación del Apellido
-        if (empty($params['apellido'])) {
-            $errores_servidor['apellido'] = "El apellido es requerido.";
+        // Validación del Teléfono
+        if (empty($params['telefono'])) {
+            $errores_servidor['telefono'] = "El teléfono es requerido.";
         }
 
         // Validación del Correo Electrónico
@@ -23,21 +23,21 @@
         } elseif (!filter_var($params['email'], FILTER_VALIDATE_EMAIL)) {
             $errores_servidor['email'] = "El formato del correo electrónico no es válido.";
         }
-        // **TODO: Verificar si el correo electrónico ya existe en la base de datos**
+        // **TODO: Verificar si el correo electrónico ya existe en la base de datos de empresas**
 
-        // Validación de la Fecha de Nacimiento
-        if (empty($params['fechaNacimiento'])) {
-            $errores_servidor['fechaNacimiento'] = "La fecha de nacimiento es requerida.";
+        // Validación de la Categoría
+        if (empty($params['categoria'])) {
+            $errores_servidor['categoria'] = "La categoría es requerida.";
         }
 
-        // Validación del Género
-        if (empty($params['genero'])) {
-            $errores_servidor['genero'] = "El género es requerido.";
+        // Validación del País
+        if (empty($params['pais'])) {
+            $errores_servidor['pais'] = "El país es requerido.";
         }
 
-        // Validación de la Carrera Universitaria
-        if (empty($params['carrera'])) {
-            $errores_servidor['carrera'] = "La carrera universitaria es requerida.";
+        // Validación del Departamento
+        if (empty($params['departamento'])) {
+            $errores_servidor['departamento'] = "El departamento es requerido.";
         }
 
         // Validación de la Clave
@@ -48,10 +48,10 @@
         }
 
         // Validación de Repetir Clave
-        if (empty($params['repetirClave'])) {
-            $errores_servidor['repetirClave'] = "Debes repetir la clave.";
-        } elseif ($params['clave'] !== $params['repetirClave']) {
-            $errores_servidor['repetirClave'] = "Las claves no coinciden.";
+        if (empty($params['repetir-clave'])) {
+            $errores_servidor['repetir-clave'] = "Debes repetir la clave.";
+        } elseif ($params['clave'] !== $params['repetir-clave']) {
+            $errores_servidor['repetir-clave'] = "Las claves no coinciden.";
         }
 
         // Validación de Términos y Condiciones
@@ -62,28 +62,28 @@
         if (empty($errores_servidor)) {
             // **TODO: Conectar a la base de datos MySQL**
             // **TODO: Escapar los datos para prevenir inyección SQL**
-            $nombre = trim($params['nombre']);
-            $apellido = trim($params['apellido']);
+            $nombre_empresa = trim($params['nombre']);
+            $telefono = trim($params['telefono']);
             $email = filter_var($params['email'], FILTER_SANITIZE_EMAIL);
-            $fechaNacimiento = $params['fechaNacimiento'];
-            $genero = $params['genero'];
-            $carrera = trim($params['carrera']);
+            $categoria = $params['categoria'];
+            $pais = $params['pais'];
+            $departamento = $params['departamento'];
             $clave = password_hash($params['clave'], PASSWORD_DEFAULT); // Encriptar la clave
 
-            // **TODO: Insertar los datos en la tabla de estudiantes**
-            // $sql = "INSERT INTO estudiantes (nombre, apellido, email, fecha_nacimiento, genero, carrera, clave, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+            // **TODO: Insertar los datos en la tabla de empresas**
+            // $sql = "INSERT INTO empresas (nombre_empresa, telefono, email, categoria, pais, departamento, clave, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
             // $stmt = $conn->prepare($sql);
-            // $stmt->bind_param("sssssss", $nombre, $apellido, $email, $fechaNacimiento, $genero, $carrera, $clave);
+            // $stmt->bind_param("sssssss", $nombre_empresa, $telefono, $email, $categoria, $pais, $departamento, $clave);
 
             // if ($stmt->execute()) {
                 $respuesta = array(
                     'success' => true,
-                    'message' => 'Registro de estudiante exitoso.'
+                    'message' => 'Registro de empresa exitoso.'
                 );
             // } else {
             //     $respuesta = array(
             //         'success' => false,
-            //         'message' => 'Error al registrar el estudiante en la base de datos.'
+            //         'message' => 'Error al registrar la empresa en la base de datos.'
             //     );
             //     // **TODO: Log del error para depuración**
             // }

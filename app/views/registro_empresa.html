@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobTrack - Registro Estudiantes</title>
+    <title>JobTrack - Registro Empresas</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
 </head>
 
 <body>
-
 
     <header class="py-3" style="background-color: #112852;">
         <div class="container d-flex justify-content-between align-items-center">
@@ -19,9 +19,11 @@
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
                     <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
                             Inicio</a></li>
-                    <li><a href="../views/acerca_de.html" class="text-white text-decoration-none"><i class="fas fa-info-circle"></i> Acerca
+                    <li><a href="../views/acerca_de.html" class="text-white text-decoration-none"><i
+                                class="fas fa-info-circle"></i> Acerca
                             de</a></li>
-                    <li><a href="../views/contactos.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Contacto</a>
+                    <li><a href="../views/contactos.html" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> Contacto</a>
                     </li>
                     <li><a href="../views/login.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
                                 class="fas fa-sign-in-alt"></i> Iniciar Sesión</a></li>
@@ -30,10 +32,9 @@
         </div>
     </header>
 
-
     <br><br>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <ddiv class="card p-4" style="width: 700px; background-color: #FFFFFF; border: none;">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card p-4" style="width: 700px; background-color: #FFFFFF; border: none;">
             <h2 class="text-center text-dark mb-3">Regístrate</h2>
             <div class="text-center mb-3">
                 <img src="../../media/img/logo.png" alt="JobTrack Logo" style="width: 150px;">
@@ -41,46 +42,40 @@
             <div class="text-center mb-3">
                 <p>¿Ya estás registrado? <a href="login.html" class="text-warning">Accede</a></p>
             </div>
-            <form>
+            <form id="registroEmpresaForm">
                 <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="nombre" class="form-label"><i class="fas fa-user"></i> Nombre Empresa</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="apellido" class="form-label"><i class="fa-solid fa-phone-volume"></i>
-                            Teléfono</label>
-                        <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu teéfoo" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="clave" class="form-label"><i class="fas fa-lock"></i> Clave</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="clave" placeholder="Crea una clave"
-                                required>
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('clave')">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre" class="form-label"><i class="fas fa-building"></i> Nombre Empresa <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre de la empresa"
+                            required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa el nombre de la empresa.
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="repetir-clave" class="form-label"><i class="fas fa-lock"></i> Repetir Clave</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="repetir-clave" placeholder="Repite tu clave"
-                                required>
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="togglePassword('repetir-clave')">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="form-label"><i class="fa-solid fa-phone-volume"></i> Teléfono <span
+                                class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="telefono" placeholder="Ingresa el número de teléfono"
+                            required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa el número de teléfono.
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="email" class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo" required>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico <span
+                                class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" placeholder="Ingresa el correo electrónico"
+                            required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa un correo electrónico válido.
+                        </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="categoria" class="form-label"><i class="fa-solid fa-bars"></i> Categoría</label>
+                    <div class="col-md-6 mb-3">
+                        <label for="categoria" class="form-label"><i class="fa-solid fa-bars"></i> Categoría <span
+                                class="text-danger">*</span></label>
                         <select class="form-control" id="categoria" required>
-                            <option>Seleccionar</option>
+                            <option value="">Seleccionar</option>
                             <option value="salud">Salud 🏥</option>
                             <option value="contruccion">Construcción 🏗️</option>
                             <option value="educacion">Educación 📚</option>
@@ -93,409 +88,95 @@
                             <option value="energia y medio ambiente">Energía y Medio Ambiente 🌱</option>
                             <option value="otro">Otro</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona una categoría.
+                        </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="pais" class="form-label"><i class="fa-solid fa-flag"></i> País</label>
+                    <div class="col-md-6 mb-3">
+                        <label for="pais" class="form-label"><i class="fa-solid fa-flag"></i> País <span
+                                class="text-danger">*</span></label>
                         <select class="form-control" id="pais" required>
-                            <option value="">Seleccioar</option>
+                            <option value="">Seleccionar</option>
                             <option value="el salvador">El Salvador</option>
                             <option value="otro">Otro</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona un país.
+                        </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="departamento" class="form-label"><i class="fa-solid fa-map-location-dot"></i>
-                            Departamento</label>
+                            Departamento <span class="text-danger">*</span></label>
                         <select class="form-control" id="departamento" required>
                             <option value="">Seleccionar</option>
-                            <option value="">Santa Ana</option>
-                            <option value="">Ahuachapán</option>
-                            <option value="">Sonsonate</option>
-                            <option value="">La Libertad</option>
-                            <option value="">San Salvador</option>
-                            <option value="">Chalatenango</option>
-                            <option value="">Cuscatlán</option>
-                            <option value="">La Paz</option>
-                            <option value="">San Vicente</option>
-                            <option value="">Cabañas</option>
-                            <option value="">Morazán</option>
-                            <option value="">San Miguel</option>
-                            <option value="">Usulután</option>
-                            <option value="">La Unión</option>
-                            <option value="">Otro</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="municipio" class="form-label"><i class="fa-solid fa-signs-post"></i> Municipio</label>
-                        <select class="form-control" id="municipio" required>
-                            <option value="">Seleccioar</option>
-                            <optgroup label="MUNICIPIO DE AHUACHAPAN NORTE">
-                                <option>Distrito de Atiquizaya</option>
-                                <option>Distrito de El Refugio</option>
-                                <option>Distrito de San Lorenzo</option>
-                                <option>Distrito de Turín</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE AHUACHAPAN CENTRO">
-                                <option>Distrito de Ahuachapán</option>
-                                <option>Distrito de Apaneca</option>
-                                <option>Distrito de Concepción de Ataco</option>
-                                <option>Distrito de Tacuba</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE AHUACHAPAN SUR">
-                                <option>Distrito de Guaymango</option>
-                                <option>Distrito de Jujutla</option>
-                                <option>Distrito de San Francisco Menéndez</option>
-                                <option>Distrito de San Pedro Puxtla</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN SALVADOR NORTE">
-                                <option>Distrito de Aguilares</option>
-                                <option>Distrito de El Paisnal</option>
-                                <option>Distrito de Guazapa</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN SALVADOR OESTE">
-                                <option>Distrito de Apopa</option>
-                                <option>Distrito de Nejapa</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN SALVADOR ESTE">
-                                <option>Distrito de Ilopango</option>
-                                <option>Distrito de San Martín</option>
-                                <option>Distrito de Soyapango</option>
-                                <option>Distrito de Tonacatepeque</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN SALVADOR CENTRO">
-                                <option>Distrito de Ayutuxtepeque</option>
-                                <option>Distrito de Mejicanos</option>
-                                <option>Distrito de San Salvador</option>
-                                <option>Distrito de Cuscatancingo</option>
-                                <option>Distrito de Ciudad Delgado</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN SALVADOR SUR">
-                                <option>Distrito de Panchimalco</option>
-                                <option>Distrito de Rosario de Mora</option>
-                                <option>Distrito de San Marcos</option>
-                                <option>Distrito de Santo Tomás</option>
-                                <option>Distrito de Santiago Texacuangos</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD NORTE">
-                                <option>Distrito de Quezaltepeque</option>
-                                <option>Distrito de San Matías</option>
-                                <option>Distrito de San Pablo Tacachico</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD CENTRO">
-                                <option>Distrito de San Juan Opico</option>
-                                <option>Distrito de Ciudad Arce</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD OESTE">
-                                <option>Distrito de Colón</option>
-                                <option>Distrito de Jayaque</option>
-                                <option>Distrito de Sacacoyo</option>
-                                <option>Distrito de Tepecoyo</option>
-                                <option>Distrito de Talnique</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD ESTE">
-                                <option>Distrito de Antiguo Cuscatlán</option>
-                                <option>Distrito de Huizúcar</option>
-                                <option>Distrito de Nuevo Cuscatlán</option>
-                                <option>Distrito de San José Villanueva</option>
-                                <option>Distrito de Zaragoza</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD COSTA">
-                                <option>Distrito de Chiltiupán</option>
-                                <option>Distrito de Jicalapa</option>
-                                <option>Distrito de La Libertad</option>
-                                <option>Distrito de Tamanique</option>
-                                <option>Distrito de Teotepeque</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA LIBERTAD SUR">
-                                <option>Distrito de Comasagua</option>
-                                <option>Distrito de Santa Tecla</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CHALATENANGO NORTE">
-                                <option>Distrito de La Palma</option>
-                                <option>Distrito de Citalá</option>
-                                <option>Distrito de San Ignacio</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CHALATENANGO CENTRO">
-                                <option>Distrito de Nueva Concepción</option>
-                                <option>Distrito de Tejutla</option>
-                                <option>Distrito de La Reina</option>
-                                <option>Distrito de Agua Caliente</option>
-                                <option>Distrito de Dulce Nombre de María</option>
-                                <option>Distrito de El Paraíso</option>
-                                <option>Distrito de San Fernando</option>
-                                <option>Distrito de San Francisco Morazán</option>
-                                <option>Distrito de San Rafael</option>
-                                <option>Distrito de Santa Rita</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CHALATENANGO SUR">
-                                <option>Distrito de Chalatenango</option>
-                                <option>Distrito de Arcatao</option>
-                                <option>Distrito de Azacualpa</option>
-                                <option>Distrito de Comalapa</option>
-                                <option>Distrito de Concepción Quezaltepeque</option>
-                                <option>Distrito de El Carrizal</option>
-                                <option>Distrito de La Laguna</option>
-                                <option>Distrito de Las Vueltas</option>
-                                <option>Distrito de Nombre de Jesús</option>
-                                <option>Distrito de Nueva Trinidad</option>
-                                <option>Distrito de Ojos de Agua</option>
-                                <option>Distrito de Potonico</option>
-                                <option>Distrito de San Antonio de La Cruz</option>
-                                <option>Distrito de San Antonio Los Ranchos</option>
-                                <option>Distrito de San Francisco Lempa</option>
-                                <option>Distrito de San Isidro Labrador</option>
-                                <option>Distrito de San José Cancasque</option>
-                                <option>Distrito de San Miguel de Mercedes</option>
-                                <option>Distrito de San José Las Flores</option>
-                                <option>Distrito de San Luis del Carmen</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CUSCATLÁN NORTE">
-                                <option>Distrito de Suchitoto</option>
-                                <option>Distrito de San José Guayabal</option>
-                                <option>Distrito de Oratorio de Concepción</option>
-                                <option>Distrito de San Bartolomé Perulapía</option>
-                                <option>Distrito de San Pedro Perulapán</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CUSCATLÁN SUR">
-                                <option>Distrito de Cojutepeque</option>
-                                <option>Distrito de San Rafael Cedros</option>
-                                <option>Distrito de Candelaria</option>
-                                <option>Distrito de Monte San Juan</option>
-                                <option>Distrito de El Carmen</option>
-                                <option>Distrito de San Cristobal</option>
-                                <option>Distrito de Santa Cruz Michapa</option>
-                                <option>Distrito de San Ramón</option>
-                                <option>Distrito de El Rosario</option>
-                                <option>Distrito de Santa Cruz Analquito</option>
-                                <option>Distrito de Tenancingo</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CABAÑAS ESTE">
-                                <option>Distrito de Victoria</option>
-                                <option>Distrito de Dolores</option>
-                                <option>Distrito de Guacotecti</option>
-                                <option>Distrito de San Isidro</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE CABAÑAS OESTE">
-                                <option>Distrito de Ilobasco</option>
-                                <option>Distrito de Tejutepeque</option>
-                                <option>Distrito de Jutiapa</option>
-                                <option>Distrito de Cinquera</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA PAZ OESTE">
-                                <option>Distrito de Cuyultitán</option>
-                                <option>Distrito de Olocuilta</option>
-                                <option>Distrito de San Juan Talpa</option>
-                                <option>Distrito de San Luis Talpa</option>
-                                <option>Distrito de San Pedro Masahuat</option>
-                                <option>Distrito de Tapalhuaca</option>
-                                <option>Distrito de San Francisco Chinameca</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA PAZ CENTRO">
-                                <option>Distrito de El Rosario</option>
-                                <option>Distrito de Jerusalén</option>
-                                <option>Distrito de Mercedes La Ceiba</option>
-                                <option>Distrito de Paraíso de Osorio</option>
-                                <option>Distrito de San Antonio Masahuat</option>
-                                <option>Distrito de San Emigdio</option>
-                                <option>Distrito de San Juan Tepezontes</option>
-                                <option>Distrito de San Luis La Herradura</option>
-                                <option>Distrito de San Miguel Tepezontes</option>
-                                <option>Distrito de San Pedro Nonualco</option>
-                                <option>Distrito de Santa María Ostuma</option>
-                                <option>Distrito de Santiago Nonualco</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA PAZ ESTE">
-                                <option>Distrito de San Juan Nonualco</option>
-                                <option>Distrito de San Rafael Obrajuelo</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA UNIÓN NORTE">
-                                <option>Distrito de Anamorós</option>
-                                <option>Distrito de Bolivar</option>
-                                <option>Distrito de Concepción de Oriente</option>
-                                <option>Distrito de El Sauce</option>
-                                <option>Distrito de Lislique</option>
-                                <option>Distrito de Nueva Esparta</option>
-                                <option>Distrito de Pasaquina</option>
-                                <option>Distrito de Polorós</option>
-                                <option>Distrito de San José La Fuente</option>
-                                <option>Distrito de Santa Rosa de Lima</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE LA UNIÓN SUR">
-                                <option>Distrito de Conchagua</option>
-                                <option>Distrito de El Carmen</option>
-                                <option>Distrito de Intipucá</option>
-                                <option>Distrito de Meanguera del Golfo</option>
-                                <option>Distrito de San Alejo</option>
-                                <option>Distrito de Yayantique</option>
-                                <option>Distrito de Yucuaiquín</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE USULUTÁN NORTE">
-                                <option>Distrito de Santiago de María</option>
-                                <option>Distrito de Alegría</option>
-                                <option>Distrito de Berlín</option>
-                                <option>Distrito de Mercedes Umaña</option>
-                                <option>Distrito de Jucuapa</option>
-                                <option>Distrito de El Triunfo</option>
-                                <option>Distrito de Estanzuelas</option>
-                                <option>Distrito de San Buenaventura</option>
-                                <option>Distrito de Nueva Granada</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE USULUTÁN ESTE">
-                                <option>Distrito de Usulután</option>
-                                <option>Distrito de Jucuarán</option>
-                                <option>Distrito de San Dionisio</option>
-                                <option>Distrito de Concepción Batres</option>
-                                <option>Distrito de Santa María</option>
-                                <option>Distrito de Ozatlán</option>
-                                <option>Distrito de Tecapán</option>
-                                <option>Distrito de Santa Elena</option>
-                                <option>Distrito de California</option>
-                                <option>Distrito de Ereguayquín</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE USULUTÁN OESTE">
-                                <option>Distrito de Jiquilisco</option>
-                                <option>Distrito de Puerto El Triunfo</option>
-                                <option>Distrito de San Agustín</option>
-                                <option>Distrito de San Francisco Javier</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SONSONATE NORTE">
-                                <option>Distrito de Juayúa</option>
-                                <option>Distrito de Nahuizalco</option>
-                                <option>Distrito de Salcoatitán</option>
-                                <option>Distrito de Santa Catarina Masahuat</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SONSONATE CENTRO">
-                                <option>Distrito de Sonsonate</option>
-                                <option>Distrito de Sonzacate</option>
-                                <option>Distrito de Nahulingo</option>
-                                <option>Distrito de San Antonio del Monte</option>
-                                <option>Distrito de Santo Domingo de Guzmán</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SONSONATE ESTE">
-                                <option>Distrito de Izalco</option>
-                                <option>Distrito de Armenia</option>
-                                <option>Distrito de Caluco</option>
-                                <option>Distrito de San Julián</option>
-                                <option>Distrito de Cuisnahuat</option>
-                                <option>Distrito de Santa Isabel Ishuatán</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SONSONATE OESTE">
-                                <option>Distrito de Acajutla</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SANTA ANA NORTE">
-                                <option>Distrito de Masahuat</option>
-                                <option>Distrito de Metapán</option>
-                                <option>Distrito de Santa Rosa Guachipilín</option>
-                                <option>Distrito de Texistepeque</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SANTA ANA CENTRO">
-                                <option>Distrito de Santa Ana</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SANTA ANA ESTE">
-                                <option>Distrito de Coatepeque</option>
-                                <option>Distrito de El Congo</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SANTA ANA OESTE">
-                                <option>Distrito de Candelaria de la Frontera</option>
-                                <option>Distrito de Chalchuapa</option>
-                                <option>Distrito de El Porvenir</option>
-                                <option>Distrito de San Antonio Pajonal</option>
-                                <option>Distrito de San Sebastián Salitrillo</option>
-                                <option>Distrito de Santiago de La Frontera</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN VICENTE NORTE">
-                                <option>Distrito de Apastepeque</option>
-                                <option>Distrito de Santa Clara</option>
-                                <option>Distrito de San Ildefonso</option>
-                                <option>Distrito de San Esteban Catarina</option>
-                                <option>Distrito de San Sebastián</option>
-                                <option>Distrito de San Lorenzo</option>
-                                <option>Distrito de Santo Domingo</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN VICENTE SUR">
-                                <option>Distrito de San Vicente</option>
-                                <option>Distrito de Guadalupe</option>
-                                <option>Distrito de Verapaz</option>
-                                <option>Distrito de Tepetitán</option>
-                                <option>Distrito de Tecoluca</option>
-                                <option>Distrito de San Cayetano Istepeque</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN MIGUEL NORTE">
-                                <option>Distrito de Ciudad Barrios</option>
-                                <option>Distrito de Sesori</option>
-                                <option>Distrito de Nuevo Edén de San Juan</option>
-                                <option>Distrito de San Gerardo</option>
-                                <option>Distrito de San Luis de La Reina</option>
-                                <option>Distrito de Carolina</option>
-                                <option>Distrito de San Antonio del Mosco</option>
-                                <option>Distrito de Chapeltique</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN MIGUEL CENTRO">
-                                <option>Distrito de San Miguel</option>
-                                <option>Distrito de Comacarán</option>
-                                <option>Distrito de Uluazapa</option>
-                                <option>Distrito de Moncagua</option>
-                                <option>Distrito de Quelepa</option>
-                                <option>Distrito de Chirilagua</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE SAN MIGUEL OESTE">
-                                <option>Distrito de Chinameca</option>
-                                <option>Distrito de Nueva Guadalupe</option>
-                                <option>Distrito de Lolotique</option>
-                                <option>Distrito de San Jorge</option>
-                                <option>Distrito de San Rafael Oriente</option>
-                                <option>Distrito de El Tránsito</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE MORAZÁN NORTE">
-                                <option>Distrito de Arambala</option>
-                                <option>Distrito de Cacaopera</option>
-                                <option>Distrito de Corinto</option>
-                                <option>Distrito de El Rosario</option>
-                                <option>Distrito de Joateca</option>
-                                <option>Distrito de Jocoaitique</option>
-                                <option>Distrito de Meanguera</option>
-                                <option>Distrito de Perquín</option>
-                                <option>Distrito de San Fernando</option>
-                                <option>Distrito de San Isidro</option>
-                                <option>Distrito de Torola</option>
-                            </optgroup>
-                            <optgroup label="MUNICIPIO DE MORAZÁN SUR">
-                                <option>Distrito de Chilanga</option>
-                                <option>Distrito de Delicias de Concepción</option>
-                                <option>Distrito de El Divisadero</option>
-                                <option>Distrito de Gualococti</option>
-                                <option>Distrito de Guatajiagua</option>
-                                <option>Distrito de Jocoro</option>
-                                <option>Distrito de Lolotiquillo</option>
-                                <option>Distrito de Osicala</option>
-                                <option>Distrito de San Carlos</option>
-                                <option>Distrito de San Francisco Gotera</option>
-                                <option>Distrito de San Simón</option>
-                                <option>Distrito de Sensembra</option>
-                                <option>Distrito de Sociedad</option>
-                                <option>Distrito de Yamabal</option>
-                                <option>Distrito de Yoloaiquín</option>
-                            </optgroup>
+                            <option value="santa ana">Santa Ana</option>
+                            <option value="ahuachapan">Ahuachapán</option>
+                            <option value="sonsonate">Sonsonate</option>
+                            <option value="la libertad">La Libertad</option>
+                            <option value="san salvador">San Salvador</option>
+                            <option value="chalatenango">Chalatenango</option>
+                            <option value="cuscatlan">Cuscatlán</option>
+                            <option value="la paz">La Paz</option>
+                            <option value="san vicente">San Vicente</option>
+                            <option value="cabañas">Cabañas</option>
+                            <option value="morazan">Morazán</option>
+                            <option value="san miguel">San Miguel</option>
+                            <option value="usulutan">Usulután</option>
+                            <option value="la union">La Unión</option>
                             <option value="otro">Otro</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona un departamento.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="clave" class="form-label"><i class="fas fa-lock"></i> Clave <span
+                                class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="clave" placeholder="Crea una clave" required>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('clave')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback">
+                            Por favor, crea una clave.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="repetir-clave" class="form-label"><i class="fas fa-lock"></i> Repetir Clave <span
+                                class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="repetir-clave" placeholder="Repite tu clave"
+                                required>
+                            <button class="btn btn-outline-secondary" type="button"
+                                onclick="togglePassword('repetir-clave')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback">
+                            Las claves no coinciden.
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="terminos" required>
                     <label class="form-check-label" for="terminos">Acepto términos y condiciones y autorizo el
-                        tratamiento de mis datos personales</label>
+                        tratamiento de mis datos personales <span class="text-danger">*</span></label>
+                    <div class="invalid-feedback">
+                        Debes aceptar los términos y condiciones.
+                    </div>
                 </div>
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="notificaciones">
                     <label class="form-check-label" for="notificaciones">Acepto recibir notificaciones vía correo
                         electrónico</label>
                 </div>
-                <button type="submit" class="btn w-100" style="background-color: #112852; color: #FFFFFF;"> <i
-                        class="fas fa-user-plus"></i> Registrarse</button>
+                <button type="submit" class="btn w-100" style="background-color: #112852; color: #FFFFFF;"
+                    id="btnRegistrarse"> <i class="fas fa-user-plus"></i> Registrarse</button>
             </form>
+        </div>
     </div>
-    </div>
-
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
@@ -508,21 +189,12 @@
         </div>
     </footer>
 
-
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/registro_empresa.js"></script>
 
-    <script>
-        function togglePassword(id) {
-            let input = document.getElementById(id);
-            if (input.type === "password") {
-                input.type = "text";
-            } else {
-                input.type = "password";
-            }
-        }
-    </script>
     <script>
         function togglePassword(id) {
             let input = document.getElementById(id);

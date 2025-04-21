@@ -1,63 +1,50 @@
 $(function () {
     $("#btnRegistrarse").click(function () {
-        enviar_registro();
-    });
-
-    // Escuchar el cambio en el input de tipo file para el CV
-    $("#cv").change(function() {
-        cvFile = this.files[0];
-        console.log("Archivo CV seleccionado:", cvFile); // Para verificar la selección del archivo
+        enviar_registro_empresa();
     });
 });
 
-// Variable global para almacenar el archivo CV
-let cvFile = null;
-
-function enviar_registro() {
-    // Captura de los datos del formulario
+function enviar_registro_empresa() {
+    // Captura de los datos del formulario de empresas
     let datos = {
         nombre: $("#nombre").val().trim(),
-        apellido: $("#apellido").val().trim(),
+        telefono: $("#telefono").val().trim(),
         email: $("#email").val().trim(),
-        fechaNacimiento: $("#fecha-nacimiento").val(),
-        genero: $("#genero").val(),
-        carrera: $("#carrera").val().trim(),
+        categoria: $("#categoria").val(),
+        pais: $("#pais").val(),
+        departamento: $("#departamento").val(),
         clave: $("#clave").val(),
         repetirClave: $("#repetir-clave").val(),
         terminos: $("#terminos").prop('checked'),
-        notificaciones: $("#notificaciones").prop('checked'),
-        cvFile: cvFile // Incluimos la variable cvFile para validación
+        notificaciones: $("#notificaciones").prop('checked')
     };
 
     // Validación básica en el cliente
     let errores = [];
 
     if (datos.nombre === '') {
-        errores.push('El nombre es requerido.');
+        errores.push('El nombre de la empresa es requerido.');
     }
-    if (datos.apellido === '') {
-        errores.push('El apellido es requerido.');
+    if (datos.telefono === '') {
+        errores.push('El teléfono es requerido.');
     }
     if (datos.email === '') {
         errores.push('El correo electrónico es requerido.');
     }
-    if (datos.fechaNacimiento === '') {
-        errores.push('La fecha de nacimiento es requerida.');
+    if (datos.categoria === '') {
+        errores.push('La categoría es requerida.');
     }
-    if (datos.genero === '') {
-        errores.push('El género es requerido.');
+    if (datos.pais === '') {
+        errores.push('El país es requerido.');
     }
-    if (datos.carrera === '') {
-        errores.push('La carrera universitaria es requerida.');
+    if (datos.departamento === '') {
+        errores.push('El departamento es requerido.');
     }
     if (datos.clave === '') {
         errores.push('La clave es requerida.');
     }
     if (datos.repetirClave === '') {
         errores.push('Debes repetir la clave.');
-    }
-    if (!datos.cvFile) {
-        errores.push('Debes seleccionar un archivo CV.');
     }
     if (!datos.terminos) {
         errores.push('Debes aceptar los términos y condiciones.');
@@ -71,15 +58,6 @@ function enviar_registro() {
         errores.push('Las claves no coinciden.');
     }
 
-    if (datos.cvFile) {
-        let extensionesValidas = ["pdf", "doc", "docx"];
-        let nombreArchivo = datos.cvFile.name.split('.').pop().toLowerCase();
-        if (extensionesValidas.indexOf(nombreArchivo) === -1) {
-            errores.push('El formato del archivo CV no es válido. Solo se permiten PDF, DOC y DOCX.');
-        }
-        // **Nota:** La validación real del tamaño del archivo se debe hacer en el servidor.
-    }
-
     if (errores.length > 0) {
         Swal.fire({
             icon: 'error',
@@ -90,21 +68,18 @@ function enviar_registro() {
         // Si no hay errores, proceder con el envío AJAX
         let formData = new FormData();
         formData.append('nombre', datos.nombre);
-        formData.append('apellido', datos.apellido);
+        formData.append('telefono', datos.telefono);
         formData.append('email', datos.email);
-        formData.append('fecha-nacimiento', datos.fechaNacimiento);
-        formData.append('genero', datos.genero);
-        formData.append('carrera', datos.carrera);
+        formData.append('categoria', datos.categoria);
+        formData.append('pais', datos.pais);
+        formData.append('departamento', datos.departamento);
         formData.append('clave', datos.clave);
         formData.append('repetir-clave', datos.repetirClave);
         formData.append('terminos', datos.terminos);
         formData.append('notificaciones', datos.notificaciones);
-        formData.append('cv', datos.cvFile); // Usamos la variable cvFile
-
-        console.log("Valor de cvFile antes de append:", cvFile); // Para verificar antes del envío
 
         $.ajax({
-            url: '../models/registro_estudiante.php', // Ajusta la ruta a tu archivo PHP
+            url: '../models/registrar_empresa.php', // Ajusta la ruta a tu archivo PHP para empresas
             type: 'POST',
             dataType: 'json',
             data: formData,
@@ -119,7 +94,7 @@ function enviar_registro() {
         })
         .done(function (response) {
             if (response.success) {
-                $("#registroEstudianteForm").trigger('reset');
+                $("#registroEmpresaForm").trigger('reset');
                 Swal.fire({
                     title: "Éxito",
                     text: response.message,
@@ -137,7 +112,7 @@ function enviar_registro() {
             console.log("Error en la petición AJAX:", textStatus, errorThrown);
             Swal.fire({
                 title: "Error",
-                text: "Hubo un problema al registrar el estudiante.",
+                text: "Hubo un problema al registrar la empresa.",
                 icon: "error"
             });
         });

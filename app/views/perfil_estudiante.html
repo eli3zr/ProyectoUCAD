@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobTrack - Mi Perfil</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="css/mi_perfil_estudiante.css"> </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></head>
 
 <body>
 
@@ -16,7 +15,7 @@
             <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                    <li><a href="../views/dashboard_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
                             Inicio</a></li>
                     <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
                             Perfil</a></li>
@@ -26,7 +25,7 @@
                             Aplicaciones</a></li>
                     <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
                     </li>
-                    <li><a href="#" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
                                 class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
@@ -79,7 +78,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="anioGraduacion" class="form-label">Año de Graduación</label>
-                                <input type="number" class="form-control" id="anioGraduacion" value="[Año de Graduación]">
+                                <input type="text" class="form-control" id="anioGraduacion" value="[Año de Graduación]">
                             </div>
                             <button type="submit" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
                                 <i class="fas fa-save me-2"></i> Guardar Información
@@ -139,7 +138,7 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/mi_perfil_estudiante.js"></script>
+    <script src="../controllers/mi_perfil_estudiante.js"></script>
 
 </body>
 

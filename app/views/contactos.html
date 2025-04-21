@@ -4,13 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobTrack - Registro Estudiantes</title>
+    <title>JobTrack - Contáctanos</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+    
+        .contact-section {
+            padding: 80px 0;
+        }
+    
+        /* Estilos para los iconos de contacto (amarillo) */
+        .contact-social-icons a {
+            color: #F0C11A;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+    
+        .contact-social-icons a:hover {
+            color: #007bff;
+        }
+    
+        .contact-info-bg {
+            background-color: #f7f7f7;
+            padding: 40px;
+            border-radius: 8px;
+        }
+    
+        .contact-info h3 {
+            color: #112852;
+            margin-bottom: 30px;
+        }
+    
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+    
+        .contact-info i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #F0C11A;
+        }
+    
+        .contact-form-bg {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+    
+        .contact-form h3 {
+            color: #112852;
+            margin-bottom: 30px;
+        }
+    
+        .form-label {
+            color: #333;
+            font-weight: bold;
+        }
+    
+        .btn-primary-custom {
+            background-color: #112852;
+            color: #FFFFFF;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn-primary-custom:hover {
+            background-color: #0a1c3d;
+        }
+    
+        .logo-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+    
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            max-height: 200px;
+        }
+    
+        footer {
+            background-color: #112852;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+    
+        /* Estilos para los iconos del footer (blanco) */
+        .footer-social-icons a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+    
+        .footer-social-icons a:hover {
+            color: #F0C11A;
+        }
+    </style>
 </head>
 
 <body>
-
 
     <header class="py-3" style="background-color: #112852;">
         <div class="container d-flex justify-content-between align-items-center">
@@ -19,10 +122,10 @@
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
                     <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
                             Inicio</a></li>
-                    <li><a href="../views/acerca_de.html" class="text-white text-decoration-none"><i class="fas fa-info-circle"></i> Acerca
-                            de</a></li>
-                    <li><a href="../views/contactos.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Contacto</a>
-                    </li>
+                    <li><a href="../views/acerca_de.html" class="text-white text-decoration-none"><i
+                                class="fas fa-info-circle"></i> Acerca de</a></li>
+                    <li><a href="../views/contactos.html" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> Contacto</a></li>
                     <li><a href="../views/login.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
                                 class="fas fa-sign-in-alt"></i> Iniciar Sesión</a></li>
                 </ul>
@@ -30,57 +133,71 @@
         </div>
     </header>
 
-
-    <div class="container py-5">
-        <h2 class="text-center text-dark mb-5">Contáctanos</h2>
-        <p class="text-center mb-5">¿Tienes alguna pregunta o comentario? No dudes en ponerte en contacto con nosotros.</p>
-        <div class="row">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h3>Información de Contacto</h3>
-                <p><i class="fas fa-map-marker-alt" style="color: #112852;"></i> Dirección: 27 Calle Oriente 134, San Salvador</p>
-                <p><i class="fas fa-phone" style="color: #112852;"></i> Teléfono:  2520 7500</p>
-                <p><i class="fas fa-envelope" style="color: #112852;"></i> Email: jobtrack_info@ucad.edu.sv</p>
-                <div class="mt-3">
-                    <a href="#" class="mx-2" style="color: #007bff;"><i class="fab fa-facebook fa-2x"></i></a>
-                    <a href="#" class="mx-2" style="color: #e4405f;"><i class="fab fa-instagram fa-2x"></i></a>
-                    <a href="#" class="mx-2" style="color: #c4302b;"><i class="fab fa-youtube fa-2x"></i></a>
+    <div class="contact-section py-5">
+        <div class="container">
+            <h2 class="text-center text-dark mb-5">Contáctanos</h2>
+            <p class="text-center mb-5 text-muted">¿Tienes alguna pregunta o comentario? No dudes en ponerte en contacto
+                con nosotros.</p>
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="contact-info-bg rounded p-4">
+                        <h3 class="text-dark">Información de Contacto</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Dirección: 27 Calle Oriente 134, San Salvador</p>
+                        <p><i class="fas fa-phone"></i> Teléfono: 2520 7500</p>
+                        <p><i class="fas fa-envelope"></i> Email: jobtrack_info@ucad.edu.sv</p>
+                        <div class="social-icons contact-social-icons mt-3">
+                            <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2"><i
+                                    class="fab fa-facebook fa-2x"></i></a>
+                            <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2"><i
+                                    class="fab fa-instagram fa-2x"></i></a>
+                            <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"><i
+                                    class="fab fa-youtube fa-2x"></i></a>
+                        </div>
+                        <div class="logo-container mt-4">
+                            <img src="../../media/img/logo.png" alt="JobTrack Logo">
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-4 text-center"> <img src="../../media/img/logo.png" alt="JobTrack Logo" style="width: 350px;">
+                <div class="col-md-6">
+                    <div class="contact-form-bg rounded p-4">
+                        <h3 class="text-dark">Formulario de Contacto</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Tu nombre completo"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="asunto" class="form-label">Asunto</label>
+                                <input type="text" class="form-control" id="asunto" placeholder="Asunto del mensaje">
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <textarea class="form-control" id="mensaje" rows="5"
+                                    placeholder="Escribe tu mensaje aquí" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary-custom w-100">Enviar Mensaje</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <h3>Formulario de Contacto</h3>
-                <form>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Tu nombre completo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="asunto" class="form-label">Asunto</label>
-                        <input type="text" class="form-control" id="asunto" placeholder="Asunto del mensaje">
-                    </div>
-                    <div class="mb-3">
-                        <label for="mensaje" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí" required></textarea>
-                    </div>
-                    <button type="submit" class="btn" style="background-color: #112852; color: #FFFFFF;">Enviar Mensaje</button>
-                </form>
             </div>
         </div>
     </div>
 
-
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
             <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
-            <div class="social-icons mt-2">
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+            <div class="social-icons footer-social-icons mt-2">
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"><i
+                        class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
@@ -90,4 +207,5 @@
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>
