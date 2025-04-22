@@ -1,113 +1,52 @@
 <?php
-    header('Content-Type: application/json');
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $params = $_POST;
+// Simulación de conexión a BD
+// include_once '../../config/conexion.php'; // si usaras PDO o mysqli
 
-        // Array para almacenar los errores del servidor
-        $errores_servidor = [];
+$response = [];
 
-        // Validación del Nombre
-        if (empty($params['nombre'])) {
-            $errores_servidor['nombre'] = "El nombre es requerido.";
-        }
+// Captura los datos enviados
+$datos = $_POST;
 
-        // Validación del Apellido
-        if (empty($params['apellido'])) {
-            $errores_servidor['apellido'] = "El apellido es requerido.";
-        }
+// Validación básica
+if (
+    empty($datos['nombre']) ||
+    empty($datos['apellido']) ||
+    empty($datos['email']) ||
+    empty($datos['fechaNacimiento']) ||
+    empty($datos['genero']) ||
+    empty($datos['carrera']) ||
+    empty($datos['clave']) ||
+    empty($datos['repetirClave']) ||
+    !isset($datos['terminos']) || $datos['terminos'] !== 'true'
+) {
+    $response = [
+        'success' => false,
+        'error' => 'Todos los campos obligatorios deben ser completados y los términos deben ser aceptados.'
+    ];
+} elseif ($datos['clave'] !== $datos['repetirClave']) {
+    $response = [
+        'success' => false,
+        'error' => 'Las claves no coinciden.'
+    ];
+} elseif (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
+    $response = [
+        'success' => false,
+        'error' => 'El correo electrónico no es válido.'
+    ];
+} else {
+    // Simulación de guardado en la base de datos (TODO: implementar)
+    /*
+    $stmt = $pdo->prepare("INSERT INTO estudiantes (...) VALUES (...)");
+    $stmt->execute([...]);
+    */
 
-        // Validación del Correo Electrónico
-        if (empty($params['email'])) {
-            $errores_servidor['email'] = "El correo electrónico es requerido.";
-        } elseif (!filter_var($params['email'], FILTER_VALIDATE_EMAIL)) {
-            $errores_servidor['email'] = "El formato del correo electrónico no es válido.";
-        }
-        // **TODO: Verificar si el correo electrónico ya existe en la base de datos**
+    $response = [
+        'success' => true,
+        'msg' => 'Te has registrado correctamente.'
+    ];
+}
 
-        // Validación de la Fecha de Nacimiento
-        if (empty($params['fechaNacimiento'])) {
-            $errores_servidor['fechaNacimiento'] = "La fecha de nacimiento es requerida.";
-        }
-
-        // Validación del Género
-        if (empty($params['genero'])) {
-            $errores_servidor['genero'] = "El género es requerido.";
-        }
-
-        // Validación de la Carrera Universitaria
-        if (empty($params['carrera'])) {
-            $errores_servidor['carrera'] = "La carrera universitaria es requerida.";
-        }
-
-        // Validación de la Clave
-        if (empty($params['clave'])) {
-            $errores_servidor['clave'] = "La clave es requerida.";
-        } elseif (strlen($params['clave']) < 6) {
-            $errores_servidor['clave'] = "La clave debe tener al menos 6 caracteres.";
-        }
-
-        // Validación de Repetir Clave
-        if (empty($params['repetirClave'])) {
-            $errores_servidor['repetirClave'] = "Debes repetir la clave.";
-        } elseif ($params['clave'] !== $params['repetirClave']) {
-            $errores_servidor['repetirClave'] = "Las claves no coinciden.";
-        }
-
-        // Validación de Términos y Condiciones
-        if (!isset($params['terminos']) || $params['terminos'] !== 'true') {
-            $errores_servidor['terminos'] = "Debes aceptar los términos y condiciones.";
-        }
-
-        if (empty($errores_servidor)) {
-            // **TODO: Conectar a la base de datos MySQL**
-            // **TODO: Escapar los datos para prevenir inyección SQL**
-            $nombre = trim($params['nombre']);
-            $apellido = trim($params['apellido']);
-            $email = filter_var($params['email'], FILTER_SANITIZE_EMAIL);
-            $fechaNacimiento = $params['fechaNacimiento'];
-            $genero = $params['genero'];
-            $carrera = trim($params['carrera']);
-            $clave = password_hash($params['clave'], PASSWORD_DEFAULT); // Encriptar la clave
-
-            // **TODO: Insertar los datos en la tabla de estudiantes**
-            // $sql = "INSERT INTO estudiantes (nombre, apellido, email, fecha_nacimiento, genero, carrera, clave, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-            // $stmt = $conn->prepare($sql);
-            // $stmt->bind_param("sssssss", $nombre, $apellido, $email, $fechaNacimiento, $genero, $carrera, $clave);
-
-            // if ($stmt->execute()) {
-                $respuesta = array(
-                    'success' => true,
-                    'message' => 'Registro de estudiante exitoso.'
-                );
-            // } else {
-            //     $respuesta = array(
-            //         'success' => false,
-            //         'message' => 'Error al registrar el estudiante en la base de datos.'
-            //     );
-            //     // **TODO: Log del error para depuración**
-            // }
-
-            // **TODO: Cerrar la conexión a la base de datos**
-            // $stmt->close();
-            // $conn->close();
-
-        } else {
-            // Si hay errores de validación en el servidor
-            $respuesta = array(
-                'success' => false,
-                'errores' => $errores_servidor,
-                'message' => 'Por favor, corrige los errores en el formulario.'
-            );
-        }
-
-        echo json_encode($respuesta);
-
-    } else {
-        $respuesta = array(
-            'success' => false,
-            'message' => 'Método de petición no válido.'
-        );
-        echo json_encode($respuesta);
-    }
-?>
+// Devolver respuesta en JSON
+header('Content-Type: application/json');
+echo json_encode($response);

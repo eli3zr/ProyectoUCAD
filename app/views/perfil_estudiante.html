@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobTrack - Mi Perfil</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
+</head>
 
 <body>
 
@@ -15,15 +17,16 @@
             <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="../views/dashboard_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
-                            Inicio</a></li>
-                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
-                            Perfil</a></li>
-                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
-                            Empleo</a></li>
-                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
-                            Aplicaciones</a></li>
-                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    <li><a href="../views/dashboard_estudiante.html" class="text-white text-decoration-none"><i
+                                class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i
+                                class="fas fa-user-circle"></i> Mi Perfil</a></li>
+                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i
+                                class="fas fa-search"></i> Ofertas de Empleo</a></li>
+                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i
+                                class="fas fa-file-alt"></i> Mis Aplicaciones</a></li>
+                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> Mensajes</a>
                     </li>
                     <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
                                 class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
@@ -42,24 +45,31 @@
                         <i class="fas fa-id-card me-2" style="color: #112852;"></i> Información Personal
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="formInformacionPersonal">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nombre" value="[Nombre del Estudiante]" required>
+                                <input type="text" class="form-control" id="nombre" value="[Nombre del Estudiante]"
+                                    required>
                             </div>
                             <div class="mb-3">
-                                <label for="apellido" class="form-label">Apellido <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="apellido" value="[Apellido del Estudiante]" required>
+                                <label for="apellido" class="form-label">Apellido <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="apellido"
+                                    value="[Apellido del Estudiante]" required>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" value="[Email del Estudiante]" required>
+                                <label for="email" class="form-label">Correo Electrónico <span
+                                        class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" value="[Email del Estudiante]"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" value="[Teléfono del Estudiante]">
+                                <input type="tel" class="form-control" id="telefono"
+                                    value="[Teléfono del Estudiante]">
                             </div>
-                            <button type="submit" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #112852; border-color: #112852;">
                                 <i class="fas fa-save me-2"></i> Guardar Información
                             </button>
                         </form>
@@ -71,16 +81,19 @@
                         <i class="fas fa-graduation-cap me-2" style="color: #112852;"></i> Información Académica
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="formInformacionAcademica">
                             <div class="mb-3">
                                 <label for="carrera" class="form-label">Carrera <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="carrera" value="[Carrera del Estudiante]" required>
+                                <input type="text" class="form-control" id="carrera"
+                                    value="[Carrera del Estudiante]" required>
                             </div>
                             <div class="mb-3">
                                 <label for="anioGraduacion" class="form-label">Año de Graduación</label>
-                                <input type="text" class="form-control" id="anioGraduacion" value="[Año de Graduación]">
+                                <input type="text" class="form-control" id="anioGraduacion"
+                                    value="[Año de Graduación]">
                             </div>
-                            <button type="submit" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #112852; border-color: #112852;">
                                 <i class="fas fa-save me-2"></i> Guardar Información
                             </button>
                         </form>
@@ -93,13 +106,15 @@
                     </div>
                     <div class="card-body">
                         <p>Tu CV actual: <a href="[Enlace al CV actual]" target="_blank">[Nombre del Archivo CV]</a></p>
-                        <form>
+                        <form id="formActualizarCV">
                             <div class="mb-3">
                                 <label for="cvNuevo" class="form-label">Subir Nuevo CV</label>
                                 <input class="form-control" type="file" id="cvNuevo" accept=".pdf, .doc, .docx">
-                                <small class="form-text text-muted">Peso máximo del archivo: 2MB. Formatos permitidos: PDF, DOC, DOCX.</small>
+                                <small class="form-text text-muted">Peso máximo del archivo: 2MB. Formatos permitidos:
+                                    PDF, DOC, DOCX.</small>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="background-color: #112852; border-color: #112852;">
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #112852; border-color: #112852;">
                                 <i class="fas fa-upload me-2"></i> Actualizar CV
                             </button>
                         </form>
@@ -113,10 +128,12 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled">
-                            <li><a href="#" class="btn btn-outline w-100 mt-2" style="color: #112852; border-color: #112852;">
+                            <li><a href="#" class="btn btn-outline w-100 mt-2"
+                                    style="color: #112852; border-color: #112852;">
                                     <i class="fas fa-lock me-2"></i> Cambiar Contraseña
                                 </a></li>
-                            <li><a href="#" class="btn btn-outline-danger w-100 mt-2"><i class="fas fa-trash-alt me-2"></i> Eliminar Cuenta</a></li>
+                            <li><a href="#" class="btn btn-outline-danger w-100 mt-2"><i
+                                        class="fas fa-trash-alt me-2"></i> Eliminar Cuenta</a></li>
                         </ul>
                     </div>
                 </div>
@@ -138,7 +155,10 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../controllers/mi_perfil_estudiante.js"></script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/actualizar_perfil_personal.js"></script>
+    <script src="../controllers/actualizar_perfil_academico.js"></script>
+    <script src="../controllers/actualizar_perfil_cv.js"></script>
 
 </body>
 
