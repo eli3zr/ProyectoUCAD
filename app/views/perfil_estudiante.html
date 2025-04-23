@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
+    <style>
+        .sticky-actions {
+            position: sticky;
+            top: 20px;
+            align-self: flex-start; 
+        }
+    </style>
 </head>
 
 <body>
@@ -83,7 +90,8 @@
                     <div class="card-body">
                         <form id="formInformacionAcademica">
                             <div class="mb-3">
-                                <label for="carrera" class="form-label">Carrera <span class="text-danger">*</span></label>
+                                <label for="carrera" class="form-label">Carrera <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="carrera"
                                     value="[Carrera del Estudiante]" required>
                             </div>
@@ -102,16 +110,46 @@
 
                 <div class="card shadow-sm mb-4">
                     <div class="card-header" style="background-color: #F0C11A; color: #112852;">
+                        <i class="fas fa-briefcase me-2" style="color: #112852;"></i> Información Laboral
+                    </div>
+                    <div class="card-body">
+                        <form id="formInformacionLaboral">
+                            <div class="mb-3">
+                                <label for="experiencia" class="form-label">Experiencia Laboral (Resumen)</label>
+                                <textarea class="form-control" id="experiencia"
+                                    rows="3">[Resumen de Experiencia Laboral]</textarea>
+                                <small class="form-text text-muted">Describe brevemente tu experiencia laboral
+                                    relevante.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="habilidades" class="form-label">Habilidades Técnicas y Blandas</label>
+                                <textarea class="form-control" id="habilidades"
+                                    rows="3">[Lista de Habilidades]</textarea>
+                                <small class="form-text text-muted">Enumera tus habilidades técnicas
+                                    (programación, herramientas, etc.) y blandas (comunicación, liderazgo,
+                                    etc.).</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #112852; border-color: #112852;">
+                                <i class="fas fa-save me-2"></i> Guardar Información
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header" style="background-color: #F0C11A; color: #112852;">
                         <i class="fas fa-file-alt me-2" style="color: #112852;"></i> Currículum Vitae (CV)
                     </div>
                     <div class="card-body">
-                        <p>Tu CV actual: <a href="[Enlace al CV actual]" target="_blank">[Nombre del Archivo CV]</a></p>
+                        <p>Tu CV actual: <a href="[Enlace al CV actual]" target="_blank">[Nombre del Archivo
+                                CV]</a></p>
                         <form id="formActualizarCV">
                             <div class="mb-3">
                                 <label for="cvNuevo" class="form-label">Subir Nuevo CV</label>
                                 <input class="form-control" type="file" id="cvNuevo" accept=".pdf, .doc, .docx">
-                                <small class="form-text text-muted">Peso máximo del archivo: 2MB. Formatos permitidos:
-                                    PDF, DOC, DOCX.</small>
+                                <small class="form-text text-muted">Peso máximo del archivo: 2MB. Formatos
+                                    permitidos: PDF, DOC, DOCX.</small>
                             </div>
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #112852; border-color: #112852;">
@@ -121,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 sticky-actions">
                 <div class="card shadow-sm">
                     <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
                         <i class="fas fa-cog me-2" style="color: #F0C11A;"></i> Acciones
@@ -158,6 +196,7 @@
     <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../controllers/actualizar_perfil_personal.js"></script>
     <script src="../controllers/actualizar_perfil_academico.js"></script>
+    <script src="../controllers/actualizar_perfil_laboral.js"></script>
     <script src="../controllers/actualizar_perfil_cv.js"></script>
 
 </body>

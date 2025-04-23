@@ -7,7 +7,30 @@
     <title>JobTrack - Explorar Ofertas</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="css/explorar_ofertas.css">
+    <style>
+        .filter-select {
+            border: 1px solid #112852; /* Borde azul oscuro */
+            border-radius: 5px; /* Bordes ligeramente redondeados */
+            background-color: #f8f9fa; /* Fondo gris claro */
+            color: #495057; /* Color de texto gris oscuro */
+            padding: 0.5rem 1rem; /* Espaciado interior */
+            font-size: 0.9rem; /* Tamaño de fuente ligeramente más grande */
+            -webkit-appearance: none; /* Quitar estilos nativos de Chrome/Safari */
+            -moz-appearance: none; /* Quitar estilos nativos de Firefox */
+            appearance: none; /* Quitar estilos nativos */
+            background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23495057%27%3e%3cpath fill-rule=%27evenodd%27 d=%27M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%27/%3e%3c/svg%3e');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 1.75rem; /* Espacio para la flecha */
+        }
+
+        .filter-select:focus {
+            border-color: #F0C11A; /* Borde amarillo al enfocar */
+            outline: none; /* Quitar el contorno predeterminado del navegador */
+            box-shadow: 0 0 5px rgba(240, 193, 26, 0.5); /* Sombra suave al enfocar */
+        }
+    </style>
 </head>
 
 <body>
@@ -17,15 +40,20 @@
             <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="../views/dashboard_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
+                    <li><a href="../views/dashboard_estudiante.html" class="text-white text-decoration-none"><i
+                                class="fas fa-home"></i>
                             Inicio</a></li>
-                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
+                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i
+                                class="fas fa-user-circle"></i> Mi
                             Perfil</a></li>
-                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
+                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i
+                                class="fas fa-search"></i> Ofertas de
                             Empleo</a></li>
-                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
+                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i
+                                class="fas fa-file-alt"></i> Mis
                             Aplicaciones</a></li>
-                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
+                    <li><a href="../views/mensajes_estudiantes.html" class="text-white text-decoration-none"><i
+                                class="fas fa-envelope"></i> Mensajes</a>
                     </li>
                     <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
                                 class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
@@ -41,30 +69,53 @@
                     <h5 class="card-title mb-3" style="color: #112852;"><i class="fas fa-search me-2"></i> Buscar
                         Ofertas de Empleo</h5>
                     <div class="row g-3 align-items-center mb-3">
-                        <div class="col-md-4">
-                            <label for="categoria" class="form-label">Categoría:</label>
-                            <select class="form-select" id="categoria">
-                                <option value="">Todas</option>
-                                <option value="desarrollo">Desarrollo Web</option>
-                                <option value="diseno">Diseño Gráfico</option>
-                                <option value="marketing">Marketing Digital</option>
+                        <div class="col-md-3">
+                            <select class="form-select filter-select" id="vigencia">
+                                <option value="">Vigencia</option>
+                                <option value="hoy">Activo</option>
+                                <option value="semana">Permanente</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="salario" class="form-label">Salario Mínimo:</label>
-                            <input type="number" class="form-control" id="salario" placeholder="Ingrese monto">
+                            <select class="form-select filter-select" id="oferente">
+                                <option value="">Oferente</option>
+                                <option value="Empresa A">Empresa A</option>
+                                <option value="Empresa B">Empresa B</option>
+                                <option value="Startup X">Startup X</option>
+                            </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="ubicacion" class="form-label">Ubicación:</label>
-                            <input type="text" class="form-control" id="ubicacion" placeholder="Ciudad o Región">
+                            <select class="form-select filter-select" id="interes">
+                                <option value="">Interés</option>
+                                <option value="tecnologia">Tecnología</option>
+                                <option value="administracion">Administración</option>
+                                <option value="ventas">Ventas</option>
+                            </select>
                         </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary w-100"
-                                style="background-color: #112852; border-color: #112852;"><i class="fas fa-filter"></i>
-                                Filtrar</button>
+                        <div class="col-md-3">
+                            <select class="form-select filter-select" id="habilidad">
+                                <option value="">Habilidad</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="Liderazgo">Liderazgo</option>
+                                <option value="Diseño UI/UX">Diseño UI/UX</option>
+                            </select>
                         </div>
                     </div>
-                    <button class="btn btn-outline-secondary"><i class="fas fa-share-alt me-2"></i> Compartir</button>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <button class="btn btn-primary" style="background-color: #112852; border-color: #112852;"><i
+                                    class="fas fa-filter"></i>
+                                Filtrar</button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-outline-secondary" id="compartirBtn"><i class="fas fa-share-alt me-2"></i>
+                                Compartir</button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-outline-danger"><i class="fas fa-broom me-2"></i> Limpiar
+                                Filtros</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -77,7 +128,8 @@
                     <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-building me-2"
                             style="color: #112852;"></i> Empresa Ejemplo S.A.</h6>
                     <p class="card-text">Breve descripción de las responsabilidades y requisitos del puesto.</p>
-                    <a href="../views/oferta_detalle.html" class="btn btn-outline" style="color: #112852; border-color: #112852;">Ver más <i
+                    <a href="../views/oferta_detalle.html" class="btn btn-outline"
+                        style="color: #112852; border-color: #112852;">Ver más <i
                             class="fas fa-arrow-right ms-1"></i></a>
                 </div>
             </div>
@@ -88,7 +140,8 @@
                     <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-building me-2"
                             style="color: #112852;"></i> Otra Empresa Inc.</h6>
                     <p class="card-text">Pequeño resumen sobre las tareas y lo que busca la empresa en un candidato.</p>
-                    <a href="../views/oferta_detalle.html" class="btn btn-outline" style="color: #112852; border-color: #112852;">Ver más <i
+                    <a href="../views/oferta_detalle.html" class="btn btn-outline"
+                        style="color: #112852; border-color: #112852;">Ver más <i
                             class="fas fa-arrow-right ms-1"></i></a>
                 </div>
             </div>
@@ -123,6 +176,7 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../controllers/filtrar_ofertas.js"></script>
 
 </body>
 
