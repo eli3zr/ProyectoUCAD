@@ -8,27 +8,119 @@
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        .filter-select {
-            border: 1px solid #112852; /* Borde azul oscuro */
-            border-radius: 5px; /* Bordes ligeramente redondeados */
-            background-color: #f8f9fa; /* Fondo gris claro */
-            color: #495057; /* Color de texto gris oscuro */
-            padding: 0.5rem 1rem; /* Espaciado interior */
-            font-size: 0.9rem; /* Tamaño de fuente ligeramente más grande */
-            -webkit-appearance: none; /* Quitar estilos nativos de Chrome/Safari */
-            -moz-appearance: none; /* Quitar estilos nativos de Firefox */
-            appearance: none; /* Quitar estilos nativos */
-            background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23495057%27%3e%3cpath fill-rule=%27evenodd%27 d=%27M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%27/%3e%3c/svg%3e');
+        .filter-section-modern {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .filter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .filter-title {
+            color: #112852;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            color: #495057;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+        }
+
+        .filter-select-modern {
+            border: 2px solid #112852;
+            border-radius: 8px;
+            background-color: white;
+            color: #343a40;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23112852%27%3e%3cpath fill-rule=%27evenodd%27 d=%27M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%27/%3e%3c/svg%3e');
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
             background-size: 16px 12px;
-            padding-right: 1.75rem; /* Espacio para la flecha */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
-        .filter-select:focus {
-            border-color: #F0C11A; /* Borde amarillo al enfocar */
-            outline: none; /* Quitar el contorno predeterminado del navegador */
-            box-shadow: 0 0 5px rgba(240, 193, 26, 0.5); /* Sombra suave al enfocar */
+        .filter-select-modern:focus {
+            border-color: #F0C11A;
+
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(240, 193, 26, 0.25);
+
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-filter-modern {
+            background-color: #112852;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .btn-filter-modern:hover {
+            background-color: #1a3a75;
+            transform: translateY(-2px);
+
+        }
+
+        .btn-share-modern {
+            color: #F0C11A;
+            border: 2px solid #F0C11A;
+            border-radius: 8px;
+            font-weight: bold;
+            padding: 0.8rem 1.2rem;
+            transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .btn-share-modern:hover {
+            color: #cca714;
+            border-color: #cca714;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-modern {
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            font-weight: bold;
+            padding: 0.8rem 1.2rem;
+            transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .btn-clear-modern:hover {
+            color: #dc3545;
+            border-color: #dc3545;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -63,59 +155,55 @@
     </header>
 
     <main class="container mt-4">
-        <section class="mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title mb-3" style="color: #112852;"><i class="fas fa-search me-2"></i> Buscar
-                        Ofertas de Empleo</h5>
-                    <div class="row g-3 align-items-center mb-3">
-                        <div class="col-md-3">
-                            <select class="form-select filter-select" id="vigencia">
-                                <option value="">Vigencia</option>
-                                <option value="hoy">Activo</option>
-                                <option value="semana">Permanente</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select filter-select" id="oferente">
-                                <option value="">Oferente</option>
-                                <option value="Empresa A">Empresa A</option>
-                                <option value="Empresa B">Empresa B</option>
-                                <option value="Startup X">Startup X</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select filter-select" id="interes">
-                                <option value="">Interés</option>
-                                <option value="tecnologia">Tecnología</option>
-                                <option value="administracion">Administración</option>
-                                <option value="ventas">Ventas</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select filter-select" id="habilidad">
-                                <option value="">Habilidad</option>
-                                <option value="JavaScript">JavaScript</option>
-                                <option value="Liderazgo">Liderazgo</option>
-                                <option value="Diseño UI/UX">Diseño UI/UX</option>
-                            </select>
-                        </div>
+        <section class="mb-4 filter-section-modern">
+            <div class="filter-container">
+                <h5 class="filter-title"><i class="fas fa-sliders-h me-2"></i> Filtrar Ofertas</h5>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="vigencia-filter" class="filter-label">Vigencia</label>
+                        <select class="filter-select-modern" id="vigencia-filter">
+                            <option value="">Todas</option>
+                            <option value="activo">Activo</option>
+                            <option value="permanente">Permanente</option>
+                        </select>
                     </div>
-                    <div class="row g-2 align-items-center">
-                        <div class="col-auto">
-                            <button class="btn btn-primary" style="background-color: #112852; border-color: #112852;"><i
-                                    class="fas fa-filter"></i>
-                                Filtrar</button>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-outline-secondary" id="compartirBtn"><i class="fas fa-share-alt me-2"></i>
-                                Compartir</button>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-outline-danger"><i class="fas fa-broom me-2"></i> Limpiar
-                                Filtros</button>
-                        </div>
+
+                    <div class="filter-group">
+                        <label for="oferente-filter" class="filter-label">Oferente</label>
+                        <select class="filter-select-modern" id="oferente-filter">
+                            <option value="">Todos</option>
+                            <option value="Empresa A">Empresa Ejemplo S.A.</option>
+                            <option value="Empresa B">Otra Empresa Inc.</option>
+                            <option value="Startup X">Datos Inteligentes Corp.</option>
+                        </select>
                     </div>
+
+                    <div class="filter-group">
+                        <label for="interes-filter" class="filter-label">Interés</label>
+                        <select class="filter-select-modern" id="interes-filter">
+                            <option value="">Todos</option>
+                            <option value="tecnologia">Tecnología</option>
+                            <option value="administracion">Administración</option>
+                            <option value="ventas">Ventas</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="habilidad-filter" class="filter-label">Habilidad</label>
+                        <select class="filter-select-modern" id="habilidad-filter">
+                            <option value="">Todas</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Liderazgo">Liderazgo</option>
+                            <option value="Diseño UI/UX">Diseño UI/UX</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary btn-filter-modern"><i class="fas fa-filter"></i> Filtrar</button>
+                    <button class="btn btn-outline-warning btn-share-modern"><i class="fas fa-share-alt"></i>
+                        Compartir</button>
+                    <button class="btn btn-link btn-clear-modern"><i class="fas fa-broom me-1"></i> Limpiar
+                        Filtros</button>
                 </div>
             </div>
         </section>
@@ -176,7 +264,7 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../controllers/filtrar_ofertas.js"></script>
+    <script src="../controllers/filtrado.js"></script>
 
 </body>
 
