@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* Estilos generales (puedes mover esto a un archivo CSS aparte) */
+    
         body {
             background-color: #f8f9fa;
             color: #333;
@@ -47,7 +47,7 @@
             margin-bottom: 1rem;
         }
 
-        /* ... estilos anteriores ... */
+    
 
         body {
             background-color: #f8f9fa;
@@ -55,23 +55,20 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* Asegura que el body ocupe al menos el alto de la ventana */
+            
         }
 
         main.container {
             margin-top: 2rem;
             flex-grow: 1;
-            /* Permite que el main crezca para ocupar el espacio restante */
+            
         }
 
         footer.py-3 {
             background-color: #112852 !important;
             color: #ffffff !important;
             margin-top: auto;
-            /* Empuja el footer hacia abajo */
         }
-
-        /* ... otros estilos del footer ... */
     </style>
 </head>
 
@@ -134,9 +131,9 @@
         <div class="container text-center">
             <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="#" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
@@ -154,10 +151,7 @@
             if (reportType) {
                 reportContainer.style.display = 'block';
                 reportTitleElement.innerText = getReportTitle(reportType);
-                reportDataElement.innerHTML = '<p>Cargando datos del reporte...</p>'; // Placeholder
-
-                // Aquí iría la lógica para llamar al backend y obtener los datos del reporte
-                // Por ahora, vamos a simular algunos datos estáticos
+                reportDataElement.innerHTML = '<p>Cargando datos del reporte...</p>';
                 setTimeout(() => {
                     reportDataElement.innerHTML = getReportData(reportType);
                 }, 1500);
