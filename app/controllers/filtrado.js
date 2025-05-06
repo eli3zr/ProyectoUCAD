@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const oferenteFilter = document.getElementById('oferente-filter');
     const interesFilter = document.getElementById('interes-filter');
     const habilidadFilter = document.getElementById('habilidad-filter');
-    const ofertasContainer = document.querySelector('section:nth-child(2)'); // Selecciona la sección donde se muestran las ofertas
+    const ofertasContainer = document.querySelector('section:nth-child(2)');
     const limpiarFiltrosBtn = document.querySelector('.btn-clear-modern');
     const compartirBtn = document.querySelector('.btn-share-modern');
 
@@ -39,11 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
             descripcion: "Descripción de las tareas del analista...",
             linkDetalle: "../views/oferta_detalle.html"
         },
-        // ... más ofertas ...
     ];
 
     function mostrarOfertas(ofertas) {
-        // Limpiar el contenedor de ofertas actual
         ofertasContainer.innerHTML = '<h2 class="mb-3" style="color: #112852;"><i class="fas fa-list me-2"></i> Ofertas de Empleo Encontradas</h2>';
 
         if (ofertas.length === 0) {
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Renderizar las ofertas filtradas
         ofertas.forEach(oferta => {
             const ofertaCard = document.createElement('div');
             ofertaCard.classList.add('card', 'shadow-sm', 'mb-3');
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const vigenciaSeleccionada = vigenciaFilter.value;
         const oferenteSeleccionado = oferenteFilter.value;
         const interesSeleccionado = interesFilter.value;
-        const habilidadSeleccionada = habilidadFilter.value.toLowerCase(); // Convertir a minúsculas para búsqueda sin distinción de mayúsculas
+        const habilidadSeleccionada = habilidadFilter.value.toLowerCase();
 
         const ofertasFiltradas = ofertasDeEmpleo.filter(oferta => {
             const cumpleVigencia = !vigenciaSeleccionada || oferta.vigencia === vigenciaSeleccionada;
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         oferenteFilter.value = '';
         interesFilter.value = '';
         habilidadFilter.value = '';
-        mostrarOfertas(ofertasDeEmpleo); // Mostrar todas las ofertas nuevamente
+        mostrarOfertas(ofertasDeEmpleo);
     });
 
     compartirBtn.addEventListener('click', function() {
@@ -98,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
             navigator.share({
                 title: 'JobTrack - Ofertas de Empleo',
                 text: '¡Echa un vistazo a las últimas ofertas de empleo en JobTrack!',
-                url: window.location.href // Compartir la URL actual de la página de ofertas
+                url: window.location.href 
             }).then(() => {
                 console.log('Contenido compartido exitosamente');
             }).catch((error) => {
@@ -108,10 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert('La función de compartir no está disponible en este navegador.');
             console.log('Web Share API no soportada.');
-            // Aquí podrías ofrecer otras opciones de compartir si lo deseas (copiar enlace, etc.)
         }
     });
-
-    // Mostrar todas las ofertas al cargar la página
     mostrarOfertas(ofertasDeEmpleo);
 });

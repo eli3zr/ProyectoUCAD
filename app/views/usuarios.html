@@ -7,11 +7,17 @@
     <title>JobTrack - Administración de Usuarios</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
     <style>
-    
         body {
             background-color: #f8f9fa;
             color: #333;
+        }
+
+        .modal-header-primary-jt {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            border-color: #112852 !important;
         }
 
         .btn-primary-jt {
@@ -34,9 +40,47 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
+        .btn-outline-primary {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            border-color: #112852 !important;
+        }
+
         .action-buttons a {
             margin-right: 0.5rem;
         }
+        .page-item.active .page-link {
+        background-color: #112852 !important;
+        border-color: #112852 !important;
+        color: #ffffff !important;
+    }
+    .page-link {
+        color: #112852; /* Color del texto de los enlaces inactivos */
+    }
+
+    .page-item.active .page-link {
+        background-color: #112852 !important;
+        border-color: #112852 !important;
+        color: #ffffff !important; /* Texto blanco en el elemento activo */
+    }
+
+    .page-link:hover {
+        color: #0a1c3d; /* Azul ligeramente más oscuro al hacer hover */
+        background-color: #f8f9fa; /* Fondo claro sutil al hacer hover */
+        border-color: #dee2e6; /* Borde sutil al hacer hover */
+    }
+
+    .page-item.active .page-link:hover {
+        background-color: #0a1c3d !important; /* Oscurece ligeramente el fondo activo al hacer hover */
+        border-color: #0a1c3d !important;
+        color: #ffffff !important; /* Mantiene el texto blanco al hacer hover en el activo */
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d; /* Estilo para el enlace "Anterior" deshabilitado */
+        pointer-events: none;
+        cursor: not-allowed;
+    }
     </style>
 </head>
 
@@ -47,15 +91,24 @@
             <h1 class="text-white"><i class="fas fa-users"></i> Administración de Usuarios</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="panel_admin.html" class="text-white text-decoration-none"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="usuarios.html" class="text-white text-decoration-none active"><i class="fas fa-users"></i> Usuarios</a></li>
-                    <li><a href="empresas.html" class="text-white text-decoration-none"><i class="fas fa-building"></i> Empresas</a></li>
-                    <li><a href="estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-user-graduate"></i> Estudiantes</a></li>
-                    <li><a href="ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i> Ofertas</a></li>
-                    <li><a href="categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i> Categorías</a></li>
-                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i> Reportes</a></li>
-                    <li><a href="configuracion.html" class="text-white text-decoration-none"><i class="fas fa-cog"></i> Configuración</a></li>
-                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="panel_admin.html" class="text-white text-decoration-none"><i
+                                class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="usuarios.html" class="text-white text-decoration-none active"><i
+                                class="fas fa-users"></i> Usuarios</a></li>
+                    <li><a href="empresas.html" class="text-white text-decoration-none"><i class="fas fa-building"></i>
+                            Empresas</a></li>
+                    <li><a href="estudiantes.html" class="text-white text-decoration-none"><i
+                                class="fas fa-user-graduate"></i> Estudiantes</a></li>
+                    <li><a href="ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i>
+                            Ofertas</a></li>
+                    <li><a href="categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i>
+                            Categorías</a></li>
+                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i>
+                            Reportes</a></li>
+                    <li><a href="configuracion.html" class="text-white text-decoration-none"><i class="fas fa-cog"></i>
+                            Configuración</a></li>
+                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -64,7 +117,8 @@
     <main class="container mt-4">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2>Listado de Usuarios</h2>
-            <button class="btn btn-primary-jt"><i class="fas fa-plus-circle"></i> Nuevo Usuario</button>
+            <button class="btn btn-primary-jt" data-toggle="modal" data-target="#nuevoUsuarioModal"><i
+                    class="fas fa-plus-circle"></i> Nuevo Usuario</button>
         </div>
 
         <div class="card shadow-sm">
@@ -76,6 +130,7 @@
                                 <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Correo Electrónico</th>
+                                <th>Contraseña</th>
                                 <th>Rol</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -86,36 +141,45 @@
                                 <td>1</td>
                                 <td>Estudiante Ejemplo 1</td>
                                 <td>estudiante1@ejemplo.com</td>
+                                <td>123456</td>
                                 <td>Estudiante</td>
                                 <td>Activo</td>
                                 <td class="action-buttons">
-                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i>
+                                        Editar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i>
+                                        Eliminar</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>2</td>
                                 <td>Empresa Ejemplo 1</td>
                                 <td>empresa1@ejemplo.com</td>
+                                <td>contrasena</td>
                                 <td>Empresa</td>
                                 <td>Activo</td>
                                 <td class="action-buttons">
-                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i>
+                                        Editar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i>
+                                        Eliminar</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td>Admin Ejemplo 1</td>
                                 <td>admin1@ejemplo.com</td>
+                                <td>admin2025</td>
                                 <td>Administrador</td>
                                 <td>Activo</td>
                                 <td class="action-buttons">
-                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i>
+                                        Editar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i>
+                                        Eliminar</a>
                                 </td>
                             </tr>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
 
@@ -134,15 +198,132 @@
                 </nav>
             </div>
         </div>
+        <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" role="dialog"
+            aria-labelledby="nuevoUsuarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary-jt text-white">
+                        <h5 class="modal-title" id="nuevoUsuarioModalLabel"><i class="fas fa-user-plus"></i> Nuevo
+                            Usuario</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNuevoUsuario">
+                            <div class="form-group">
+                                <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                    placeholder="Ingrese el nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="correo"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                                <input type="email" class="form-control" id="correo" name="correo"
+                                    placeholder="Ingrese el correo electrónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="contrasena"><i class="fas fa-key"></i> Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena"
+                                    placeholder="Ingrese la contraseña">
+                            </div>
+                            <div class="form-group">
+                                <label for="rol"><i class="fas fa-briefcase"></i> Rol</label>
+                                <select class="form-control" id="rol" name="rol">
+                                    <option value="">Seleccionar Rol</option>
+                                    <option value="Estudiante">Estudiante</option>
+                                    <option value="Empresa">Empresa</option>
+                                    <option value="Administrador">Administrador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="estado"><i class="fas fa-toggle-on"></i> Estado</label>
+                                <select class="form-control" id="estado" name="estado">
+                                    <option value="">Seleccionar Estado</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                class="fas fa-times"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary-jt" form="formNuevoUsuario"><i
+                                class="fas fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editarUsuarioModal" tabindex="-1" role="dialog"
+            aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary-jt text-white">
+                        <h5 class="modal-title" id="editarUsuarioModalLabel"><i class="fas fa-edit"></i> Editar Usuario
+                        </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarUsuario">
+                            <input type="hidden" id="editar_id" name="id">
+                            <div class="form-group">
+                                <label for="editar_nombre"><i class="fas fa-user"></i> Nombre</label>
+                                <input type="text" class="form-control" id="editar_nombre" name="nombre"
+                                    placeholder="Ingrese el nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="editar_correo"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                                <input type="email" class="form-control" id="editar_correo" name="correo"
+                                    placeholder="Ingrese el correo electrónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="editar_contrasena"><i class="fas fa-key"></i> Contraseña (Dejar en blanco
+                                    para no cambiar)</label>
+                                <input type="password" class="form-control" id="editar_contrasena" name="contrasena"
+                                    placeholder="Dejar en blanco para no cambiar">
+                            </div>
+                            <div class="form-group">
+                                <label for="editar_rol"><i class="fas fa-briefcase"></i> Rol</label>
+                                <select class="form-control" id="editar_rol" name="rol">
+                                    <option value="">Seleccionar Rol</option>
+                                    <option value="Estudiante">Estudiante</option>
+                                    <option value="Empresa">Empresa</option>
+                                    <option value="Administrador">Administrador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editar_estado"><i class="fas fa-toggle-on"></i> Estado</label>
+                                <select class="form-control" id="editar_estado" name="estado">
+                                    <option value="">Seleccionar Estado</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                class="fas fa-times"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary-jt" form="formEditarUsuario"><i
+                                class="fas fa-save"></i> Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
             <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                    style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
@@ -150,9 +331,10 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        // Aquí podrías agregar código JavaScript para la funcionalidad de la página de usuarios
-    </script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/usuario.js"></script>
+    <script src="../controllers/editar_usuario.js"></script>
+    <script src="../controllers/eliminar_usuario.js"></script>
 </body>
 
 </html>
