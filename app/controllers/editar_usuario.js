@@ -30,7 +30,7 @@ $(document).ready(function() {
         var estado = $("#editar_estado").val();
 
         $.ajax({
-            url: 'editar_usuario.php', 
+            url: '../../app/models/editar_usuario.php', 
             type: 'POST',
             data: {
                 id: id,

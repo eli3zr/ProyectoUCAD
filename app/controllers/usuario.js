@@ -12,7 +12,8 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese el nombre del usuario.'
+                text: 'Por favor, ingrese el nombre del usuario.',
+                confirmButtonColor: '#ff5722'
             });
             return; 
         }
@@ -21,14 +22,16 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese el correo electrónico.'
+                text: 'Por favor, ingrese el correo electrónico.',
+                confirmButtonColor: '#ff5722'
             });
             return;
         } else if (!isValidEmail(correo)) {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Formato Incorrecto!',
-                text: 'Por favor, ingrese un correo electrónico válido.'
+                text: 'Por favor, ingrese un correo electrónico válido.',
+                confirmButtonColor: '#ff5722'
             });
             return;
         }
@@ -37,7 +40,8 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese la contraseña.'
+                text: 'Por favor, ingrese la contraseña.',
+                confirmButtonColor: '#ff5722'
             });
             return;
         }
@@ -46,7 +50,8 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, seleccione un rol para el usuario.'
+                text: 'Por favor, seleccione un rol para el usuario.',
+                confirmButtonColor: '#ff5722'
             });
             return;
         }
@@ -55,7 +60,8 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, seleccione el estado del usuario.'
+                text: 'Por favor, seleccione el estado del usuario.',
+                confirmButtonColor: '#ff5722'
             });
             return;
         }
