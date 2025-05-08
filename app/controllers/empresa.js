@@ -1,24 +1,29 @@
 $(document).ready(function() {
-    $("#formNuevoUsuario").submit(function(event) {
+    // Mostrar la modal al hacer clic en el botón "Nueva Empresa"
+    $("#nuevaEmpresaButton").click(function() {
+        $('#nuevaEmpresaModal').modal('show');
+    });
+
+    // Lógica para la validación y el envío del formulario
+    $("#formNuevaEmpresa").submit(function(event) {
         event.preventDefault();
 
-        var nombre = $("#nombre").val().trim();
-        var correo = $("#correo").val().trim();
-        var contrasena = $("#contrasena").val().trim();
-        var rol = $("#rol").val();
+        var nombreEmpresa = $("#nombreEmpresa").val().trim();
+        var correoElectronico = $("#correoElectronico").val().trim();
+        var sitioWeb = $("#sitioWeb").val().trim();
         var estado = $("#estado").val();
 
-        if (nombre === "") {
+        if (nombreEmpresa === "") {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese el nombre del usuario.',
+                text: 'Por favor, ingrese el nombre de la empresa.',
                 confirmButtonColor: '#F0C11A'
             });
-            return; 
+            return;
         }
 
-        if (correo === "") {
+        if (correoElectronico === "") {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
@@ -26,7 +31,7 @@ $(document).ready(function() {
                 confirmButtonColor: '#F0C11A'
             });
             return;
-        } else if (!isValidEmail(correo)) {
+        } else if (!isValidEmail(correoElectronico)) {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Formato Incorrecto!',
@@ -36,21 +41,19 @@ $(document).ready(function() {
             return;
         }
 
-        if (contrasena === "") {
+        if (sitioWeb === "") {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese la contraseña.',
+                text: 'Por favor, ingrese el sitio web.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
-        }
-
-        if (rol === "") {
+        } else if (!isValidUrl(sitioWeb)) {
             Swal.fire({
                 icon: 'warning',
-                title: '¡Campo Requerido!',
-                text: 'Por favor, seleccione un rol para el usuario.',
+                title: '¡Formato Incorrecto!',
+                text: 'Por favor, ingrese una URL válida.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
@@ -60,21 +63,19 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, seleccione el estado del usuario.',
+                text: 'Por favor, seleccione el estado de la empresa.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
         }
 
-
         $.ajax({
-            url: '../../app/models/guardar_usuario.php',
+            url: '../../app/models/guardar_empresa.php',
             type: 'POST',
             data: {
-                nombre: nombre,
-                correo: correo,
-                contrasena: contrasena,
-                rol: rol,
+                nombreEmpresa: nombreEmpresa,
+                correoElectronico: correoElectronico,
+                sitioWeb: sitioWeb,
                 estado: estado
             },
             dataType: 'json',
@@ -82,14 +83,16 @@ $(document).ready(function() {
                 if (response.success) {
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Usuario Creado!',
+                        title: '¡Empresa Creada!',
                         text: response.message,
                         showConfirmButton: false,
                         timer: 1500
                     }).then((result) => {
-                        $('#nuevoUsuarioModal').modal('hide');
-                        $("#formNuevoUsuario")[0].reset();
-                        console.log('Datos guardados (simulado):', { nombre: nombre, correo: correo, rol: rol, estado: estado });
+                        $('#nuevaEmpresaModal').modal('hide');
+                        $("#formNuevaEmpresa")[0].reset();
+                        console.log('Datos de empresa guardados (simulado):', { nombreEmpresa: nombreEmpresa, correoElectronico: correoElectronico, sitioWeb: sitioWeb, estado: estado });
+                        // Aquí podrías recargar la tabla de empresas o actualizar la vista de alguna manera
+                        // location.reload();
                     });
                 } else {
                     Swal.fire({
@@ -109,12 +112,21 @@ $(document).ready(function() {
         });
     });
 
-    $('#nuevoUsuarioModal').on('hidden.bs.modal', function (e) {
-        $("#formNuevoUsuario")[0].reset();
+    $('#nuevaEmpresaModal').on('hidden.bs.modal', function (e) {
+        $("#formNuevaEmpresa")[0].reset();
     });
 
     function isValidEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    }
+
+    function isValidUrl(url) {
+        try {
+            new URL(url);
+            return true;
+        } catch (_) {
+            return false;
+        }
     }
 });

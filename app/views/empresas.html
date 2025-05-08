@@ -7,11 +7,17 @@
     <title>JobTrack - Administración de Empresas</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
     <style>
-    
         body {
             background-color: #f8f9fa;
             color: #333;
+        }
+
+        .modal-header-primary-jt {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            border-color: #112852 !important;
         }
 
         .btn-primary-jt {
@@ -34,8 +40,48 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
+        .btn-outline-primary {
+            background-color: #112852 !important;
+            color: #ffffff !important;
+            border-color: #112852 !important;
+        }
+
         .action-buttons a {
             margin-right: 0.5rem;
+        }
+
+        .page-item.active .page-link {
+            background-color: #112852 !important;
+            border-color: #112852 !important;
+            color: #ffffff !important;
+        }
+
+        .page-link {
+            color: #112852;
+        }
+
+        .page-item.active .page-link {
+            background-color: #112852 !important;
+            border-color: #112852 !important;
+            color: #ffffff !important;
+        }
+
+        .page-link:hover {
+            color: #0a1c3d;
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+        .page-item.active .page-link:hover {
+            background-color: #0a1c3d !important;
+            border-color: #0a1c3d !important;
+            color: #ffffff !important;
+        }
+
+        .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -47,15 +93,24 @@
             <h1 class="text-white"><i class="fas fa-building"></i> Administración de Empresas</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="panel_admin.html" class="text-white text-decoration-none"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="usuarios.html" class="text-white text-decoration-none"><i class="fas fa-users"></i> Usuarios</a></li>
-                    <li><a href="empresas.html" class="text-white text-decoration-none active"><i class="fas fa-building"></i> Empresas</a></li>
-                    <li><a href="estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-user-graduate"></i> Estudiantes</a></li>
-                    <li><a href="ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i> Ofertas</a></li>
-                    <li><a href="categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i> Categorías</a></li>
-                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i> Reportes</a></li>
-                    <li><a href="configuracion.html" class="text-white text-decoration-none"><i class="fas fa-cog"></i> Configuración</a></li>
-                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="panel_admin.html" class="text-white text-decoration-none"><i
+                                class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="usuarios.html" class="text-white text-decoration-none"><i class="fas fa-users"></i>
+                            Usuarios</a></li>
+                    <li><a href="empresas.html" class="text-white text-decoration-none active"><i
+                                class="fas fa-building"></i> Empresas</a></li>
+                    <li><a href="estudiantes.html" class="text-white text-decoration-none"><i
+                                class="fas fa-user-graduate"></i> Estudiantes</a></li>
+                    <li><a href="ofertas.html" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i>
+                            Ofertas</a></li>
+                    <li><a href="categorias.html" class="text-white text-decoration-none"><i class="fas fa-tags"></i>
+                            Categorías</a></li>
+                    <li><a href="reportes.html" class="text-white text-decoration-none"><i class="fas fa-chart-bar"></i>
+                            Reportes</a></li>
+                    <li><a href="configuracion.html" class="text-white text-decoration-none"><i class="fas fa-cog"></i>
+                            Configuración</a></li>
+                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
+                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -64,7 +119,8 @@
     <main class="container mt-4">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2>Listado de Empresas</h2>
-            <button class="btn btn-primary-jt"><i class="fas fa-plus-circle"></i> Nueva Empresa</button>
+            <button id="nuevaEmpresaButton" class="btn btn-primary-jt"><i class="fas fa-plus-circle"></i> Nueva
+                Empresa</button>
         </div>
 
         <div class="card shadow-sm">
@@ -89,8 +145,10 @@
                                 <td>www.techsolutions.com</td>
                                 <td>Activo</td>
                                 <td class="action-buttons">
-                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i>
+                                        Editar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i>
+                                        Eliminar</a>
                                 </td>
                             </tr>
                             <tr>
@@ -100,11 +158,13 @@
                                 <td>www.globalservices.net</td>
                                 <td>Pendiente</td>
                                 <td class="action-buttons">
-                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i>
+                                        Editar</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i>
+                                        Eliminar</a>
                                 </td>
                             </tr>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
 
@@ -123,15 +183,122 @@
                 </nav>
             </div>
         </div>
+
+        <div class="modal fade" id="nuevaEmpresaModal" tabindex="-1" role="dialog"
+            aria-labelledby="nuevaEmpresaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary-jt text-white">
+                        <h5 class="modal-title" id="nuevaEmpresaModalLabel"><i class="fas fa-building"></i> Nueva
+                            Empresa</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNuevaEmpresa">
+                            <div class="form-group">
+                                <label for="nombreEmpresa"><i class="fas fa-building"></i> Nombre de la Empresa</label>
+                                <input type="text" class="form-control" id="nombreEmpresa" name="nombreEmpresa"
+                                    placeholder="Ingrese el nombre de la empresa">
+                            </div>
+                            <div class="form-group">
+                                <label for="correoElectronico"><i class="fas fa-envelope"></i> Correo
+                                    Electrónico</label>
+                                <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"
+                                    placeholder="Ingrese el correo electrónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="sitioWeb"><i class="fas fa-globe"></i> Sitio Web</label>
+                                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb"
+                                    placeholder="Ingrese el sitio web">
+                            </div>
+                            <div class="form-group">
+                                <label for="estado"><i class="fas fa-toggle-on"></i> Estado</label>
+                                <select class="form-control" id="estado" name="estado">
+                                    <option value="">Seleccionar Estado</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                class="fas fa-times"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary-jt" form="formNuevaEmpresa"><i
+                                class="fas fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editarEmpresaModal" tabindex="-1" role="dialog"
+            aria-labelledby="editarEmpresaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary-jt text-white">
+                        <h5 class="modal-title" id="editarEmpresaModalLabel"><i class="fas fa-edit"></i> Editar Empresa
+                        </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarEmpresa">
+                            <input type="hidden" id="editar_id_empresa" name="editar_id_empresa"> <!- Campo oculto para
+                                el ID -->
+                                <div class="form-group">
+                                    <label for="editar_nombre_empresa"><i class="fas fa-building"></i> Nombre de la
+                                        Empresa</label>
+                                    <input type="text" class="form-control" id="editar_nombre_empresa"
+                                        name="editar_nombre_empresa" placeholder="Ingrese el nombre de la empresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editar_correo_empresa"><i class="fas fa-envelope"></i> Correo
+                                        Electrónico</label>
+                                    <input type="email" class="form-control" id="editar_correo_empresa"
+                                        name="editar_correo_empresa" placeholder="Ingrese el correo electrónico">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editar_sitio_web_empresa"><i class="fas fa-globe"></i> Sitio Web</label>
+                                    <input type="text" class="form-control" id="editar_sitio_web_empresa"
+                                        name="editar_sitio_web_empresa" placeholder="Ingrese el sitio web">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editar_estado_empresa"><i class="fas fa-toggle-on"></i> Estado</label>
+                                    <select class="form-control" id="editar_estado_empresa"
+                                        name="editar_estado_empresa">
+                                        <option value="">Seleccionar Estado</option>
+                                        <option value="Activo">Activo</option>
+                                        <option value="Pendiente">Pendiente</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                class="fas fa-times"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary-jt" form="formEditarEmpresa"><i
+                                class="fas fa-save"></i> Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
             <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                    style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
@@ -139,6 +306,11 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/empresa.js"></script>
+    <script src="../controllers/editar_empresa.js"></script>
+    <script src="../controllers/eliminar_empresa.js"></script>
+
 </body>
 
 </html>
