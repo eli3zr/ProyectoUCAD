@@ -1,22 +1,28 @@
 $(document).ready(function() {
-    $("#nuevaEmpresaButton").click(function() {
-        $('#nuevaEmpresaModal').modal('show');
+    console.log('El documento está listo.');
+
+    // Selector para el botón "Nuevo Estudiante" (asegúrate de que este ID exista en tu HTML principal)
+    $("#nuevoEstudianteButton").click(function() {
+        console.log('Se hizo clic en el botón Nuevo Estudiante.');
+        // Selector para mostrar la modal "Nuevo Estudiante" (coincide con el ID de tu modal)
+        $('#nuevoEstudianteModal').modal('show');
+        console.log('Se intentó mostrar la modal.');
     });
 
-
-    $("#formNuevaEmpresa").submit(function(event) {
+    // Evento submit del formulario dentro de la modal "Nuevo Estudiante"
+    $("#formNuevoEstudiante").submit(function(event) {
         event.preventDefault();
 
-        var nombreEmpresa = $("#nombreEmpresa").val().trim();
+        var nombreEstudiante = $("#nombreEstudiante").val().trim();
         var correoElectronico = $("#correoElectronico").val().trim();
-        var sitioWeb = $("#sitioWeb").val().trim();
+        var carrera = $("#carrera").val().trim();
         var estado = $("#estado").val();
 
-        if (nombreEmpresa === "") {
+        if (nombreEstudiante === "") {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese el nombre de la empresa.',
+                text: 'Por favor, ingrese el nombre del estudiante.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
@@ -40,19 +46,11 @@ $(document).ready(function() {
             return;
         }
 
-        if (sitioWeb === "") {
+        if (carrera === "") {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, ingrese el sitio web.',
-                confirmButtonColor: '#F0C11A'
-            });
-            return;
-        } else if (!isValidUrl(sitioWeb)) {
-            Swal.fire({
-                icon: 'warning',
-                title: '¡Formato Incorrecto!',
-                text: 'Por favor, ingrese una URL válida.',
+                text: 'Por favor, ingrese el nombre de la Carrera.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
@@ -62,19 +60,19 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'warning',
                 title: '¡Campo Requerido!',
-                text: 'Por favor, seleccione el estado de la empresa.',
+                text: 'Por favor, seleccione el estado del estudiante.',
                 confirmButtonColor: '#F0C11A'
             });
             return;
         }
 
         $.ajax({
-            url: '../../app/models/guardar_empresa.php',
+            url: '../../app/models/guardar_estudiante.php',
             type: 'POST',
             data: {
-                nombreEmpresa: nombreEmpresa,
+                nombreEstudiante: nombreEstudiante,
                 correoElectronico: correoElectronico,
-                sitioWeb: sitioWeb,
+                carrera: carrera,
                 estado: estado
             },
             dataType: 'json',
@@ -82,14 +80,15 @@ $(document).ready(function() {
                 if (response.success) {
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Empresa Creada!',
+                        title: '¡Estudiante Creado!',
                         text: response.message,
                         showConfirmButton: false,
                         timer: 1500
                     }).then((result) => {
-                        $('#nuevaEmpresaModal').modal('hide');
-                        $("#formNuevaEmpresa")[0].reset();
-                        console.log('Datos de empresa guardados (simulado):', { nombreEmpresa: nombreEmpresa, correoElectronico: correoElectronico, sitioWeb: sitioWeb, estado: estado });
+                        // Selector para ocultar la modal "Nuevo Estudiante"
+                        $('#nuevoEstudianteModal').modal('hide');
+                        $("#formNuevoEstudiante")[0].reset();
+                        console.log('Datos de estudiante guardados:', { nombreEstudiante: nombreEstudiante, correoElectronico: correoElectronico, carrera: carrera, estado: estado });
                     });
                 } else {
                     Swal.fire({
@@ -109,21 +108,14 @@ $(document).ready(function() {
         });
     });
 
-    $('#nuevaEmpresaModal').on('hidden.bs.modal', function (e) {
-        $("#formNuevaEmpresa")[0].reset();
+    // Evento para resetear el formulario cuando se oculta la modal "Nuevo Estudiante"
+    $('#nuevoEstudianteModal').on('hidden.bs.modal', function (e) {
+        $("#formNuevoEstudiante")[0].reset();
     });
-
-    function isValidEmail(email) {
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    function isValidUrl(url) {
-        try {
-            new URL(url);
-            return true;
-        } catch (_) {
-            return false;
-        }
-    }
 });
+
+// Función de validación de correo electrónico (si no la tienes definida en otro lugar)
+function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}

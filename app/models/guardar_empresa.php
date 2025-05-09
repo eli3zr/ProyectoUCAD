@@ -5,7 +5,6 @@
         $sitioWeb = $_POST['sitioWeb'] ?? '';
         $estado = $_POST['estado'] ?? '';
 
-        // Aquí podrías realizar validaciones (como lo hiciste en JavaScript)
         if (empty($nombreEmpresa)) {
             $response = array('success' => false, 'message' => 'Error: El nombre de la empresa es requerido (simulado).');
             header('Content-Type: application/json');
@@ -34,7 +33,6 @@
             exit();
         }
 
-        // Simulación de guardado exitoso
         $response = array(
             'success' => true,
             'message' => 'Empresa guardada exitosamente (simulado).'
