@@ -47,7 +47,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="nombre" class="form-label"><i class="fas fa-user"></i> Nombre <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa tu nombre.
                         </div>
@@ -55,7 +55,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="apellido" class="form-label"><i class="fas fa-user"></i> Apellido <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu apellido"
+                        <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingresa tu apellido"
                             required>
                         <div class="invalid-feedback">
                             Por favor, ingresa tu apellido.
@@ -65,7 +65,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico <span
                             class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo"
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo"
                         aria-describedby="emailHelp" required>
                     <small id="emailHelp" class="form-text text-muted">Te enviaremos un correo de verificación.</small>
                     <div class="invalid-feedback">
@@ -76,7 +76,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="fecha-nacimiento" class="form-label"><i class="fas fa-calendar"></i> Fecha de
                             Nacimiento <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" id="fecha-nacimiento" required>
+                        <input type="date" class="form-control" id="fecha-nacimiento" name="fechaNacimiento" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa tu fecha de nacimiento.
                         </div>
@@ -84,7 +84,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="genero" class="form-label"><i class="fas fa-venus-mars"></i> Género <span
                                 class="text-danger">*</span></label>
-                        <select class="form-control" id="genero" required>
+                        <select class="form-control" id="genero" name="genero" required>
                             <option value="">Seleccione una opción</option>
                             <option value="masculino">Masculino</option>
                             <option value="femenino">Femenino</option>
@@ -97,7 +97,7 @@
                 <div class="mb-3">
                     <label for="carrera" class="form-label"><i class="fas fa-graduation-cap"></i> Carrera
                         Universitaria <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="carrera" placeholder="Ingresa tu carrera" required>
+                    <input type="text" class="form-control" id="carrera" name="carrera" placeholder="Ingresa tu carrera" required>
                     <div class="invalid-feedback">
                         Por favor, ingresa tu carrera universitaria.
                     </div>
@@ -107,7 +107,7 @@
                         <label for="clave" class="form-label"><i class="fas fa-lock"></i> Clave <span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="clave" placeholder="Crea una clave" required>
+                            <input type="password" class="form-control" id="clave" name="clave" placeholder="Crea una clave" required>
                             <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('clave')">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -120,7 +120,7 @@
                         <label for="repetir-clave" class="form-label"><i class="fas fa-lock"></i> Repetir Clave <span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="repetir-clave" placeholder="Repite tu clave"
+                            <input type="password" class="form-control" id="repetir-clave" name="repetirClave" placeholder="Repite tu clave"
                                 required>
                             <button class="btn btn-outline-secondary" type="button"
                                 onclick="togglePassword('repetir-clave')">
@@ -134,7 +134,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="terminos" required>
+                        <input type="checkbox" class="form-check-input" id="terminos" name="terminos" required>
                         <label class="form-check-label" for="terminos">Acepto términos y condiciones y autorizo el
                             tratamiento de mis datos personales <span class="text-danger">*</span></label>
                         <div class="invalid-feedback">
@@ -144,7 +144,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="notificaciones">
+                        <input type="checkbox" class="form-check-input" id="notificaciones" name="notificaciones" value="true">
                         <label class="form-check-label" for="notificaciones">Acepto recibir notificaciones vía correo
                             electrónico</label>
                     </div>
