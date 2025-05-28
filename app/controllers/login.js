@@ -21,13 +21,17 @@ $(function () {
                 if (response.success) {
                     alert(response.msg); 
 
-                    if (response.tipo_usuario === 'estudiante') { 
+                    // --- CAMBIO CLAVE AQUÍ: Usar response.nombre_rol en lugar de response.tipo_usuario ---
+                    // Los nombres de roles 'estudiante', 'empresa', 'administrador'
+                    // deben coincidir exactamente con los de tu tabla 'rol'.
+                    if (response.nombre_rol === 'estudiante') { 
                         window.location.href = 'dashboard_estudiante.html'; // Ajusta esta ruta si es necesario
-                    } else if (response.tipo_usuario === 'empresa') { 
+                    } else if (response.nombre_rol === 'empresa') { 
                         window.location.href = 'dashboard_empresa.html'; // Ajusta esta ruta si es necesario
-                    } else if (response.tipo_usuario === 'administrador') { 
+                    } else if (response.nombre_rol === 'administrador') { 
                         window.location.href = 'panel_admin.html'; // Ajusta esta ruta si es necesario
                     } else {
+                        // Este alert debería dejar de aparecer si los roles son correctos y se manejan arriba
                         alert("Tipo de usuario no reconocido. Redirigiendo a página de inicio.");
                         window.location.href = 'index.html'; 
                     }

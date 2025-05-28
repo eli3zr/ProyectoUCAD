@@ -31,14 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log("Error: Formato de email inválido.");
     } else {
         try {
-            // CORRECCIÓN: CAMBIADO 'u.Tipo_ENUM' a 'u.Tipo'
-            // CORRECCIÓN: CAMBIADO 'c.Contrasena_Hash_VARCHAR' a 'c.Contrasena_Hash'
-            $sql = "SELECT u.ID_Usuario, u.Tipo, c.Contrasena_Hash 
+            // Seleccionamos ID_Rol_FK y estado_us de la tabla usuario
+            $sql = "SELECT u.ID_Usuario, u.ID_Rol_FK, c.Contrasena_Hash, u.estado_us 
                     FROM usuario u
                     JOIN contrasenas c ON u.ID_Usuario = c.ID_Usuario
-                    WHERE u.Correo_Electronico = ?"; // Corregido a 'Correo_Electronico' si es el nombre exacto
+                    WHERE u.Correo_Electronico = ?"; 
 
-            error_log("DEBUG: SQL Query being prepared: " . $sql); // Deja este log
+            error_log("DEBUG: SQL Query being prepared: " . $sql);
 
             $stmt = $con->prepare($sql);
 
@@ -50,22 +49,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 error_log("SQL ejecutado. Filas encontradas: " . $stmt->num_rows);
 
                 if ($stmt->num_rows == 1) {
-                    $stmt->bind_result($id_usuario, $tipo_usuario, $hashed_password);
+                    $stmt->bind_result($id_usuario, $id_rol_fk, $hashed_password, $estado_usuario); // Añadido estado_us
                     $stmt->fetch();
 
                     error_log("ID_Usuario de BD: " . $id_usuario);
-                    error_log("Tipo de BD: " . $tipo_usuario); // Nombre corregido
-                    error_log("Contrasena_Hash de BD: " . $hashed_password); // Nombre corregido
+                    error_log("ID_Rol_FK de BD: " . $id_rol_fk);
+                    error_log("Contrasena_Hash de BD: " . $hashed_password); 
+                    error_log("Estado de usuario de BD: " . $estado_usuario);
 
-                    if (password_verify($password, $hashed_password)) {
+                    // Verificar si el usuario está inactivo
+                    if ($estado_usuario === 'Inactivo') { // Asegúrate de que el valor 'Inactivo' coincide con tu ENUM
+                        $response = [
+                            'success' => false,
+                            'error' => 'Tu cuenta está inactiva. Por favor, contacta al soporte.'
+                        ];
+                        error_log("Error: Cuenta inactiva para el usuario: " . $email);
+                    } else if (password_verify($password, $hashed_password)) {
                         error_log("password_verify(): ¡TRUE! Contraseña verificada correctamente.");
+                        
+                        // --- NUEVO: Obtener el nombre del rol a partir del ID_Rol_FK ---
+                        $nombre_rol = 'desconocido'; // Valor por defecto en caso de no encontrar el rol
+                        $query_rol_nombre = "SELECT Nombre_Rol FROM rol WHERE ID_Rol = ?";
+                        $stmt_rol_nombre = $con->prepare($query_rol_nombre);
+                        if ($stmt_rol_nombre) {
+                            $stmt_rol_nombre->bind_param('i', $id_rol_fk); // 'i' para entero
+                            $stmt_rol_nombre->execute();
+                            $stmt_rol_nombre->bind_result($rol_encontrado);
+                            if ($stmt_rol_nombre->fetch()) {
+                                $nombre_rol = $rol_encontrado;
+                            }
+                            $stmt_rol_nombre->close();
+                        } else {
+                            error_log("Error al preparar la consulta de nombre de rol: " . $con->error);
+                        }
+                        // --- FIN NUEVO ---
+
                         $_SESSION['id_usuario'] = $id_usuario;
-                        $_SESSION['tipo_usuario'] = $tipo_usuario;
+                        $_SESSION['id_rol_fk'] = $id_rol_fk; // Guardar el ID_Rol_FK en sesión
+                        $_SESSION['nombre_rol'] = $nombre_rol; // Guardar también el nombre del rol en sesión
 
                         $response = [
                             'success' => true,
                             'msg' => 'Inicio de sesión exitoso.',
-                            'tipo_usuario' => $tipo_usuario
+                            'id_rol_fk' => $id_rol_fk,
+                            'nombre_rol' => $nombre_rol // Devolver el nombre del rol al frontend
                         ];
                     } else {
                         error_log("password_verify(): ¡FALSE! Contraseña ingresada NO coincide con el hash.");

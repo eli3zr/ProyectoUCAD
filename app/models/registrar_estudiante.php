@@ -61,7 +61,7 @@ if (
 
     // Campos adicionales de perfil_estudiante que no están en este formulario inicial
     $experiencia_laboral = ''; // Dejar vacío o NULL si la columna de DB lo permite
-    $foto_perfil = '';         // Dejar vacío o NULL si la columna de DB lo permite
+    $foto_perfil = '';          // Dejar vacío o NULL si la columna de DB lo permite
 
     // Generar el hash de la contraseña
     // PASSWORD_BCRYPT es el algoritmo recomendado.
@@ -88,16 +88,20 @@ if (
         mysqli_stmt_close($stmt_check); // Cerrar statement después de usarlo
 
         // 2. Insertar el nuevo usuario en la tabla 'usuario'
-        $nombre_completo = $nombre . ' ' . $apellido; // Combinar nombre y apellido
-        $tipo_usuario = 'estudiante'; // Tipo de usuario por defecto
-        $estado_usuario = 'activo';   // Estado inicial del usuario
+        // ATENCIÓN: Tu tabla 'usuario' tiene 'Nombre' y 'Apellido' separados,
+        // no una columna 'Tipo'. Usaremos ID_Rol_FK.
+        // Asumo que tienes una tabla 'rol' y conoces el ID de rol para 'estudiante'.
+        // Por ejemplo, si en tu tabla 'rol', el ID para 'estudiante' es 1.
+        $ID_Rol_Estudiante = 2; // <--- ¡Asegúrate de que este ID_Rol_FK sea correcto en tu tabla 'rol'!
+        $estado_usuario = 'Activo'; // Asegúrate de que coincida con el ENUM('Activo','Inactivo')
 
-        $query_usuario = "INSERT INTO usuario (Nombre, Correo_Electronico, Tipo, estado_us) VALUES (?, ?, ?, ?)";
+        $query_usuario = "INSERT INTO usuario (Nombre, Apellido, Correo_Electronico, ID_Rol_FK, estado_us) VALUES (?, ?, ?, ?, ?)";
         $stmt_usuario = mysqli_prepare($con, $query_usuario);
         if (!$stmt_usuario) {
             throw new Exception("Error al preparar la consulta de usuario: " . mysqli_error($con));
         }
-        mysqli_stmt_bind_param($stmt_usuario, "ssss", $nombre_completo, $correo_electronico, $tipo_usuario, $estado_usuario);
+        // 'sssis' -> Nombre (string), Apellido (string), Correo_Electronico (string), ID_Rol_FK (int), estado_us (string)
+        mysqli_stmt_bind_param($stmt_usuario, "sssis", $nombre, $apellido, $correo_electronico, $ID_Rol_Estudiante, $estado_usuario);
         mysqli_stmt_execute($stmt_usuario);
 
         if (mysqli_stmt_affected_rows($stmt_usuario) === 0) {
@@ -174,7 +178,7 @@ if (
         // $response = ['success' => false, 'error' => 'Error al registrar el estudiante. Por favor, inténtalo de nuevo más tarde.'];
     } finally {
         // mysqli_close($con); // Se puede cerrar la conexión aquí si este script es el final de la ejecución para esta petición.
-                            // Si otros scripts posteriores usarán $con, NO la cierres.
+                                // Si otros scripts posteriores usarán $con, NO la cierres.
     }
 }
 

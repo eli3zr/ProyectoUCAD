@@ -12,7 +12,7 @@
         .sticky-actions {
             position: sticky;
             top: 20px;
-            align-self: flex-start; 
+            align-self: flex-start;
         }
     </style>
 </head>
@@ -55,25 +55,24 @@
                         <form id="formInformacionPersonal">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nombre" value="[Nombre del Estudiante]"
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre del Estudiante"
                                     required>
                             </div>
                             <div class="mb-3">
                                 <label for="apellido" class="form-label">Apellido <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="apellido"
-                                    value="[Apellido del Estudiante]" required>
+                                    placeholder="Apellido del Estudiante" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Correo Electrónico <span
                                         class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" value="[Email del Estudiante]"
-                                    required>
+                                <input type="email" class="form-control" id="email" placeholder="Email del Estudiante">
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
                                 <input type="tel" class="form-control" id="telefono"
-                                    value="[Teléfono del Estudiante]">
+                                    placeholder="Teléfono del Estudiante">
                             </div>
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #112852; border-color: #112852;">
@@ -93,12 +92,12 @@
                                 <label for="carrera" class="form-label">Carrera <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="carrera"
-                                    value="[Carrera del Estudiante]" required>
+                                    placeholder="Carrera del Estudiante" required>
                             </div>
                             <div class="mb-3">
                                 <label for="anioGraduacion" class="form-label">Año de Graduación</label>
                                 <input type="text" class="form-control" id="anioGraduacion"
-                                    value="[Año de Graduación]">
+                                    placeholder="Año de Graduación">
                             </div>
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #112852; border-color: #112852;">
@@ -115,20 +114,31 @@
                     <div class="card-body">
                         <form id="formInformacionLaboral">
                             <div class="mb-3">
-                                <label for="experiencia" class="form-label">Experiencia Laboral (Resumen)</label>
-                                <textarea class="form-control" id="experiencia"
-                                    rows="3">[Resumen de Experiencia Laboral]</textarea>
-                                <small class="form-text text-muted">Describe brevemente tu experiencia laboral
-                                    relevante.</small>
+                                <label class="form-label">¿Tienes experiencia laboral?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tiene_experiencia"
+                                        id="noExperiencia" value="no">
+                                    <label class="form-check-label" for="noExperiencia">
+                                        No tengo experiencia laboral
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tiene_experiencia"
+                                        id="siExperiencia" value="si">
+                                    <label class="form-check-label" for="siExperiencia">
+                                        Sí, tengo experiencia laboral
+                                    </label>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="habilidades" class="form-label">Habilidades Técnicas y Blandas</label>
-                                <textarea class="form-control" id="habilidades"
-                                    rows="3">[Lista de Habilidades]</textarea>
-                                <small class="form-text text-muted">Enumera tus habilidades técnicas
-                                    (programación, herramientas, etc.) y blandas (comunicación, liderazgo,
-                                    etc.).</small>
+
+                            <div class="mb-3" id="descripcionLaboralContainer" style="display: none;">
+                                <label for="descripcion_laboral_resumen" class="form-label">Descripción Laboral
+                                    (Resumen) <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="descripcion_laboral_resumen"
+                                    name="descripcion_laboral_resumen" rows="4"
+                                    placeholder="Describe brevemente tu experiencia laboral relevante."></textarea>
                             </div>
+
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #112852; border-color: #112852;">
                                 <i class="fas fa-save me-2"></i> Guardar Información
@@ -183,9 +193,12 @@
         <div class="container text-center">
             <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                    style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
