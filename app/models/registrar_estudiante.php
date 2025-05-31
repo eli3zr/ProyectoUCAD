@@ -26,6 +26,11 @@ if (
         'success' => false,
         'error' => 'Todos los campos obligatorios deben ser completados y los términos deben ser aceptados.'
     ];
+} elseif (!preg_match('/^[0-9]{8}$/', $datos['telefono'])) {
+        $response = [
+            'success' => false,
+            'error' => 'El número de teléfono debe tener 8 dígitos.'
+    ];
 } elseif ($datos['clave'] !== $datos['repetirClave']) {
     $response = [
         'success' => false,

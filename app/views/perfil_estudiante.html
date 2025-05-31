@@ -175,12 +175,19 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled">
-                            <li><a href="#" class="btn btn-outline w-100 mt-2"
-                                    style="color: #112852; border-color: #112852;">
-                                    <i class="fas fa-lock me-2"></i> Cambiar Contraseña
-                                </a></li>
-                            <li><a href="#" class="btn btn-outline-danger w-100 mt-2"><i
-                                        class="fas fa-trash-alt me-2"></i> Eliminar Cuenta</a></li>
+                            <li>
+                                <a href="#" class="btn btn-outline w-100 mt-2"
+                                    style="color: #112852; border-color: #112852;" id="btnCambiarContrasena"
+                                    data-bs-toggle="modal" data-bs-target="#modalCambiarContrasena"> <i
+                                        class="fas fa-lock me-2"></i> Cambiar Contraseña
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn btn-outline-danger w-100 mt-2" id="btnEliminarCuenta"
+                                    data-bs-toggle="modal" data-bs-target="#modalEliminarCuenta"> <i
+                                        class="fas fa-trash-alt me-2"></i> Eliminar Cuenta
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -210,7 +217,7 @@
     <script src="../controllers/actualizar_perfil_academico.js"></script>
     <script src="../controllers/actualizar_perfil_laboral.js"></script>
     <script src="../controllers/actualizar_perfil_cv.js"></script>
+    <script src="../controllers/perfil_estudiante_acciones.js"></script>
 
 </body>
-
 </html>

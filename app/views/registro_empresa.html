@@ -42,13 +42,13 @@
             <div class="text-center mb-3">
                 <p>¿Ya estás registrado? <a href="login.html" class="text-warning">Accede</a></p>
             </div>
-            <form id="registroEmpresaForm">
+            <form id="registroEmpresaForm" class="needs-validation" novalidate>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nombre" class="form-label"><i class="fas fa-building"></i> Nombre Empresa <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre de la empresa"
-                            required>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                            placeholder="Ingresa el nombre de la empresa" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa el nombre de la empresa.
                         </div>
@@ -56,49 +56,36 @@
                     <div class="col-md-6 mb-3">
                         <label for="telefono" class="form-label"><i class="fa-solid fa-phone-volume"></i> Teléfono <span
                                 class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" id="telefono" placeholder="Ingresa el número de teléfono"
-                            required>
+                        <input type="tel" class="form-control" id="telefono" name="telefono"
+                            placeholder="Ingresa el número de teléfono" pattern="[0-9]{8}" required>
                         <div class="invalid-feedback">
-                            Por favor, ingresa el número de teléfono.
+                            Por favor, ingresa el número de teléfono (8 dígitos).
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico <span
                                 class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingresa el correo electrónico"
-                            required>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="Ingresa el correo electrónico" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa un correo electrónico válido.
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="categoria" class="form-label"><i class="fa-solid fa-bars"></i> Categoría <span
+                    <div class="col-md-6 mb-3"> 
+                        <label for="categoria" class="form-label"><i class="fa-solid fa-flag"></i>Categoría <span
                                 class="text-danger">*</span></label>
-                        <select class="form-control" id="categoria" required>
-                            <option value="">Seleccionar</option>
-                            <option value="salud">Salud 🏥</option>
-                            <option value="contruccion">Construcción 🏗️</option>
-                            <option value="educacion">Educación 📚</option>
-                            <option value="tecnologia y software">Tecnología y Software 💻</option>
-                            <option value="industria y manufactura">Industria y Manufactura 🏭</option>
-                            <option value="comercio y retail">Comercio y Retail 🛍️</option>
-                            <option value="finanzas y seguro">Finanzas y Seguros 💰</option>
-                            <option value="turismo y entretenimiento">Turismo y Entretenimiento ✈️</option>
-                            <option value="tranporte y logistica">Transporte y Logística 🚚</option>
-                            <option value="energia y medio ambiente">Energía y Medio Ambiente 🌱</option>
-                            <option value="otro">Otro</option>
+                        <select class="form-control" id="categoria" name="categoria" required>
+                            <option value="">Cargando Categorías...</option>
                         </select>
                         <div class="invalid-feedback">
-                            Por favor, selecciona una categoría.
+                            Por favor, seleccione una categoría.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="pais" class="form-label"><i class="fa-solid fa-flag"></i> País <span
                                 class="text-danger">*</span></label>
-                        <select class="form-control" id="pais" required>
-                            <option value="">Seleccionar</option>
-                            <option value="el salvador">El Salvador</option>
-                            <option value="otro">Otro</option>
+                        <select class="form-control" id="pais" name="pais" required>
+                            <option value="1" selected>El Salvador</option>
                         </select>
                         <div class="invalid-feedback">
                             Por favor, selecciona un país.
@@ -107,49 +94,56 @@
                     <div class="col-md-6 mb-3">
                         <label for="departamento" class="form-label"><i class="fa-solid fa-map-location-dot"></i>
                             Departamento <span class="text-danger">*</span></label>
-                        <select class="form-control" id="departamento" required>
+                        <select class="form-control" id="departamento" name="departamento" required disabled>
                             <option value="">Seleccionar</option>
-                            <option value="santa ana">Santa Ana</option>
-                            <option value="ahuachapan">Ahuachapán</option>
-                            <option value="sonsonate">Sonsonate</option>
-                            <option value="la libertad">La Libertad</option>
-                            <option value="san salvador">San Salvador</option>
-                            <option value="chalatenango">Chalatenango</option>
-                            <option value="cuscatlan">Cuscatlán</option>
-                            <option value="la paz">La Paz</option>
-                            <option value="san vicente">San Vicente</option>
-                            <option value="cabañas">Cabañas</option>
-                            <option value="morazan">Morazán</option>
-                            <option value="san miguel">San Miguel</option>
-                            <option value="usulutan">Usulután</option>
-                            <option value="la union">La Unión</option>
-                            <option value="otro">Otro</option>
                         </select>
                         <div class="invalid-feedback">
                             Por favor, selecciona un departamento.
                         </div>
                     </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="municipio" class="form-label"><i class="fa-solid fa-map-marked-alt"></i>
+                            Municipio <span class="text-danger">*</span></label>
+                        <select class="form-control" id="municipio" name="municipio" required disabled>
+                            <option value="">Seleccionar</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona un municipio.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="distrito" class="form-label"><i class="fa-solid fa-location-dot"></i> Distrito <span
+                                class="text-danger">*</span></label>
+                        <select class="form-control" id="distrito" name="distrito" required disabled>
+                            <option value="">Seleccionar</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona un distrito.
+                        </div>
+                    </div>
+
                     <div class="col-md-6 mb-3">
                         <label for="clave" class="form-label"><i class="fas fa-lock"></i> Clave <span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="clave" placeholder="Crea una clave" required>
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('clave')">
+                            <input type="password" class="form-control" id="clave" name="clave"
+                                placeholder="Crea una clave" minlength="6" required> <button
+                                class="btn btn-outline-secondary" type="button" onclick="togglePassword('clave')">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
                         <div class="invalid-feedback">
-                            Por favor, crea una clave.
+                            Por favor, crea una clave de al menos 6 caracteres.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="repetir-clave" class="form-label"><i class="fas fa-lock"></i> Repetir Clave <span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="repetir-clave" placeholder="Repite tu clave"
-                                required>
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="togglePassword('repetir-clave')">
+                            <input type="password" class="form-control" id="repetir-clave" name="repetirClave"
+                                placeholder="Repite tu clave" required> <button class="btn btn-outline-secondary"
+                                type="button" onclick="togglePassword('repetir-clave')">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -160,16 +154,16 @@
                 </div>
 
                 <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="terminos" required>
-                    <label class="form-check-label" for="terminos">Acepto términos y condiciones y autorizo el
+                    <input type="checkbox" class="form-check-input" id="terminos" name="terminos" required> <label
+                        class="form-check-label" for="terminos">Acepto términos y condiciones y autorizo el
                         tratamiento de mis datos personales <span class="text-danger">*</span></label>
                     <div class="invalid-feedback">
                         Debes aceptar los términos y condiciones.
                     </div>
                 </div>
                 <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="notificaciones">
-                    <label class="form-check-label" for="notificaciones">Acepto recibir notificaciones vía correo
+                    <input type="checkbox" class="form-check-input" id="notificaciones" name="notificaciones"> <label
+                        class="form-check-label" for="notificaciones">Acepto recibir notificaciones vía correo
                         electrónico</label>
                 </div>
                 <button type="submit" class="btn w-100" style="background-color: #112852; color: #FFFFFF;"
@@ -180,17 +174,19 @@
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
-            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <p class="m-0">© 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                    style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
 
     <script src="../../recursos/jquery/jquery.min.js"></script>
-    <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../controllers/registro_empresa.js"></script>
