@@ -14,8 +14,9 @@ $(function() {
     const modalEditarOferta = $('#modalEditarOferta');
     // Referencia al formulario dentro del modal
     const formEditarOferta = $('#formEditarOferta');
-    // Referencia al botón de guardar cambios dentro del modal
+    // Referencia a los botónes dentro del modal
     const btnGuardarCambios = $('#btnGuardarCambios'); 
+    const btnCancelar = $('#btnCancelar'); 
 
     // Referencias a los campos de entrada del formulario del modal (asegúrate que los IDs y 'name' en tu HTML coinciden)
     const editOfertaId = $('#editOfertaId');
@@ -74,7 +75,6 @@ $(function() {
                     <td>
                         <a href="#" class="btn btn-sm btn-outline btn-ver-detalles" data-id="${oferta.ID_Oferta}" style="color: #112852; border-color: #112852;" title="Ver Detalles"><i class="fas fa-eye"></i></a>
                         <a href="#" class="btn btn-sm btn-outline-primary ms-1 btn-editar-oferta" data-id="${oferta.ID_Oferta}" title="Editar"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm btn-outline-danger ms-1 btn-eliminar-oferta" data-id="${oferta.ID_Oferta}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                         <a href="#" class="btn btn-sm btn-outline-info ms-1 btn-ver-postulantes ${oferta.estado === 'borrador' || oferta.estado === 'eliminada' ? 'disabled' : ''}" data-id="${oferta.ID_Oferta}" title="Ver Postulantes"><i class="fas fa-users"></i></a>
                     </td>
                 </tr>
@@ -100,47 +100,6 @@ $(function() {
             e.preventDefault();
             const ofertaId = $(this).data('id');
             cargarOfertaParaEdicion(ofertaId); // Llama a la función que carga la oferta y abre el modal
-        });
-
-        // Evento para el botón "Eliminar Oferta" (confirmación y llamada AJAX)
-        tablaOfertasBody.off('click', '.btn-eliminar-oferta').on('click', '.btn-eliminar-oferta', function() {
-            const ofertaId = $(this).data('id');
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: `¿Deseas inactivar la oferta con ID ${ofertaId}? Su estado cambiará a "Eliminada".`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, inactivar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '../../app/models/eliminar_oferta.php',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: { id: ofertaId },
-                        beforeSend: function() {
-                            Swal.showLoading();
-                        },
-                        success: function(response) {
-                            Swal.close();
-                            if (response.success) {
-                                Swal.fire('Inactivada!', response.message, 'success');
-                                cargarOfertas();
-                            } else {
-                                Swal.fire('Error', response.message || 'No se pudo inactivar la oferta.', 'error');
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            Swal.close();
-                            console.error("Error al inactivar oferta:", textStatus, errorThrown, jqXHR);
-                            Swal.fire('Error', 'No se pudo comunicar con el servidor para inactivar la oferta. Revisa tu conexión.', 'error');
-                        }
-                    });
-                }
-            });
         });
 
         // Evento para el botón "Ver Postulantes" (simulación, con deshabilitación si el estado no lo permite)
