@@ -26,11 +26,6 @@ if (
         'success' => false,
         'error' => 'Todos los campos obligatorios deben ser completados y los términos deben ser aceptados.'
     ];
-} elseif (!preg_match('/^[0-9]{8}$/', $datos['telefono'])) {
-        $response = [
-            'success' => false,
-            'error' => 'El número de teléfono debe tener 8 dígitos.'
-    ];
 } elseif ($datos['clave'] !== $datos['repetirClave']) {
     $response = [
         'success' => false,
@@ -47,38 +42,33 @@ if (
         'error' => 'La contraseña debe tener al menos 8 caracteres.'
     ];
 } else {
-    // A partir de aquí, es donde se añade la lógica de base de datos.
-    // Esto reemplaza el comentario "Simulación de guardado en la base de datos (TODO: implementar)".
-
     // Sanear y obtener los datos
-    // Es CRUCIAL usar mysqli_real_escape_string con la conexión $con de conexion.php
-    // Las sentencias preparadas ofrecen protección adicional contra inyección SQL.
+    // mysqli_real_escape_string es bueno, pero las sentencias preparadas son la principal defensa SQLi
     $nombre = mysqli_real_escape_string($con, $datos['nombre']);
     $apellido = mysqli_real_escape_string($con, $datos['apellido']);
     $correo_electronico = mysqli_real_escape_string($con, $datos['email']);
     $fecha_nacimiento = mysqli_real_escape_string($con, $datos['fechaNacimiento']); // Formato YYYY-MM-DD
     $genero = mysqli_real_escape_string($con, $datos['genero']); // Masculino/Femenino/Otro
 
-    // La 'carrera' del formulario se usará para 'Carrera_Profesional' en la tabla 'perfil_estudiante'
     $carrera_profesional = mysqli_real_escape_string($con, $datos['carrera']);
 
     $contrasena_plana = $datos['clave']; // Contraseña en texto plano
 
-    // Campos adicionales de perfil_estudiante que no están en este formulario inicial
-    $experiencia_laboral = ''; // Dejar vacío o NULL si la columna de DB lo permite
-    $foto_perfil = '';          // Dejar vacío o NULL si la columna de DB lo permite
+    // Campos para perfil_estudiante que no se piden en el formulario pero son necesarios
+    // Dejar vacíos si tu esquema los permite como '' o NULL, o definir valores por defecto
+    $foto_perfil = ''; // Tu esquema dice NO NULL, por lo que '' es lo más seguro si no pides una foto
+    // El campo Anio_Graduacion es NULL en tu esquema, no es necesario insertarlo si no lo tienes.
+    // Si lo insertaras, tendrías que pasar NULL o un valor int válido.
 
     // Generar el hash de la contraseña
-    // PASSWORD_BCRYPT es el algoritmo recomendado.
-    $opciones_hashing = ['cost' => 12]; // Puedes ajustar el 'cost' para más seguridad/rendimiento
+    $opciones_hashing = ['cost' => 12];
     $contrasena_hash = password_hash($contrasena_plana, PASSWORD_BCRYPT, $opciones_hashing);
 
     // Iniciar una transacción para asegurar la integridad de los datos
-    // Si alguna inserción falla, todas las demás se deshacen (rollback).
     mysqli_begin_transaction($con);
 
     try {
-        // 1. Verificar si el correo electrónico ya existe para evitar duplicados
+        // 1. Verificar si el correo electrónico ya existe en la tabla 'usuario'
         $check_email_query = "SELECT ID_Usuario FROM usuario WHERE Correo_Electronico = ?";
         $stmt_check = mysqli_prepare($con, $check_email_query);
         if (!$stmt_check) {
@@ -86,19 +76,16 @@ if (
         }
         mysqli_stmt_bind_param($stmt_check, "s", $correo_electronico);
         mysqli_stmt_execute($stmt_check);
-        mysqli_stmt_store_result($stmt_check); // Necesario para mysqli_stmt_num_rows
+        mysqli_stmt_store_result($stmt_check);
         if (mysqli_stmt_num_rows($stmt_check) > 0) {
             throw new Exception("El correo electrónico ya está registrado.");
         }
-        mysqli_stmt_close($stmt_check); // Cerrar statement después de usarlo
+        mysqli_stmt_close($stmt_check);
 
         // 2. Insertar el nuevo usuario en la tabla 'usuario'
-        // ATENCIÓN: Tu tabla 'usuario' tiene 'Nombre' y 'Apellido' separados,
-        // no una columna 'Tipo'. Usaremos ID_Rol_FK.
-        // Asumo que tienes una tabla 'rol' y conoces el ID de rol para 'estudiante'.
-        // Por ejemplo, si en tu tabla 'rol', el ID para 'estudiante' es 1.
-        $ID_Rol_Estudiante = 2; // <--- ¡Asegúrate de que este ID_Rol_FK sea correcto en tu tabla 'rol'!
-        $estado_usuario = 'Activo'; // Asegúrate de que coincida con el ENUM('Activo','Inactivo')
+        // Tu tabla 'usuario' tiene Nombre, Apellido, Correo_Electronico, ID_Rol_FK, estado_us
+        $ID_Rol_Estudiante = 2; // Asegúrate de que este ID_Rol_FK sea correcto para 'estudiante' en tu tabla 'rol'
+        $estado_usuario = 'Activo'; // Coincide con ENUM('Activo','Inactivo')
 
         $query_usuario = "INSERT INTO usuario (Nombre, Apellido, Correo_Electronico, ID_Rol_FK, estado_us) VALUES (?, ?, ?, ?, ?)";
         $stmt_usuario = mysqli_prepare($con, $query_usuario);
@@ -114,9 +101,10 @@ if (
         }
 
         $id_nuevo_usuario = mysqli_insert_id($con); // Obtener el ID del usuario recién insertado
-        mysqli_stmt_close($stmt_usuario); // Cerrar statement
+        mysqli_stmt_close($stmt_usuario);
 
         // 3. Insertar el hash de la contraseña en la tabla 'contrasenas'
+        // Asumiendo que esta tabla tiene ID_Usuario y Contrasena_Hash
         $query_contrasena = "INSERT INTO contrasenas (ID_Usuario, Contrasena_Hash) VALUES (?, ?)";
         $stmt_contrasena = mysqli_prepare($con, $query_contrasena);
         if (!$stmt_contrasena) {
@@ -128,39 +116,47 @@ if (
         if (mysqli_stmt_affected_rows($stmt_contrasena) === 0) {
             throw new Exception("No se pudo insertar la contraseña.");
         }
-        mysqli_stmt_close($stmt_contrasena); // Cerrar statement
+        mysqli_stmt_close($stmt_contrasena);
 
         // 4. Insertar los datos específicos del estudiante en 'perfil_estudiante'
-        // Incluye Carrera_Profesional, Fecha_Nacimiento y Genero
-        $query_perfil = "INSERT INTO perfil_estudiante (ID_Usuario, Carrera_Profesional, Fecha_Nacimiento, Genero, Experiencia_Laboral, Foto_Perfil) VALUES (?, ?, ?, ?, ?, ?)";
+        // Los campos en tu formulario y tu tabla 'perfil_estudiante' son:
+        // ID_Usuario, Carrera_Profesional, Foto_Perfil, Fecha_Nacimiento, Genero
+        // 'Anio_Graduacion' es NULLable y no se pide en el formulario, así que no lo incluimos en el INSERT.
+        $query_perfil = "INSERT INTO perfil_estudiante (ID_Usuario, Carrera_Profesional, Foto_Perfil, Fecha_Nacimiento, Genero) VALUES (?, ?, ?, ?, ?)";
         $stmt_perfil = mysqli_prepare($con, $query_perfil);
         if (!$stmt_perfil) {
             throw new Exception("Error al preparar la consulta de perfil de estudiante: " . mysqli_error($con));
         }
-        // 'isssss' -> ID_Usuario (int), Carrera_Profesional (string), Fecha_Nacimiento (string), Genero (string), Experiencia_Laboral (string), Foto_Perfil (string)
-        mysqli_stmt_bind_param($stmt_perfil, "isssss", $id_nuevo_usuario, $carrera_profesional, $fecha_nacimiento, $genero, $experiencia_laboral, $foto_perfil);
+        // 'issss' -> ID_Usuario (int), Carrera_Profesional (string), Foto_Perfil (string), Fecha_Nacimiento (string), Genero (string)
+        // Corregido: Son 5 parámetros, por lo tanto 5 especificadores de tipo.
+        mysqli_stmt_bind_param($stmt_perfil, "issss", $id_nuevo_usuario, $carrera_profesional, $foto_perfil, $fecha_nacimiento, $genero);
         mysqli_stmt_execute($stmt_perfil);
 
         if (mysqli_stmt_affected_rows($stmt_perfil) === 0) {
             throw new Exception("No se pudo insertar el perfil del estudiante.");
         }
-        mysqli_stmt_close($stmt_perfil); // Cerrar statement
+        mysqli_stmt_close($stmt_perfil);
 
         // Opcional: Si tienes una tabla para preferencias de notificación y quieres guardarla
-        /*
-        $acepta_notificaciones = ($datos['notificaciones'] === 'true') ? 1 : 0;
-        $query_notificaciones = "INSERT INTO preferencias_correo_usuario (ID_Usuario, Acepta_Notificaciones) VALUES (?, ?)";
-        $stmt_notificaciones = mysqli_prepare($con, $query_notificaciones);
-        if (!$stmt_notificaciones) {
-            throw new Exception("Error al preparar la consulta de notificaciones: " . mysqli_error($con));
+        // y el checkbox de notificaciones está en el formulario.
+        // Asumiendo que 'preferencias_correo_usuario' tiene ID_Usuario y Acepta_Notificaciones (boolean/tinyint)
+        if (isset($datos['notificaciones'])) {
+             $acepta_notificaciones = ($datos['notificaciones'] === 'true') ? 1 : 0;
+             $query_notificaciones = "INSERT INTO preferencias_correo_usuario (ID_Usuario, Acepta_Notificaciones) VALUES (?, ?)";
+             $stmt_notificaciones = mysqli_prepare($con, $query_notificaciones);
+             if (!$stmt_notificaciones) {
+                 error_log("Error al preparar la consulta de notificaciones: " . mysqli_error($con));
+                 // No lanzamos una excepción fatal aquí si la tabla es opcional
+             } else {
+                 mysqli_stmt_bind_param($stmt_notificaciones, "ii", $id_nuevo_usuario, $acepta_notificaciones);
+                 mysqli_stmt_execute($stmt_notificaciones);
+                 if (mysqli_stmt_affected_rows($stmt_notificaciones) === 0) {
+                     error_log("No se pudo insertar la preferencia de notificación para el usuario " . $id_nuevo_usuario);
+                 }
+                 mysqli_stmt_close($stmt_notificaciones);
+             }
         }
-        mysqli_stmt_bind_param($stmt_notificaciones, "ii", $id_nuevo_usuario, $acepta_notificaciones);
-        mysqli_stmt_execute($stmt_notificaciones);
-        if (mysqli_stmt_affected_rows($stmt_notificaciones) === 0) {
-            error_log("No se pudo insertar la preferencia de notificación para el usuario " . $id_nuevo_usuario);
-        }
-        mysqli_stmt_close($stmt_notificaciones);
-        */
+
 
         // Confirmar la transacción si todo fue exitoso
         mysqli_commit($con);
@@ -173,17 +169,13 @@ if (
     } catch (Exception $e) {
         // En caso de error, deshacer la transacción
         mysqli_rollback($con);
-        // Loguea el error real para depuración (revisar logs del servidor web)
         error_log("Error en registro de estudiante: " . $e->getMessage() . " | SQL Error: " . mysqli_error($con));
         $response = [
             'success' => false,
             'error' => 'Error al registrar el estudiante: ' . $e->getMessage() // Muestra el mensaje de la excepción al frontend
         ];
-        // En un entorno de producción, podrías poner un mensaje más genérico:
-        // $response = ['success' => false, 'error' => 'Error al registrar el estudiante. Por favor, inténtalo de nuevo más tarde.'];
     } finally {
         // mysqli_close($con); // Se puede cerrar la conexión aquí si este script es el final de la ejecución para esta petición.
-                                // Si otros scripts posteriores usarán $con, NO la cierres.
     }
 }
 

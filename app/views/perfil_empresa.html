@@ -59,29 +59,25 @@
                             <div class="mb-3">
                                 <label for="nombreEmpresa" class="form-label">Nombre de la Empresa <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nombreEmpresa"
-                                    value="[Nombre de la Empresa]" required>
+                                <input type="text" class="form-control" id="nombreEmpresa" name="nombreEmpresa"
+                                    placeholder="Nombre de la Empresa" required>
                             </div>
                             <div class="mb-3">
                                 <label for="descripcionEmpresa" class="form-label">Descripción de la Empresa</label>
-                                <textarea class="form-control" id="descripcionEmpresa" rows="3"
-                                    placeholder="Breve descripción sobre la empresa, su misión y valores">[Descripción de la Empresa]</textarea>
+                                <textarea class="form-control" id="descripcionEmpresa" name="descripcionEmpresa"
+                                    rows="3"
+                                    placeholder="Breve descripción sobre la empresa, su misión y valores"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="emailContacto" class="form-label">Correo Electrónico de Contacto <span
+                                <label for="emailContacto" class="form-label">Correo Electrónico<span
                                         class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="emailContacto" value="[Email de Contacto]"
-                                    required>
+                                <input type="email" class="form-control" id="emailContacto" name="emailContacto"
+                                    placeholder="Email de Contacto" required>
                             </div>
                             <div class="mb-3">
-                                <label for="telefonoContacto" class="form-label">Teléfono de Contacto</label>
-                                <input type="tel" class="form-control" id="telefonoContacto"
-                                    value="[Teléfono de Contacto]">
-                            </div>
-                            <div class="mb-3">
-                                <label for="ubicacionEmpresa" class="form-label">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacionEmpresa"
-                                    value="[Ubicación de la Empresa]">
+                                <label for="telefonoContacto" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefonoContacto" name="telefonoContacto"
+                                    placeholder="Teléfono de Contacto">
                             </div>
                             <button type="submit" class="btn btn-primary"
                                 style="background-color: #112852; border-color: #112852;">
@@ -93,26 +89,88 @@
 
                 <div class="card shadow-sm mb-4">
                     <div class="card-header" style="background-color: #F0C11A; color: #112852;">
-                        <i class="fas fa-link me-2" style="color: #112852;"></i> Enlaces y Redes Sociales 
+                        <i class="fas fa-map-marker-alt me-2" style="color: #112852;"></i> Ubicación de la Empresa
+                    </div>
+                    <div class="card-body">
+                        <form id="formUbicacionEmpresa">
+                            <div class="mb-3">
+                                <label for="pais" class="form-label">País <span class="text-danger">*</span></label>
+                                <select class="form-control" id="pais" name="pais" required>
+                                    <option value="">Seleccione un País</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="departamento" class="form-label">Departamento <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control" id="departamento" name="departamento" required disabled>
+                                    <option value="">Seleccione un Departamento</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="municipio" class="form-label">Municipio <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control" id="municipio" name="municipio" required disabled>
+                                    <option value="">Seleccione un Municipio</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="distrito" class="form-label">Distrito <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control" id="distrito" name="distrito" required disabled>
+                                    <option value="">Seleccione un Distrito</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="direccionDetallada" class="form-label">Dirección Detallada</label>
+                                <textarea class="form-control" id="direccionDetallada" name="direccionDetallada"
+                                    rows="2" placeholder="Número de casa, calle, colonia, etc."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #112852; border-color: #112852;">
+                                <i class="fas fa-save me-2"></i> Guardar Ubicación
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header" style="background-color: #F0C11A; color: #112852;">
+                        <i class="fas fa-link me-2" style="color: #112852;"></i> Enlaces y Redes Sociales
                     </div>
                     <div class="card-body">
                         <form id="formEnlacesEmpresa">
                             <div class="mb-3">
                                 <label for="sitioWeb" class="form-label">Sitio Web</label>
-                                <input type="url" class="form-control" id="sitioWeb" value="[Sitio Web]">
+                                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb"
+                                    placeholder="URL del Sitio Web">
                             </div>
                             <div class="mb-3">
                                 <label for="linkedinPerfil" class="form-label">Perfil de LinkedIn</label>
-                                <input type="url" class="form-control" id="linkedinPerfil" value="[Perfil de LinkedIn]">
+                                <input type="url" class="form-control" id="linkedinPerfil" name="linkedinPerfil"
+                                    placeholder="URL del Perfil de LinkedIn">
                             </div>
-                            <button type="submit" class="btn btn-primary"
-                                style="background-color: #112852; border-color: #112852;">
+                            <div class="mb-3">
+                                <label for="facebookPerfil" class="form-label">Perfil de Facebook</label>
+                                <input type="url" class="form-control" id="facebookPerfil" name="facebookPerfil"
+                                    placeholder="URL del Perfil de Facebook">
+                            </div>
+                            <div class="mb-3">
+                                <label for="twitterPerfil" class="form-label">Perfil de Twitter</label>
+                                <input type="url" class="form-control" id="twitterPerfil" name="twitterPerfil"
+                                    placeholder="URL del Perfil de Twitter">
+                            </div>
+                            <div class="mb-3">
+                                <label for="instagramPerfil" class="form-label">Perfil de Instagram</label>
+                                <input type="url" class="form-control" id="instagramPerfil" name="instagramPerfil"
+                                    placeholder="URL del Perfil de Instagram">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i> Guardar Enlaces
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4 sticky-actions">
                 <div class="card shadow-sm">
                     <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
@@ -120,26 +178,112 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled">
-                            <li><a href="#" class="btn btn-outline w-100 mt-2"
-                                    style="color: #112852; border-color: #112852;">
+                            <li>
+                                <a href="#" class="btn btn-outline w-100 mt-2"
+                                    style="color: #112852; border-color: #112852;" data-toggle="modal"
+                                    data-target="#modalCambiarContrasena">
                                     <i class="fas fa-lock me-2"></i> Cambiar Contraseña
-                                </a></li>
-                            <li><a href="#" class="btn btn-outline-danger w-100 mt-2"><i
-                                        class="fas fa-trash-alt me-2"></i> Eliminar Cuenta</a></li>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn btn-outline-danger w-100 mt-2" data-toggle="modal"
+                                    data-target="#deleteAccountModal">
+                                    <i class="fas fa-trash-alt me-2"></i> Eliminar Cuenta
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="modalCambiarContrasena" tabindex="-1" role="dialog"
+                aria-labelledby="modalCambiarContrasenaLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #112852; color: #FFFFFF;">
+                            <h5 class="modal-title" id="modalCambiarContrasenaLabel">
+                                <i class="fas fa-lock me-2" style="color: #F0C11A;"></i> Cambiar Contraseña
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="changePasswordMessage" class="mt-3"></div>
+                            <form id="formCambiarContrasena" method="post">
+                                <div class="form-group mb-3">
+                                    <label for="currentPassword">Contraseña Actual:</label>
+                                    <input type="password" class="form-control" id="currentPassword"
+                                        name="currentPassword" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="newPassword">Nueva Contraseña:</label>
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                        required>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="confirmNewPassword">Confirmar Nueva Contraseña:</label>
+                                    <input type="password" class="form-control" id="confirmNewPassword"
+                                        name="confirmNewPassword" required>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-block"
+                                        style="background-color: #112852; color: #FFFFFF;">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog"
+                aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="deleteAccountModalLabel">
+                                <i class="fas fa-exclamation-triangle me-2"></i> Eliminar Cuenta
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Estás a punto de eliminar tu cuenta de forma permanente. Esta acción no se puede
+                                deshacer.</p>
+                            <p>Para confirmar, por favor, ingresa tu contraseña:</p>
+                            <form id="deleteAccountForm" method="post">
+                                <div class="form-group">
+                                    <label for="deletePassword">Contraseña:</label>
+                                    <input type="password" class="form-control" id="deletePassword"
+                                        name="deletePassword" required>
+                                </div>
+                                <div id="deleteAccountMessage" class="mt-3">
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar Mi Cuenta</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
-            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <p class="m-0">© 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
-                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
-                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
+                <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                    style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
@@ -148,9 +292,10 @@
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="../controllers/actualzar_informacion_empresa.js"></script>
+    <script src="../controllers/actualizar_informacion_empresa.js"></script>
+    <script src="../controllers/actualizar_ubicacion_empresa.js"></script>
     <script src="../controllers/actualizar_enlaces_empresas.js"></script>
-
+    <script src="../controllers/acciones_empresas.js"></script>
 </body>
 
 </html>

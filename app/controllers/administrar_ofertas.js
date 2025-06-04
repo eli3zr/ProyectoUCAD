@@ -1,137 +1,221 @@
+// administrar_ofertas.js
+
 $(function() {
+    // Seleccionar los elementos del DOM
     const filtroPuestoInput = $('#filtroPuesto');
     const filtroEstadoSelect = $('#filtroEstado');
     const filtroFechaInput = $('#filtroFecha');
     const btnFiltrar = $('.card-body button.btn-primary');
     const btnRecargar = $('.card-body button.btn-outline-secondary');
-    const tablaOfertas = $('table tbody');
+    const tablaOfertasBody = $('#tablaOfertas tbody'); // Asegúrate de que tu <table> tenga id="tablaOfertas"
 
-    // Datos de las ofertas simuladas
-    let ofertasSimuladas = [
-        { id: 1, puesto: 'Desarrollador Web Junior', fechaPublicacion: '2025-04-01', estado: 'activa' },
-        { id: 2, puesto: 'Diseñador Gráfico (Prácticas)', fechaPublicacion: '2025-03-25', estado: 'borrador' },
-        { id: 3, puesto: 'Community Manager', fechaPublicacion: '2025-03-15', estado: 'cerrada' }
-    ];
+    // --- Funciones para manejar la lógica de la página ---
 
-    // Función para renderizar las filas de la tabla
+    /**
+     * Función para renderizar las filas de la tabla con datos de ofertas.
+     * @param {Array<Object>} ofertas - Un array de objetos, donde cada objeto es una oferta.
+     */
     function renderizarOfertas(ofertas) {
-        tablaOfertas.empty();
+        tablaOfertasBody.empty(); // Limpia cualquier fila existente
+
         if (ofertas.length === 0) {
-            tablaOfertas.append('<tr><td colspan="5" class="text-center">No se encontraron ofertas.</td></tr>');
+            tablaOfertasBody.append('<tr><td colspan="5" class="text-center">No se encontraron ofertas que coincidan con los criterios.</td></tr>');
             return;
         }
-        ofertas.forEach(oferta => {
-            const estadoBadgeClass =
-                oferta.estado === 'activa' ? 'bg-success' :
-                oferta.estado === 'cerrada' ? 'bg-secondary' :
-                'bg-warning text-dark';
+
+        let contador = 1;
+        ofertas.forEach(function (oferta) {
+            // Determinar la clase del badge según el estado de la oferta
+            let badgeClass = '';
+            switch (oferta.estado) {
+                case 'activa':
+                    badgeClass = 'bg-success';
+                    break;
+                case 'cerrada':
+                    badgeClass = 'bg-secondary';
+                    break;
+                case 'borrador':
+                    badgeClass = 'bg-warning text-dark';
+                    break;
+                case 'eliminada': // Si tu DB tiene 'eliminada'
+                    badgeClass = 'bg-danger';
+                    break;
+                default:
+                    badgeClass = 'bg-info'; // Estado por defecto
+            }
             const estadoTexto = oferta.estado.charAt(0).toUpperCase() + oferta.estado.slice(1);
+
+            // Formatear la fecha de publicación (solo la parte de la fecha)
+            const fechaPublicacion = oferta.fecha_publicacion ? oferta.fecha_publicacion.split(' ')[0] : 'N/A';
+
+            // Crear la fila de la tabla con los botones de acción
             const row = `
                 <tr>
-                    <td>${oferta.id}</td>
-                    <td>${oferta.puesto}</td>
-                    <td>${oferta.fechaPublicacion}</td>
-                    <td><span class="badge ${estadoBadgeClass}">${estadoTexto}</span></td>
+                    <td>${contador++}</td>
+                    <td>${oferta.Titulo_Puesto}</td>
+                    <td>${fechaPublicacion}</td>
+                    <td><span class="badge ${badgeClass}">${estadoTexto}</span></td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-outline btn-ver-detalles" data-id="${oferta.id}" style="color: #112852; border-color: #112852;" title="Ver Detalles"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-sm btn-outline-primary ms-1 btn-editar-oferta" data-id="${oferta.id}" title="Editar"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm btn-outline-danger ms-1 btn-eliminar-oferta" data-id="${oferta.id}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
-                        <a href="#" class="btn btn-sm btn-outline-info ms-1 btn-ver-postulantes ${oferta.estado === 'borrador' ? 'disabled' : ''}" data-id="${oferta.id}" title="Ver Postulantes"><i class="fas fa-users"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline btn-ver-detalles" data-id="${oferta.ID_Oferta}" style="color: #112852; border-color: #112852;" title="Ver Detalles"><i class="fas fa-eye"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-primary ms-1 btn-editar-oferta" data-id="${oferta.ID_Oferta}" title="Editar"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-sm btn-outline-danger ms-1 btn-eliminar-oferta" data-id="${oferta.ID_Oferta}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                        <a href="#" class="btn btn-sm btn-outline-info ms-1 btn-ver-postulantes ${oferta.estado === 'borrador' || oferta.estado === 'eliminada' ? 'disabled' : ''}" data-id="${oferta.ID_Oferta}" title="Ver Postulantes"><i class="fas fa-users"></i></a>
                     </td>
                 </tr>
             `;
-            tablaOfertas.append(row);
+            tablaOfertasBody.append(row); // Añade la fila al cuerpo de la tabla
         });
 
-        // Event listeners para las acciones
-        tablaOfertas.find('.btn-ver-detalles').off('click').on('click', function(e) {
+        // --- Manejo de eventos para las acciones de la tabla (delegación de eventos) ---
+        // Se usa delegación de eventos porque los botones se añaden dinámicamente al renderizar.
+
+        // Evento para el botón "Ver Detalles"
+        tablaOfertasBody.off('click', '.btn-ver-detalles').on('click', '.btn-ver-detalles', function(e) {
+            e.preventDefault(); // Previene la acción por defecto del enlace (navegar a #)
+            const ofertaId = $(this).data('id');
+            // Llamada a la función global para mostrar detalles, definida en detalle_oferta.js
+            if (typeof mostrarDetallesOfertaEnModal === 'function') {
+                mostrarDetallesOfertaEnModal(ofertaId);
+            } else {
+                Swal.fire('Error JS', 'La función para ver detalles no está disponible. Asegúrate de que detalle_oferta.js esté cargado correctamente.', 'error');
+            }
+        });
+
+        // Evento para el botón "Editar Oferta" (simulación por ahora)
+        tablaOfertasBody.off('click', '.btn-editar-oferta').on('click', '.btn-editar-oferta', function(e) {
             e.preventDefault();
             const ofertaId = $(this).data('id');
-            Swal.fire('Ver Detalles', `Simulando la visualización de detalles para la oferta ID ${ofertaId}`, 'info');
-            // En el futuro, aquí podrías redirigir a una página de detalles o mostrar un modal con la información.
+            // Aquí se podría redirigir a una página de edición o abrir un modal de edición
+            Swal.fire('Editar Oferta', `Simulando la edición de la oferta ID ${ofertaId}.`, 'warning');
         });
 
-        tablaOfertas.find('.btn-editar-oferta').off('click').on('click', function(e) {
-            e.preventDefault();
-            const ofertaId = $(this).data('id');
-            Swal.fire('Editar Oferta', `Simulando la edición de la oferta ID ${ofertaId}`, 'warning');
-            // En el futuro, aquí podrías redirigir a un formulario de edición o mostrar un modal con el formulario.
-        });
-
-        tablaOfertas.find('.btn-eliminar-oferta').off('click').on('click', function() {
+        // Evento para el botón "Eliminar Oferta" (confirmación y llamada AJAX)
+        tablaOfertasBody.off('click', '.btn-eliminar-oferta').on('click', '.btn-eliminar-oferta', function() {
             const ofertaId = $(this).data('id');
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: `¿Deseas eliminar la oferta con ID ${ofertaId}?`,
+                text: `¿Deseas inactivar la oferta con ID ${ofertaId}? Su estado cambiará a "Eliminada".`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
+                confirmButtonText: 'Sí, inactivar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Simular la eliminación a través de una llamada AJAX
+                    // Llamada AJAX para inactivar la oferta en el backend
                     $.ajax({
-                        url: '../../app/models/eliminar_oferta.php',
+                        url: '../../app/models/eliminar_oferta.php', // ASEGÚRATE QUE ESTA RUTA ES CORRECTA
                         type: 'POST',
                         dataType: 'json',
                         data: { id: ofertaId },
+                        beforeSend: function() {
+                            Swal.showLoading();
+                        },
                         success: function(response) {
+                            Swal.close();
                             if (response.success) {
-                                ofertasSimuladas = ofertasSimuladas.filter(oferta => oferta.id !== ofertaId);
-                                cargarOfertas();
-                                Swal.fire('Eliminada!', response.msg, 'success');
+                                Swal.fire('Inactivada!', response.message, 'success');
+                                cargarOfertas(); // Recarga la tabla después de la inactivación exitosa
                             } else {
-                                Swal.fire('Error', response.error, 'error');
+                                Swal.fire('Error', response.message || 'No se pudo inactivar la oferta.', 'error');
                             }
                         },
-                        error: function() {
-                            Swal.fire('Error', 'No se pudo comunicar con el servidor.', 'error');
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.close();
+                            console.error("Error al inactivar oferta:", textStatus, errorThrown, jqXHR);
+                            Swal.fire('Error', 'No se pudo comunicar con el servidor para inactivar la oferta. Revisa tu conexión.', 'error');
                         }
                     });
                 }
             });
         });
 
-        tablaOfertas.find('.btn-ver-postulantes').off('click').on('click', function(e) {
+        // Evento para el botón "Ver Postulantes" (simulación, con deshabilitación si el estado no lo permite)
+        tablaOfertasBody.off('click', '.btn-ver-postulantes').on('click', '.btn-ver-postulantes', function(e) {
             e.preventDefault();
             const ofertaId = $(this).data('id');
-            Swal.fire('Ver Postulantes', `Simulando la visualización de postulantes para la oferta ID ${ofertaId}`, 'info');
-            // En el futuro, aquí podrías redirigir a una página de postulantes o mostrar un modal con la lista.
+            if (!$(this).hasClass('disabled')) {
+                // Aquí se podría redirigir a una página para ver los postulantes de esta oferta
+                Swal.fire('Ver Postulantes', `Simulando la visualización de postulantes para la oferta ID ${ofertaId}.`, 'info');
+            } else {
+                Swal.fire('Advertencia', 'No puedes ver postulantes para ofertas en estado borrador o eliminada.', 'warning');
+            }
         });
     }
 
-    // Función para cargar las ofertas (simulando una llamada al backend)
-    function cargarOfertas() {
-        // Simulación sin backend real
-        renderizarOfertas(ofertasSimuladas);
+    /**
+     * Función para cargar las ofertas desde el backend, aplicando filtros si se proporcionan.
+     * Muestra un SweetAlert de carga y maneja la respuesta del servidor.
+     * @param {Object} [filtros={}] - Objeto opcional con los criterios de filtro (puesto, estado, fecha).
+     */
+    function cargarOfertas(filtros = {}) {
+        Swal.fire({
+            title: 'Cargando ofertas...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: '../../app/models/obtener_oferta.php', // ASEGÚRATE QUE ESTA RUTA ES CORRECTA
+            type: 'GET',
+            dataType: 'json',
+            data: filtros, // Envía los filtros como parámetros GET
+        })
+        .done(function (response) {
+            Swal.close();
+
+            if (response.success) {
+                renderizarOfertas(response.data);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar',
+                    text: response.message || 'No se pudieron cargar las ofertas. Inténtalo de nuevo.',
+                });
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            Swal.close();
+            console.error("Error AJAX al cargar ofertas:", textStatus, errorThrown, jqXHR);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo comunicar con el servidor para cargar las ofertas. Revisa tu conexión.',
+            });
+        });
     }
 
-    // Cargar las ofertas iniciales
+    // --- Inicialización y Event Listeners principales de filtros/recarga ---
+
+    // Cargar las ofertas iniciales al cargar la página
     cargarOfertas();
 
-    // Simular el filtrado
+    // Manejar el evento de clic del botón "Filtrar"
     btnFiltrar.on('click', function() {
-        const puestoTexto = filtroPuestoInput.val().trim().toLowerCase();
-        const estadoSeleccionado = filtroEstadoSelect.val();
-        const fechaSeleccionada = filtroFechaInput.val();
-
-        const ofertasFiltradas = ofertasSimuladas.filter(oferta => {
-            const coincidePuesto = oferta.puesto.toLowerCase().includes(puestoTexto);
-            const coincideEstado = !estadoSeleccionado || oferta.estado === estadoSeleccionado;
-            const coincideFecha = !fechaSeleccionada || oferta.fechaPublicacion === fechaSeleccionada;
-            return coincidePuesto && coincideEstado && coincideFecha;
-        });
-
-        renderizarOfertas(ofertasFiltradas);
+        const filtros = {
+            puesto: filtroPuestoInput.val().trim(),
+            estado: filtroEstadoSelect.val(),
+            fecha: filtroFechaInput.val()
+        };
+        cargarOfertas(filtros);
     });
 
-    // Simular la recarga
+    // Manejar el evento de clic del botón "Recargar"
     btnRecargar.on('click', function() {
-        cargarOfertas();
+        // Limpiar los campos de filtro
         filtroPuestoInput.val('');
         filtroEstadoSelect.val('');
         filtroFechaInput.val('');
+        cargarOfertas(); // Recargar todas las ofertas sin filtros
     });
+
+    // Opcional: Filtrar automáticamente al cambiar los campos de filtro
+    // Descomenta las líneas siguientes si deseas que el filtrado se aplique
+    // inmediatamente al cambiar el valor de los inputs/selects, sin necesidad de hacer clic en "Filtrar".
+    // filtroPuestoInput.on('keyup', function() { btnFiltrar.click(); });
+    // filtroEstadoSelect.on('change', function() { btnFiltrar.click(); });
+    // filtroFechaInput.on('change', function() { btnFiltrar.click(); });
 });
