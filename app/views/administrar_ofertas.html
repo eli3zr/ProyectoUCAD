@@ -61,14 +61,10 @@
                         </div>
                         <div class="col-md-3">
                             <label for="filtroEstado" class="form-label">Estado:</label>
-                            <select class="form-select form-select-sm" id="filtroEstado">
+                            <select class="form-control form-select-sm" id="filtroEstado">
                                 <option value="">Todos</option>
                                 <option value="activa">Activa</option>
                                 <option value="eliminada">Eliminada</option>
-                                <!-- Añadido 'eliminada' para consistencia con DB -->
-                                <!-- Sugerencia: Añadir 'cerrada' y 'borrador' si son estados posibles en tu DB -->
-                                <option value="cerrada">Cerrada</option>
-                                <option value="borrador">Borrador</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -145,8 +141,9 @@
                     <h5 class="modal-title" id="modalEditarOfertaLabel"><i class="fas fa-edit me-2"></i> Editar Oferta Laboral</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form id="formEditarOferta">
+                <!-- INICIO DEL FORMULARIO -->
+                <form id="formEditarOferta">
+                    <div class="modal-body">
                         <!-- Campo oculto para el ID de la oferta que se está editando -->
                         <input type="hidden" id="editOfertaId" name="ID_Oferta">
 
@@ -175,7 +172,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="editModalidad" class="form-label">Modalidad:</label>
-                                <select class="form-control" id="editModalidad" name="Modalidad" required> <!-- Corregido de form-control a form-select -->
+                                <select class="form-control" id="editModalidad" name="Modalidad" required>
                                     <option value="presencial">Presencial</option>
                                     <option value="remoto">Remoto</option>
                                     <option value="hibrido">Híbrido</option>
@@ -186,12 +183,20 @@
                                 <input type="text" class="form-control" id="editUbicacion" name="Ubicación">
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="btnGuardarCambios" style="background-color: #F0C11A; border-color: #F0C11A; color: #000;">Guardar Cambios</button>
-                </div>
+                        <div class="mb-3">
+                            <label for="editEstado" class="form-label">Estado:</label>
+                            <select class="form-control" id="editEstado" name="estado" required>
+                                <option value="activa">Activa</option>
+                                <option value="eliminada">Eliminada</option>
+                            </select>
+                        </div>
+                        <!-- Nota: ID_perfil_empresa y fecha_publicacion no son editables directamente por el usuario en este formulario -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="btnGuardarCambios" style="background-color: #F0C11A; border-color: #F0C11A; color: #000;">Guardar Cambios</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

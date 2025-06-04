@@ -104,8 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $stmt_perfil_empresa->bind_result($perfil_empresa_id_encontrado);
                                 if ($stmt_perfil_empresa->fetch()) {
                                     $id_perfil_empresa = $perfil_empresa_id_encontrado;
-                                    $_SESSION['ID_perfil_empresa'] = $id_perfil_empresa; // ¡Guardar el ID de la empresa en la sesión con el nombre correcto!
-                                    error_log("ID_perfil_empresa obtenido y guardado en sesión: " . $id_perfil_empresa);
+                                    $_SESSION['ID_Perfil_Empresa'] = $id_perfil_empresa; // ¡Guardar el ID de la empresa en la sesión con el nombre correcto!
+                                    error_log("ID_Perfil_Empresa obtenido y guardado en sesión: " . $id_perfil_empresa);
                                 } else {
                                     error_log("Advertencia: Usuario con rol 'empresa' (ID_Usuario: " . $id_usuario . ") no tiene un perfil de empresa asociado en la tabla perfil_empresa. Verifica la relación usuario_ID_Usuario.");
                                 }

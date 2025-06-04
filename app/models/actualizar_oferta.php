@@ -5,12 +5,28 @@
 // Habilitar la visualización de errores para depuración (QUITAR EN PRODUCCIÓN)
 error_reporting(E_ALL); 
 ini_set('display_errors', 1); 
+// Configurar un archivo de log específico para este script
+ini_set('error_log', __DIR__ . '/../logs/actualizar_oferta_errors.log');
 
 header('Content-Type: application/json'); // Asegura que la respuesta sea JSON
 
 // Incluimos el archivo de conexión a la base de datos.
-// Asume que 'conexion.php' ya establece la conexión en la variable $con.
+// Este archivo DEBE establecer la conexión en la variable global $con.
 require_once __DIR__ . '/../config/conexion.php';
+
+// *******************************************************************
+// CORRECCIÓN: Usar directamente la variable global $con que tu conexion.php ya define
+// NO INTENTAMOS LLAMAR A getConexion() porque no está definida en tu conexion.php
+// *******************************************************************
+
+// Verificamos que la variable global $con esté disponible y sea un objeto de conexión
+if (!isset($con) || !is_object($con) || mysqli_connect_errno()) {
+    error_log("FATAL ERROR: La conexión a la base de datos (\$con) no está disponible o es inválida después de incluir conexion.php.");
+    $response['success'] = false;
+    $response['message'] = 'Error interno del servidor: La conexión a la base de datos no está disponible.';
+    echo json_encode($response);
+    exit(); // Terminar la ejecución si la conexión no es válida
+}
 
 // Inicializamos la respuesta por defecto
 $response = ['success' => false, 'message' => ''];
@@ -18,7 +34,7 @@ $response = ['success' => false, 'message' => ''];
 // Verificamos si la solicitud es de tipo POST y si se han recibido los datos necesarios
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Usamos la conexión $con que viene de conexion.php
-    $conn = $con;
+    $conn = $con; // $conn ahora es el objeto de conexión válido
 
     // Recogemos los datos enviados por el formulario
     // Es crucial que los 'name' de los inputs en el HTML del modal coincidan con estas claves
@@ -33,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estado = $_POST['estado'] ?? null;
 
     // Validaciones básicas (puedes añadir más validaciones según tus necesidades)
-    if (empty($idOferta) || empty($tituloPuesto) || empty($descripcionTrabajo) || empty($requisitos) || empty($modalidad) || empty($estado)) {
+    if (empty($idOferta) || empty($tituloPuesto) || empty($descripcionTrabajo) || empty(trim($requisitos)) || empty($modalidad) || empty($estado)) {
+        // Añadido trim() para requisitos, ya que puede ser solo espacios en blanco
         $response['message'] = 'Faltan campos obligatorios para actualizar la oferta.';
     } else {
         // Preparamos la consulta SQL para actualizar la oferta
@@ -94,7 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Cerramos la conexión a la base de datos
-$conn->close();
+// Ahora $conn debería ser un objeto MySQLi válido
+if (isset($conn) && is_object($conn)) { // Verificación adicional para robustez
+    $conn->close();
+}
 
 // Devolvemos la respuesta en formato JSON
 echo json_encode($response);
