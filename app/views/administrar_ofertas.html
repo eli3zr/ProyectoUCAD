@@ -19,15 +19,15 @@
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
                     <li><a href="./dashboard_empresa.html" class="text-white text-decoration-none"><i
                                 class="fas fa-home"></i>
-                            Inicio</a></li>
+                                Inicio</a></li>
                     <li><a href="../views/perfil_empresa.html" class="text-white text-decoration-none"><i
                                 class="fas fa-building"></i> Mi
-                            Perfil</a></li>
+                                Perfil</a></li>
                     <li><a href="../views/publicar_oferta.html" class="text-white text-decoration-none"><i
                                 class="fas fa-plus-circle"></i> Publicar Oferta</a></li>
                     <li><a href="../views/administrar_ofertas.html" class="text-white text-decoration-none"><i
                                 class="fas fa-list-alt"></i> Administrar
-                            Ofertas</a></li>
+                                Ofertas</a></li>
                     <li><a href="../views/mensajes_empresas.html" class="text-white text-decoration-none"><i
                                 class="fas fa-envelope"></i> Mensajes</a>
                     </li>
@@ -47,7 +47,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title" style="color: #112852;"><i class="fas fa-filter me-2"></i> Filtrar
-                            Ofertas</h5>
+                                Ofertas</h5>
                         <div>
                             <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-sync-alt"></i>
                                 Recargar</button>
@@ -66,6 +66,9 @@
                                 <option value="activa">Activa</option>
                                 <option value="eliminada">Eliminada</option>
                                 <!-- Añadido 'eliminada' para consistencia con DB -->
+                                <!-- Sugerencia: Añadir 'cerrada' y 'borrador' si son estados posibles en tu DB -->
+                                <option value="cerrada">Cerrada</option>
+                                <option value="borrador">Borrador</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -86,7 +89,6 @@
             <h5 class="mb-3" style="color: #112852;"><i class="fas fa-list me-2"></i> Lista de Ofertas Publicadas</h5>
             <div class="table-responsive">
                 <table id="tablaOfertas" class="table table-striped table-hover shadow-sm">
-                    <!-- ID añadido a la tabla -->
                     <thead class="bg-light">
                         <tr>
                             <th>#</th>
@@ -129,11 +131,70 @@
                         class="fab fa-facebook fa-2x"></i></a>
                 <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i
                         class="fab fa-instagram fa-2x"></i></a>
-                <a href="https://www.youtube.com/@universidadcristianadelasa1430" class="mx-2"
+                <a href="https://www.youtube.com/user/yourchannel" class="mx-2"
                     style="color: #FFFFFF;"><i class="fab fa-youtube fa-2x"></i></a>
             </div>
         </div>
     </footer>
+
+    <!-- Modal para Editar Oferta -->
+    <div class="modal fade" id="modalEditarOferta" tabindex="-1" aria-labelledby="modalEditarOfertaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #112852; color: #FFFFFF;">
+                    <h5 class="modal-title" id="modalEditarOfertaLabel"><i class="fas fa-edit me-2"></i> Editar Oferta Laboral</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarOferta">
+                        <!-- Campo oculto para el ID de la oferta que se está editando -->
+                        <input type="hidden" id="editOfertaId" name="ID_Oferta">
+
+                        <div class="mb-3">
+                            <label for="editTituloPuesto" class="form-label">Título del Puesto:</label>
+                            <input type="text" class="form-control" id="editTituloPuesto" name="Titulo_Puesto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDescripcionTrabajo" class="form-label">Descripción del Trabajo:</label>
+                            <textarea class="form-control" id="editDescripcionTrabajo" name="Descripción_Trabajo" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editRequisitos" class="form-label">Requisitos:</label>
+                            <textarea class="form-control" id="editRequisitos" name="Requisitos" rows="4" required></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editSalarioMinimo" class="form-label">Salario Mínimo:</label>
+                                <input type="number" step="0.01" class="form-control" id="editSalarioMinimo" name="Salario_Minimo">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editSalarioMaximo" class="form-label">Salario Máximo:</label>
+                                <input type="number" step="0.01" class="form-control" id="editSalarioMaximo" name="Salario_Maximo">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editModalidad" class="form-label">Modalidad:</label>
+                                <select class="form-control" id="editModalidad" name="Modalidad" required> <!-- Corregido de form-control a form-select -->
+                                    <option value="presencial">Presencial</option>
+                                    <option value="remoto">Remoto</option>
+                                    <option value="hibrido">Híbrido</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editUbicacion" class="form-label">Ubicación:</label>
+                                <input type="text" class="form-control" id="editUbicacion" name="Ubicación">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnGuardarCambios" style="background-color: #F0C11A; border-color: #F0C11A; color: #000;">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>

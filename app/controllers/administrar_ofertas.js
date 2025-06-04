@@ -1,13 +1,32 @@
 // administrar_ofertas.js
 
 $(function() {
-    // Seleccionar los elementos del DOM
+    // --- Seleccionar elementos del DOM ---
     const filtroPuestoInput = $('#filtroPuesto');
     const filtroEstadoSelect = $('#filtroEstado');
     const filtroFechaInput = $('#filtroFecha');
     const btnFiltrar = $('.card-body button.btn-primary');
     const btnRecargar = $('.card-body button.btn-outline-secondary');
-    const tablaOfertasBody = $('#tablaOfertas tbody'); // Asegúrate de que tu <table> tenga id="tablaOfertas"
+    const tablaOfertasBody = $('#tablaOfertas tbody');
+
+    // --- Elementos del modal de edición ---
+    // Referencia al modal de Bootstrap
+    const modalEditarOferta = $('#modalEditarOferta');
+    // Referencia al formulario dentro del modal
+    const formEditarOferta = $('#formEditarOferta');
+    // Referencia al botón de guardar cambios dentro del modal
+    const btnGuardarCambios = $('#btnGuardarCambios'); 
+
+    // Referencias a los campos de entrada del formulario del modal (asegúrate que los IDs y 'name' en tu HTML coinciden)
+    const editOfertaId = $('#editOfertaId');
+    const editTituloPuesto = $('#editTituloPuesto');
+    const editDescripcionTrabajo = $('#editDescripcionTrabajo'); 
+    const editRequisitos = $('#editRequisitos');
+    const editSalarioMinimo = $('#editSalarioMinimo'); 
+    const editSalarioMaximo = $('#editSalarioMaximo');
+    const editModalidad = $('#editModalidad');
+    const editUbicacion = $('#editUbicacion');
+    const editEstado = $('#editEstado');
 
     // --- Funciones para manejar la lógica de la página ---
 
@@ -25,7 +44,6 @@ $(function() {
 
         let contador = 1;
         ofertas.forEach(function (oferta) {
-            // Determinar la clase del badge según el estado de la oferta
             let badgeClass = '';
             switch (oferta.estado) {
                 case 'activa':
@@ -37,18 +55,16 @@ $(function() {
                 case 'borrador':
                     badgeClass = 'bg-warning text-dark';
                     break;
-                case 'eliminada': // Si tu DB tiene 'eliminada'
+                case 'eliminada':
                     badgeClass = 'bg-danger';
                     break;
                 default:
-                    badgeClass = 'bg-info'; // Estado por defecto
+                    badgeClass = 'bg-info';
             }
             const estadoTexto = oferta.estado.charAt(0).toUpperCase() + oferta.estado.slice(1);
 
-            // Formatear la fecha de publicación (solo la parte de la fecha)
             const fechaPublicacion = oferta.fecha_publicacion ? oferta.fecha_publicacion.split(' ')[0] : 'N/A';
 
-            // Crear la fila de la tabla con los botones de acción
             const row = `
                 <tr>
                     <td>${contador++}</td>
@@ -63,17 +79,15 @@ $(function() {
                     </td>
                 </tr>
             `;
-            tablaOfertasBody.append(row); // Añade la fila al cuerpo de la tabla
+            tablaOfertasBody.append(row);
         });
 
         // --- Manejo de eventos para las acciones de la tabla (delegación de eventos) ---
-        // Se usa delegación de eventos porque los botones se añaden dinámicamente al renderizar.
 
         // Evento para el botón "Ver Detalles"
         tablaOfertasBody.off('click', '.btn-ver-detalles').on('click', '.btn-ver-detalles', function(e) {
-            e.preventDefault(); // Previene la acción por defecto del enlace (navegar a #)
+            e.preventDefault();
             const ofertaId = $(this).data('id');
-            // Llamada a la función global para mostrar detalles, definida en detalle_oferta.js
             if (typeof mostrarDetallesOfertaEnModal === 'function') {
                 mostrarDetallesOfertaEnModal(ofertaId);
             } else {
@@ -81,12 +95,11 @@ $(function() {
             }
         });
 
-        // Evento para el botón "Editar Oferta" (simulación por ahora)
+        // Evento para el botón "Editar Oferta"
         tablaOfertasBody.off('click', '.btn-editar-oferta').on('click', '.btn-editar-oferta', function(e) {
             e.preventDefault();
             const ofertaId = $(this).data('id');
-            // Aquí se podría redirigir a una página de edición o abrir un modal de edición
-            Swal.fire('Editar Oferta', `Simulando la edición de la oferta ID ${ofertaId}.`, 'warning');
+            cargarOfertaParaEdicion(ofertaId); // Llama a la función que carga la oferta y abre el modal
         });
 
         // Evento para el botón "Eliminar Oferta" (confirmación y llamada AJAX)
@@ -103,9 +116,8 @@ $(function() {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Llamada AJAX para inactivar la oferta en el backend
                     $.ajax({
-                        url: '../../app/models/eliminar_oferta.php', // ASEGÚRATE QUE ESTA RUTA ES CORRECTA
+                        url: '../../app/models/eliminar_oferta.php',
                         type: 'POST',
                         dataType: 'json',
                         data: { id: ofertaId },
@@ -116,7 +128,7 @@ $(function() {
                             Swal.close();
                             if (response.success) {
                                 Swal.fire('Inactivada!', response.message, 'success');
-                                cargarOfertas(); // Recarga la tabla después de la inactivación exitosa
+                                cargarOfertas();
                             } else {
                                 Swal.fire('Error', response.message || 'No se pudo inactivar la oferta.', 'error');
                             }
@@ -136,10 +148,58 @@ $(function() {
             e.preventDefault();
             const ofertaId = $(this).data('id');
             if (!$(this).hasClass('disabled')) {
-                // Aquí se podría redirigir a una página para ver los postulantes de esta oferta
                 Swal.fire('Ver Postulantes', `Simulando la visualización de postulantes para la oferta ID ${ofertaId}.`, 'info');
             } else {
                 Swal.fire('Advertencia', 'No puedes ver postulantes para ofertas en estado borrador o eliminada.', 'warning');
+            }
+        });
+    }
+
+    /**
+     * Función para cargar una oferta específica en el modal de edición.
+     * Realiza una petición AJAX para obtener los datos de la oferta por su ID
+     * y luego rellena el formulario del modal con esos datos.
+     * @param {number} ofertaId - El ID de la oferta a cargar.
+     */
+    function cargarOfertaParaEdicion(ofertaId) {
+        Swal.fire({
+            title: 'Cargando datos de la oferta...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: '../../app/models/obtener_oferta.php', // El mismo script que carga todas, pero ahora con 'id'
+            type: 'GET',
+            dataType: 'json',
+            data: { id: ofertaId }, // Envía el ID de la oferta como parámetro GET
+            success: function(response) {
+                Swal.close();
+                if (response.success && response.data) {
+                    const oferta = response.data;
+                    // Rellenar los campos del formulario con los datos de la oferta
+                    editOfertaId.val(oferta.ID_Oferta);
+                    editTituloPuesto.val(oferta.Titulo_Puesto);
+                    editDescripcionTrabajo.val(oferta.Descripción_Trabajo); 
+                    editRequisitos.val(oferta.Requisitos);
+                    editSalarioMinimo.val(oferta.Salario_Minimo); 
+                    editSalarioMaximo.val(oferta.Salario_Maximo);
+                    editModalidad.val(oferta.Modalidad);
+                    editUbicacion.val(oferta.Ubicación);
+                    editEstado.val(oferta.estado);
+
+                    // Mostrar el modal de edición
+                    modalEditarOferta.modal('show');
+                } else {
+                    Swal.fire('Error', response.message || 'No se pudo cargar la oferta para edición.', 'error');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                Swal.close();
+                console.error("Error AJAX al cargar oferta para edición:", textStatus, errorThrown, jqXHR);
+                Swal.fire('Error', 'No se pudo comunicar con el servidor para cargar la oferta. Revisa tu conexión.', 'error');
             }
         });
     }
@@ -159,10 +219,10 @@ $(function() {
         });
 
         $.ajax({
-            url: '../../app/models/obtener_oferta.php', // ASEGÚRATE QUE ESTA RUTA ES CORRECTA
+            url: '../../app/models/obtener_oferta.php',
             type: 'GET',
             dataType: 'json',
-            data: filtros, // Envía los filtros como parámetros GET
+            data: filtros,
         })
         .done(function (response) {
             Swal.close();
@@ -188,6 +248,44 @@ $(function() {
         });
     }
 
+    // --- Manejador para el envío del formulario de edición ---
+    formEditarOferta.on('submit', function(e) {
+        e.preventDefault(); // Previene el envío tradicional del formulario
+
+        const formData = $(this).serialize(); // Serializa todos los datos del formulario
+
+        Swal.fire({
+            title: 'Guardando cambios...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: '../../app/models/actualizar_oferta.php', // Ruta al script PHP que procesará la actualización
+            type: 'POST', // Método POST para enviar los datos del formulario
+            dataType: 'json', // Espera una respuesta JSON del servidor
+            data: formData, // Los datos serializados del formulario
+            success: function(response) {
+                Swal.close();
+                if (response.success) {
+                    Swal.fire('¡Éxito!', response.message, 'success');
+                    modalEditarOferta.modal('hide'); // Oculta el modal
+                    cargarOfertas(); // Recarga la tabla para mostrar los cambios
+                } else {
+                    Swal.fire('Error', response.message || 'No se pudieron guardar los cambios.', 'error');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                Swal.close();
+                console.error("Error AJAX al guardar cambios:", textStatus, errorThrown, jqXHR);
+                Swal.fire('Error', 'No se pudo comunicar con el servidor para guardar los cambios. Revisa tu conexión.', 'error');
+            }
+        });
+    });
+
+
     // --- Inicialización y Event Listeners principales de filtros/recarga ---
 
     // Cargar las ofertas iniciales al cargar la página
@@ -205,16 +303,13 @@ $(function() {
 
     // Manejar el evento de clic del botón "Recargar"
     btnRecargar.on('click', function() {
-        // Limpiar los campos de filtro
         filtroPuestoInput.val('');
         filtroEstadoSelect.val('');
         filtroFechaInput.val('');
-        cargarOfertas(); // Recargar todas las ofertas sin filtros
+        cargarOfertas();
     });
 
     // Opcional: Filtrar automáticamente al cambiar los campos de filtro
-    // Descomenta las líneas siguientes si deseas que el filtrado se aplique
-    // inmediatamente al cambiar el valor de los inputs/selects, sin necesidad de hacer clic en "Filtrar".
     // filtroPuestoInput.on('keyup', function() { btnFiltrar.click(); });
     // filtroEstadoSelect.on('change', function() { btnFiltrar.click(); });
     // filtroFechaInput.on('change', function() { btnFiltrar.click(); });

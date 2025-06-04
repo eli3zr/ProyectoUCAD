@@ -2,6 +2,10 @@
 // actualizar_oferta.php
 // Este script recibe los datos de una oferta editada y los actualiza en la base de datos.
 
+// Habilitar la visualización de errores para depuración (QUITAR EN PRODUCCIÓN)
+error_reporting(E_ALL); 
+ini_set('display_errors', 1); 
+
 header('Content-Type: application/json'); // Asegura que la respuesta sea JSON
 
 // Incluimos el archivo de conexión a la base de datos.
@@ -20,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Es crucial que los 'name' de los inputs en el HTML del modal coincidan con estas claves
     $idOferta = $_POST['ID_Oferta'] ?? null;
     $tituloPuesto = $_POST['Titulo_Puesto'] ?? null;
-    $descripcionTrabajo = $_POST['Descripción_Trabajo'] ?? null; // Asegúrate que el nombre de la columna es correcto
+    $descripcionTrabajo = $_POST['Descripción_Trabajo'] ?? null; 
     $requisitos = $_POST['Requisitos'] ?? null;
     $salarioMinimo = $_POST['Salario_Minimo'] ?? null;
     $salarioMaximo = $_POST['Salario_Maximo'] ?? null;
@@ -34,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Preparamos la consulta SQL para actualizar la oferta
         // Usamos prepared statements para prevenir inyecciones SQL
+        // Asegúrate que 'oferta_laboral' es el nombre correcto de tu tabla.
         $sql = "UPDATE oferta_laboral SET 
                     Titulo_Puesto = ?, 
                     Descripción_Trabajo = ?, 
@@ -53,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Vinculamos los parámetros
             // 's' para string, 'd' para double (decimal), 'i' para integer
-            // Asegúrate del orden y tipo de los parámetros
+            // Asegúrate del orden y tipo de los parámetros coinciden con la consulta SQL.
             $stmt->bind_param(
                 "sssddsssi", // Tipos de datos: 3 strings, 2 doubles, 2 strings, 1 string, 1 integer
                 $tituloPuesto,
@@ -73,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $response['success'] = true;
                     $response['message'] = 'Oferta actualizada exitosamente.';
                 } else {
+                    // Esto puede ocurrir si el ID no existe o si no se realizaron cambios en los datos.
                     $response['message'] = 'La oferta no fue encontrada o no se realizaron cambios.';
                 }
             } else {
