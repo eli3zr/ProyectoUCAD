@@ -90,10 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // --- 3. Obtener el ID del estudiante de forma SEGURA (desde la sesión) ---
-        if (!isset($_SESSION['id_usuario'])) { 
+        if (!isset($_SESSION['ID_Usuario'])) { 
             throw new Exception('Usuario no autenticado. Por favor, inicie sesión de nuevo.');
         }
-        $idUsuario = $_SESSION['id_usuario']; // Usar 'id_usuario' como en tu ejemplo
+        $idUsuario = $_SESSION['ID_Usuario']; // Usar 'id_usuario' como en tu ejemplo
 
         // Buscar el ID_Perfil_Estudiante asociado a este ID_Usuario.
         $idPerfilEstudiante = null;

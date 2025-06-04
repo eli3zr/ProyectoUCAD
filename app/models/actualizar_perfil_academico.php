@@ -26,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
     } else {
         // Verificar si el usuario está autenticado (ID en sesión)
-        if (!isset($_SESSION['id_usuario'])) {
+        if (!isset($_SESSION['ID_Usuario'])) {
             $response = [
                 'success' => false,
                 'error' => 'Usuario no autenticado. Por favor, inicie sesión.'
             ];
         } else {
-            $idUsuario = $_SESSION['id_usuario'];
+            $idUsuario = $_SESSION['ID_Usuario'];
 
             $con->autocommit(false); // Iniciar transacción
             $transaction_successful = true;

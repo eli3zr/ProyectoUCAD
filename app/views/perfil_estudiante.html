@@ -168,6 +168,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4 sticky-actions">
                 <div class="card shadow-sm">
                     <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
@@ -178,20 +179,96 @@
                             <li>
                                 <a href="#" class="btn btn-outline w-100 mt-2"
                                     style="color: #112852; border-color: #112852;" id="btnCambiarContrasena"
-                                    data-bs-toggle="modal" data-bs-target="#modalCambiarContrasena"> <i
-                                        class="fas fa-lock me-2"></i> Cambiar Contraseña
+                                    data-toggle="modal" data-target="#modalCambiarContrasena">
+                                    <i class="fas fa-lock me-2"></i> Cambiar Contraseña
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="btn btn-outline-danger w-100 mt-2" id="btnEliminarCuenta"
-                                    data-bs-toggle="modal" data-bs-target="#modalEliminarCuenta"> <i
-                                        class="fas fa-trash-alt me-2"></i> Eliminar Cuenta
+                                    data-toggle="modal" data-target="#deleteAccountModal">
+                                    <i class="fas fa-trash-alt me-2"></i> Eliminar Cuenta
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="modalCambiarContrasena" tabindex="-1" role="dialog"
+                aria-labelledby="modalCambiarContrasenaLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #112852; color: #FFFFFF;">
+                            <h5 class="modal-title" id="modalCambiarContrasenaLabel">
+                                <i class="fas fa-lock me-2" style="color: #F0C11A;"></i> Cambiar Contraseña
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="changePasswordMessage" class="mt-3"></div>
+                            <form id="formCambiarContrasena" method="post">
+                                <div class="form-group mb-3">
+                                    <label for="currentPassword">Contraseña Actual:</label>
+                                    <input type="password" class="form-control" id="currentPassword"
+                                        name="currentPassword" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="newPassword">Nueva Contraseña:</label>
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                        required>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="confirmNewPassword">Confirmar Nueva Contraseña:</label>
+                                    <input type="password" class="form-control" id="confirmNewPassword"
+                                        name="confirmNewPassword" required>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-block"
+                                        style="background-color: #112852; color: #FFFFFF;">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog"
+                aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="deleteAccountModalLabel">
+                                <i class="fas fa-exclamation-triangle me-2"></i> Eliminar Cuenta
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Estás a punto de eliminar tu cuenta de forma permanente. Esta acción no se puede
+                                deshacer.</p>
+                            <p>Para confirmar, por favor, ingresa tu contraseña:</p>
+                            <form id="deleteAccountForm" method="post">
+                                <div class="form-group">
+                                    <label for="deletePassword">Contraseña:</label>
+                                    <input type="password" class="form-control" id="deletePassword"
+                                        name="deletePassword" required>
+                                </div>
+                                <div id="deleteAccountMessage" class="mt-3">
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar Mi Cuenta</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -213,11 +290,12 @@
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/acciones_estudiantes.js"></script>
     <script src="../controllers/actualizar_perfil_personal.js"></script>
     <script src="../controllers/actualizar_perfil_academico.js"></script>
     <script src="../controllers/actualizar_perfil_laboral.js"></script>
     <script src="../controllers/actualizar_perfil_cv.js"></script>
-    <script src="../controllers/perfil_estudiante_acciones.js"></script>
 
 </body>
+
 </html>

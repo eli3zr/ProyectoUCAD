@@ -32,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // --- Lógica de actualización de la base de datos ---
 
         // Verificar si el usuario está autenticado (ID en sesión)
-        if (!isset($_SESSION['id_usuario'])) {
+        if (!isset($_SESSION['ID_Usuario'])) {
             $response = [
                 'success' => false,
                 'error' => 'Usuario no autenticado. Por favor, inicie sesión.'
             ];
         } else {
-            $idUsuario = $_SESSION['id_usuario']; // Obtener el ID del usuario logueado
+            $idUsuario = $_SESSION['ID_Usuario']; // Obtener el ID del usuario logueado
 
             // Sanear los datos
             $nombre = $con->real_escape_string($datos['nombre']);

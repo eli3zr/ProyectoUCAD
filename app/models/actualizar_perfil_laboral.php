@@ -1,18 +1,32 @@
 <?php
-
-require_once __DIR__ . '/../config/conexion.php';
-// Configuración de reporte de errores para desarrollo.
 // ¡Desactiva esto en producción! (cambia a E_ERROR o 0 y comenta display_errors)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+session_start(); // Inicia la sesión al principio de todo
 
 // Inicializar el array de respuesta que se enviará como JSON
 $response = [];
 
 // ** Importante: Obtén el ID del usuario logueado de tu sistema de autenticación. **
-// Este es un marcador de posición. En una aplicación real, no debe ser un valor fijo.
-// Por ejemplo: $loggedInUserId = $_SESSION['ID_Usuario'];
-$loggedInUserId = 1; // Reemplaza '1' con el ID dinámico del usuario autenticado.
+// Verifica si el ID del usuario está en la sesión
+if (isset($_SESSION['ID_Usuario'])) {
+    $loggedInUserId = $_SESSION['ID_Usuario'];
+} else {
+    // Si el usuario no está logueado (no hay ID en la sesión),
+    // devuelve un error y termina el script.
+    $response = [
+        'success' => false,
+        'error' => 'Usuario no autenticado. Por favor, inicia sesión para actualizar tu perfil.'
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit(); // Termina la ejecución aquí
+}
+
+require_once __DIR__ . '/../config/conexion.php'; // Asegúrate de que $con se inicialice aquí
+
+// El resto de tu lógica del script...
 
 // Verificar si la solicitud es un POST, que es el método esperado del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -58,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Si la preparación de la consulta falla, lanzar una excepción
                 throw new Exception("Error al preparar la consulta de perfil: " . mysqli_error($con));
             }
-            mysqli_stmt_bind_param($stmt_perfil, 'i', $loggedInUserId); // 'i' indica que $loggedInUserId es un entero
+            // Usa $loggedInUserId (ahora obtenido de la sesión)
+            mysqli_stmt_bind_param($stmt_perfil, 'i', $loggedInUserId); 
             mysqli_stmt_execute($stmt_perfil);
             $result_perfil = mysqli_stmt_get_result($stmt_perfil);
             $perfil_estudiante = mysqli_fetch_assoc($result_perfil);
