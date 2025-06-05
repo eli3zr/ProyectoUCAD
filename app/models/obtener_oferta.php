@@ -13,22 +13,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
 header('Content-Type: application/json'); // Asegura que la respuesta sea JSON
 
-// --- INICIO DEPURACIÓN DE SESIÓN (para entender el contexto) ---
-error_log("----------------------------------------------------");
-error_log("--- DEBUG DE SESIÓN EN obtener_oferta.php ---");
-error_log("Timestamp: " . date('Y-m-d H:i:s'));
-error_log("Contenido de \$_SESSION al iniciar obtener_oferta.php: " . print_r($_SESSION, true));
-error_log("----------------------------------------------------");
-// --- FIN DEPURACIÓN DE SESIÓN ---
 
-// Incluimos el archivo de conexión a la base de datos.
 // Este archivo DEBE establecer la conexión en la variable global $con.
 require_once __DIR__ . '/../config/conexion.php';
 
-// *******************************************************************
-// CORRECCIÓN: Usar directamente la variable global $con que tu conexion.php ya define
-// NO INTENTAMOS LLAMAR A getConexion() porque no está definida en tu conexion.php
-// *******************************************************************
 
 // Verificamos que la variable global $con esté disponible y sea un objeto de conexión
 if (!isset($con) || !is_object($con) || mysqli_connect_errno()) {
@@ -79,7 +67,7 @@ if ($idOferta !== null) {
 } else { // Si no se solicita un ID específico, obtener todas las ofertas para la empresa logueada (con filtros opcionales)
     
     // Obtener el ID_perfil_empresa de la sesión
-    $id_perfil_empresa = $_SESSION['ID_perfil_empresa'] ?? null;
+    $id_perfil_empresa = $_SESSION['ID_Perfil_Empresa'] ?? null;
 
     // Validación de que el ID de la empresa esté disponible en la sesión para la LISTA de ofertas
     if ($id_perfil_empresa === null || $id_perfil_empresa <= 0) {
@@ -99,7 +87,7 @@ if ($idOferta !== null) {
         // Construir la consulta base para las ofertas de la empresa
         $sql = "SELECT ID_Oferta, Titulo_Puesto, Descripción_Trabajo, Requisitos, Salario_Minimo, Salario_Maximo, Modalidad, Ubicación, fecha_publicacion, estado 
                 FROM oferta_laboral 
-                WHERE ID_perfil_empresa = ?";
+                WHERE ID_Perfil_Empresa = ?";
         $params = [$id_perfil_empresa];
         $types = "i";
 
