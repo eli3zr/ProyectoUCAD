@@ -2,7 +2,6 @@
 RewriteEngine On
 
 # Evita que el .htaccess afecte a archivos y directorios existentes
-# Esto es crucial para que tus archivos .html, .js, .css, imágenes, etc., sigan funcionando directamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
@@ -16,9 +15,9 @@ RewriteRule ^ index.html [L]
 
 # Opcional: Si quieres eliminar el .html de las URLs para tus vistas
 # Esto hará que /app/views/user_profile.html sea accesible como /app/views/user_profile
-# <IfModule mod_rewrite.c>
-#     RewriteEngine On
-#     RewriteCond %{REQUEST_FILENAME} !-d
-#     RewriteCond %{REQUEST_FILENAME}.html -f
-#     RewriteRule ^(.*)$ $1.html [L]
-# </IfModule>
+<IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteCond %{REQUEST_FILENAME} !-d
+     RewriteCond %{REQUEST_FILENAME}.html -f
+     RewriteRule ^(.*)$ $1.html [L]
+ </IfModule>
