@@ -6,10 +6,6 @@ $(function () {
         const password = $("#password").val();
 
         $.ajax({
-            // La ruta al PHP se mantiene la misma: '../../app/models/login.php'
-            // Esto es porque login.js está en 'app/controllers/'
-            // y necesita salir de 'controllers', luego de 'app',
-            // y luego entrar en 'app/models' para llegar a 'login.php'.
             url: '../../app/models/login.php', 
             type: 'POST',
             dataType: 'json', 

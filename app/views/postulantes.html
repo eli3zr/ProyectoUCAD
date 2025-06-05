@@ -7,24 +7,17 @@
     <title>JobTrack - Postulantes</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../recursos/sweetalert/sweetalert2.min.css">
     <link rel="stylesheet" href="css/dashboard_empresa.css">
-    <link rel="stylesheet" href="css/postulantes.css">
+ 
 </head>
-
-<style>
-    footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-</style>
-
 <body>
     <header class="py-3" style="background-color: #112852;">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
+                    <!-- Ajusta estas rutas si es necesario para que sean relativas a donde esté este HTML -->
                     <li><a href="dashboard_empresa.html" class="text-white text-decoration-none"><i
                                 class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="perfil_empresa.html" class="text-white text-decoration-none"><i
@@ -48,32 +41,7 @@
         </p>
 
         <div class="list-group">
-            <div class="list-group-item d-flex justify-content-between align-items-center shadow-sm mb-2">
-                <div>
-                    <h6 class="mb-0" style="color: #112852;"><strong>Nombre del Estudiante 1</strong></h6>
-                    <small class="text-muted">Aplica a: Desarrollador Web Junior</small>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-sm btn-outline" style="color: #112852; border-color: #112852;"><i
-                            class="fas fa-eye"></i> Ver Perfil</a>
-                    <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i> Aceptar</button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i> Rechazar</button>
-                </div>
-            </div>
-
-            <div class="list-group-item d-flex justify-content-between align-items-center shadow-sm mb-2">
-                <div>
-                    <h6 class="mb-0 text-warning"><strong>Nombre del Estudiante 2</strong></h6>
-                    <small class="text-muted">Aplica a: Diseñador Gráfico (Prácticas)</small>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-sm btn-outline" style="color: #112852; border-color: #112852;"><i
-                            class="fas fa-eye"></i> Ver Perfil</a>
-                    <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i> Aceptar</button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i> Rechazar</button>
-                </div>
-            </div>
-
+            <div class="list-group-item text-center">Cargando postulantes...</div>
         </div>
 
         <nav aria-label="Page navigation">
@@ -108,7 +76,8 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/postulantes.js"></script>
+    <script src="../../recursos/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../controllers/postulantes.js"></script>
 </body>
 
 </html>

@@ -45,9 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para cargar ofertas desde tu script PHP (backend)
     async function cargarOfertasDesdeBackend() {
         try {
-            // **IMPORTANTE: Esta es la URL relativa correcta para tu estructura de carpetas**
-            // Desde 'explorar_oferta.html' (en 'views/'), sube un nivel (a 'app/') 
-            // y luego baja a 'models/get_ofertas_publicas.php'.
             const url = '../models/get_ofertas_publicas.php'; 
             
             const response = await fetch(url);

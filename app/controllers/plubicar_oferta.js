@@ -28,22 +28,22 @@ $(function () {
         }
 
         $.ajax({
-            url: '../../app/models/guardar_oferta.php', // Ruta correcta a tu script PHP
+            url: '../../app/models/guardar_oferta.php', 
             type: 'POST',
             dataType: 'json',
-            data: datos, // jQuery serializa esto como x-www-form-urlencoded
+            data: datos, 
             beforeSend: function () {
-                Swal.showLoading(); // Muestra el spinner de carga
+                Swal.showLoading(); 
             }
         })
         .done(function (response) {
-            Swal.close(); // Cierra el spinner
+            Swal.close(); 
 
             if (response.success) {
                 $("form")[0].reset(); // Limpia el formulario
                 Swal.fire({
                     title: '¡Éxito!',
-                    text: response.message, // Mensaje de éxito del backend
+                    text: response.message, 
                     icon: 'success'
                 }).then(() => {
                     // Redirigir o actualizar la vista, por ejemplo a la lista de ofertas
@@ -52,14 +52,14 @@ $(function () {
             } else {
                 Swal.fire({
                     title: 'Error',
-                    text: response.message || 'Ocurrió un error desconocido al publicar la oferta.', // Mensaje de error del backend
-                    icon: 'error' // Usar 'error' para errores de procesamiento en el backend
+                    text: response.message || 'Ocurrió un error desconocido al publicar la oferta.', 
+                    icon: 'error' 
                 });
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             Swal.close(); // Cierra el spinner
-            console.error("Error AJAX:", textStatus, errorThrown, jqXHR); // Para depuración en consola del navegador
+            console.error("Error AJAX:", textStatus, errorThrown, jqXHR); 
             Swal.fire({
                 title: 'Error de Conexión',
                 text: 'No se pudo comunicar con el servidor. Por favor, revisa tu conexión a internet o inténtalo más tarde.',

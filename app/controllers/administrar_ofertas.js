@@ -15,15 +15,15 @@ $(function() {
     // Referencia al formulario dentro del modal
     const formEditarOferta = $('#formEditarOferta');
     // Referencia a los botónes dentro del modal
-    const btnGuardarCambios = $('#btnGuardarCambios'); 
-    const btnCancelar = $('#btnCancelar'); 
+    const btnGuardarCambios = $('#btnGuardarCambios');
+    const btnCancelar = $('#btnCancelar');
 
     // Referencias a los campos de entrada del formulario del modal (asegúrate que los IDs y 'name' en tu HTML coinciden)
     const editOfertaId = $('#editOfertaId');
     const editTituloPuesto = $('#editTituloPuesto');
-    const editDescripcionTrabajo = $('#editDescripcionTrabajo'); 
+    const editDescripcionTrabajo = $('#editDescripcionTrabajo');
     const editRequisitos = $('#editRequisitos');
-    const editSalarioMinimo = $('#editSalarioMinimo'); 
+    const editSalarioMinimo = $('#editSalarioMinimo');
     const editSalarioMaximo = $('#editSalarioMaximo');
     const editModalidad = $('#editModalidad');
     const editUbicacion = $('#editUbicacion');
@@ -102,12 +102,13 @@ $(function() {
             cargarOfertaParaEdicion(ofertaId); // Llama a la función que carga la oferta y abre el modal
         });
 
-        // Evento para el botón "Ver Postulantes" (simulación, con deshabilitación si el estado no lo permite)
+        // Evento para el botón "Ver Postulantes"
         tablaOfertasBody.off('click', '.btn-ver-postulantes').on('click', '.btn-ver-postulantes', function(e) {
             e.preventDefault();
             const ofertaId = $(this).data('id');
             if (!$(this).hasClass('disabled')) {
-                Swal.fire('Ver Postulantes', `Simulando la visualización de postulantes para la oferta ID ${ofertaId}.`, 'info');
+                // Redirige a la página de postulantes con el ID de la oferta
+                window.location.href = `../views/postulantes.html?oferta_id=${ofertaId}`;
             } else {
                 Swal.fire('Advertencia', 'No puedes ver postulantes para ofertas en estado borrador o eliminada.', 'warning');
             }
@@ -141,9 +142,9 @@ $(function() {
                     // Rellenar los campos del formulario con los datos de la oferta
                     editOfertaId.val(oferta.ID_Oferta);
                     editTituloPuesto.val(oferta.Titulo_Puesto);
-                    editDescripcionTrabajo.val(oferta.Descripción_Trabajo); 
+                    editDescripcionTrabajo.val(oferta.Descripción_Trabajo);
                     editRequisitos.val(oferta.Requisitos);
-                    editSalarioMinimo.val(oferta.Salario_Minimo); 
+                    editSalarioMinimo.val(oferta.Salario_Minimo);
                     editSalarioMaximo.val(oferta.Salario_Maximo);
                     editModalidad.val(oferta.Modalidad);
                     editUbicacion.val(oferta.Ubicación);
@@ -268,8 +269,4 @@ $(function() {
         cargarOfertas();
     });
 
-    // Opcional: Filtrar automáticamente al cambiar los campos de filtro
-    // filtroPuestoInput.on('keyup', function() { btnFiltrar.click(); });
-    // filtroEstadoSelect.on('change', function() { btnFiltrar.click(); });
-    // filtroFechaInput.on('change', function() { btnFiltrar.click(); });
 });

@@ -93,12 +93,4 @@ $(function () {
         });
     });
 
-    // Si tienes otros formularios en la página, asegúrate de que sus selectores no colisionen.
-    // Tu selector original "form").eq(1)" es muy frágil. Es mejor usar IDs específicos.
-    // Si tu otro formulario es el de enlaces, es mejor que tenga su propio ID como "#formActualizarEnlaces"
-    // y lo manejes por separado:
-    // $("#formActualizarEnlaces").on("submit", function (e) {
-    //     e.preventDefault();
-    //     // ... tu código AJAX para enlaces ...
-    // });
 });
