@@ -7,10 +7,10 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 ini_set('log_errors', '1');
 // Asegúrate de que la ruta para el log de errores sea accesible y escribible por el servidor web
-ini_set('error_log', __DIR__ . '/../logs/php_errors.log'); 
+ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
 error_reporting(E_ALL);
 
-session_start(); // Inicia la sesión de PHP (debe ir después de ini_set si se usa)
+session_start(); // Inicia la sesión de PHP
 
 require_once __DIR__ . '/../config/conexion.php';
 
@@ -26,25 +26,52 @@ $response = [];
 
 // --- DEBUG: Log del contenido de la sesión al inicio del script ---
 error_log("DEBUG (guardar_oferta.php): Contenido de la sesión al inicio: " . print_r($_SESSION, true));
-if (isset($_SESSION['ID_Perfil_Empresa'])) { 
-    error_log("DEBUG (guardar_oferta.php): ID_Perfil_Empresa en sesión: " . $_SESSION['ID_Perfil_Empresa']); 
-} else {
-    error_log("DEBUG (guardar_oferta.php): ID_Perfil_Empresa NO está seteado en la sesión."); 
-}
 // -----------------------------------------------------------------
 
-// --- OBTENER ID_perfil_empresa DE LA SESIÓN ---
-$id_perfil_empresa = null; 
-if (isset($_SESSION['ID_Perfil_Empresa'])) { 
-    $id_perfil_empresa = (int)$_SESSION['ID_Perfil_Empresa']; 
+// --- OBTENER ID_perfil_empresa ---
+$id_perfil_empresa = null;
+
+// 1. Intentar obtener de la sesión (primera y preferida opción)
+if (isset($_SESSION['ID_Perfil_Empresa']) && $_SESSION['ID_Perfil_Empresa'] > 0) {
+    $id_perfil_empresa = (int)$_SESSION['ID_Perfil_Empresa'];
+    error_log("DEBUG (guardar_oferta.php): ID_Perfil_Empresa encontrado en sesión: " . $id_perfil_empresa);
+} else {
+    error_log("DEBUG (guardar_oferta.php): ID_Perfil_Empresa NO está seteado o es inválido en la sesión. Intentando buscar en BD.");
+
+    // 2. Si no está en sesión, intentar obtenerlo de la base de datos usando ID_Usuario
+    if (isset($_SESSION['ID_Usuario']) && $_SESSION['ID_Usuario'] > 0) {
+        $id_usuario = (int)$_SESSION['ID_Usuario'];
+        error_log("DEBUG (guardar_oferta.php): ID_Usuario encontrado en sesión: " . $id_usuario);
+
+        $query_perfil_empresa = "SELECT ID_Perfil_Empresa FROM perfil_empresa WHERE usuario_ID_Usuario = ?";
+        $stmt_perfil_empresa = mysqli_prepare($con, $query_perfil_empresa);
+
+        if ($stmt_perfil_empresa) {
+            mysqli_stmt_bind_param($stmt_perfil_empresa, 'i', $id_usuario);
+            mysqli_stmt_execute($stmt_perfil_empresa);
+            mysqli_stmt_bind_result($stmt_perfil_empresa, $perfil_empresa_id_encontrado);
+            if (mysqli_stmt_fetch($stmt_perfil_empresa)) {
+                $id_perfil_empresa = $perfil_empresa_id_encontrado;
+                $_SESSION['ID_Perfil_Empresa'] = $id_perfil_empresa; // Almacenarlo para futuras peticiones en esta sesión
+                error_log("DEBUG (guardar_oferta.php): ID_Perfil_Empresa encontrado en BD y guardado en sesión: " . $id_perfil_empresa);
+            } else {
+                error_log("ADVERTENCIA (guardar_oferta.php): Usuario (ID: " . $id_usuario . ") no tiene un perfil de empresa asociado en la tabla perfil_empresa.");
+            }
+            mysqli_stmt_close($stmt_perfil_empresa);
+        } else {
+            error_log("ERROR (guardar_oferta.php): Error al preparar la consulta de perfil de empresa desde ID_Usuario: " . mysqli_error($con));
+        }
+    } else {
+        error_log("DEBUG (guardar_oferta.php): ID_Usuario NO está seteado o es inválido en la sesión.");
+    }
 }
 
-// Validación de que el ID de la empresa esté disponible en la sesión
+// Validación final de que el ID de la empresa esté disponible
 if ($id_perfil_empresa === null || $id_perfil_empresa <= 0) {
     http_response_code(401); // 401 Unauthorized
     $response = [
         'success' => false,
-        'message' => 'No autorizado. Por favor, inicia sesión para publicar una oferta.'
+        'message' => 'No autorizado. Por favor, inicia sesión como empresa para publicar una oferta.'
     ];
     echo json_encode($response);
     exit(); // Salimos si no está autorizado
@@ -90,8 +117,6 @@ if (
         // Vinculamos los parámetros a la consulta preparada
         // s: string, d: double (float), i: integer
         // El orden y los tipos deben coincidir con los placeholders (?) en la consulta SQL
-        // Nota: para Salario_Minimo y Salario_Maximo, si son null, MySQL los manejará si la columna lo permite.
-        // Si no, deberías pasar 0 o un valor por defecto si son obligatorios.
         mysqli_stmt_bind_param(
             $stmt,
             "sssdsssis", // 3 strings, 2 doubles, 2 strings, 1 integer, 1 string
@@ -102,7 +127,7 @@ if (
             $salario_maximo,
             $modalidad,
             $ubicacion,
-            $id_perfil_empresa, // Usamos el ID de la empresa de la sesión
+            $id_perfil_empresa, // Usamos el ID de la empresa (obtenido de sesión o BD)
             $estado
         );
 
