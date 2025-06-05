@@ -1,68 +1,103 @@
-// detalle_oferta.js
+// C:\xampp\htdocs\Jobtrack_Ucad\app\controllers\detalle_oferta.js
+// Este script es ÚNICAMENTE para la página oferta_detalle.html
 
-/**
- * Función para obtener y mostrar detalles de una sola oferta en un modal de SweetAlert2.
- * Esta función es global y se espera que sea llamada desde otros scripts (como administrar_ofertas.js).
- * @param {number} ofertaId - El ID de la oferta cuyos detalles se desean mostrar.
- */
-function mostrarDetallesOfertaEnModal(ofertaId) {
-    Swal.fire({
-        title: 'Cargando detalles...',
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ofertaId = urlParams.get('id');
 
-    $.ajax({
-        url: '../../app/models/obtener_detalle_oferta.php', // Asegúrate que esta URL sea correcta y pueda devolver una única oferta por ID
-        type: 'GET',
-        dataType: 'json',
-        data: { id: ofertaId }, // Envía el ID de la oferta para buscar los detalles
-        success: function(response) {
-            Swal.close();
-            if (response.success && response.data) {
-                // response.data DEBE ser un OBJETO único aquí, no un array.
-                const oferta = response.data; 
+    // Referencias a los elementos HTML
+    const cardTitleElement = document.querySelector('.card-title');
+    const cardSubtitleElement = document.querySelector('.card-subtitle');
+    const ubicacionElement = document.querySelector('p:nth-of-type(1)');
+    const fechaPublicacionElement = document.querySelector('p:nth-of-type(2)');
+    const descripcionElement = document.querySelector('h5:nth-of-type(1) + p');
+    const requisitosListElement = document.querySelector('h5:nth-of-type(2) + ul');
+    const salarioElement = document.querySelector('h5:nth-of-type(3) + p');
+    const modalidadElement = document.querySelector('h5:nth-of-type(4) + p');
+    const aplicarLinkElement = document.querySelector('a[href^="aplicar_oferta.html"]');
 
-                // Formatear el salario si ambos campos existen
-                let salarioTexto = 'No especificado';
-                if (oferta.Salario_Minimo && oferta.Salario_Maximo) {
-                    salarioTexto = `$${parseFloat(oferta.Salario_Minimo).toFixed(2)} - $${parseFloat(oferta.Salario_Maximo).toFixed(2)}`;
-                } else if (oferta.Salario_Minimo) {
-                    salarioTexto = `$${parseFloat(oferta.Salario_Minimo).toFixed(2)}`;
-                } else if (oferta.Salario_Maximo) {
-                    salarioTexto = `$${parseFloat(oferta.Salario_Maximo).toFixed(2)}`;
+    if (ofertaId) {
+        cargarDetalleOferta(ofertaId);
+    } else {
+        // Si no hay ID en la URL, mostrar un mensaje de error o redirigir
+        console.error('ID de oferta no encontrado en la URL. No se puede cargar el detalle.');
+        if (cardTitleElement) cardTitleElement.textContent = 'Error: Oferta no encontrada';
+        if (cardSubtitleElement) cardSubtitleElement.textContent = '';
+        if (ubicacionElement) ubicacionElement.textContent = 'No se proporcionó un ID de oferta válido.';
+        // Opcional: window.location.href = '../views/explorar_oferta.html'; 
+    }
+
+    async function cargarDetalleOferta(id) {
+        try {
+            const response = await fetch(`../../app/models/get_oferta_por_id.php?id=${id}`);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Respuesta no OK del servidor:', response.status, response.statusText, errorText);
+                throw new Error(`Error del servidor: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success && data.oferta) {
+                const oferta = data.oferta;
+                
+                // Actualizar el título del documento
+                document.title = `JobTrack - ${oferta.titulo}`;
+
+                // Actualizar los elementos HTML con los datos de la oferta
+                if (cardTitleElement) cardTitleElement.innerHTML = `<i class="fas fa-briefcase me-2"></i> ${oferta.titulo}`;
+                if (cardSubtitleElement) cardSubtitleElement.innerHTML = `<i class="fas fa-building me-2" style="color: #112852;"></i> ${oferta.empresa}`;
+                if (ubicacionElement) ubicacionElement.innerHTML = `<i class="fas fa-map-marker-alt me-2" style="color: #112852;"></i> ${oferta.ubicacion || 'No especificado'}`; 
+                
+                const fechaPublicacion = oferta.fecha_publicacion ? new Date(oferta.fecha_publicacion).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Fecha no disponible';
+                if (fechaPublicacionElement) fechaPublicacionElement.innerHTML = `<i class="fas fa-calendar-alt me-2" style="color: #112852;"></i> Publicado el: ${fechaPublicacion}`;
+                
+                if (descripcionElement) descripcionElement.textContent = oferta.descripcion || 'No se proporcionó una descripción para este puesto.';
+
+                // Requisitos
+                if (requisitosListElement) {
+                    requisitosListElement.innerHTML = ''; // Limpiar requisitos existentes
+                    const habilidadesArray = Array.isArray(oferta.habilidad) ? oferta.habilidad : (typeof oferta.habilidad === 'string' ? oferta.habilidad.split(',') : []);
+
+                    if (habilidadesArray.length > 0 && habilidadesArray[0].trim() !== '') { 
+                        habilidadesArray.forEach(req => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<i class="fas fa-check-circle me-2 text-success"></i> ${req.trim()}`;
+                            requisitosListElement.appendChild(li);
+                        });
+                    } else {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<i class="fas fa-info-circle me-2 text-muted"></i> No se especificaron requisitos.`;
+                        requisitosListElement.appendChild(li);
+                    }
                 }
 
-                const htmlContent = `
-                    <p><strong>Puesto:</strong> ${oferta.Titulo_Puesto || 'N/A'}</p>
-                    <p><strong>Descripción del Trabajo:</strong> ${oferta.Descripción_Trabajo || 'No disponible'}</p> <!-- Corregido: Descripción_Trabajo -->
-                    <p><strong>Requisitos:</strong> ${oferta.Requisitos || 'No especificados'}</p>
-                    <p><strong>Salario:</strong> ${salarioTexto}</p> 
-                    <p><strong>Ubicación:</strong> ${oferta.Ubicación || 'No especificada'}</p> <!-- Corregido: Ubicación -->
-                    <p><strong>Modalidad:</strong> ${oferta.Modalidad || 'N/A'}</p> <!-- Corregido: Modalidad -->
-                    <p><strong>Fecha Publicación:</strong> ${oferta.fecha_publicacion ? oferta.fecha_publicacion.split(' ')[0] : 'N/A'}</p>
-                    <p><strong>Estado:</strong> ${oferta.estado ? oferta.estado.charAt(0).toUpperCase() + oferta.estado.slice(1) : 'N/A'}</p>
-                    <!-- El campo 'Empresa' no está en el JSON proporcionado por tu PHP, así que lo he eliminado. Si lo necesitas, tu PHP debe incluirlo. -->
-                `;
+                // Rango salarial
+                const salarioTexto = (oferta.salario_minimo && oferta.salario_maximo) 
+                                    ? `$${parseFloat(oferta.salario_minimo).toFixed(2)} - $${parseFloat(oferta.salario_maximo).toFixed(2)}`
+                                    : 'No especificado';
+                if (salarioElement) salarioElement.textContent = salarioTexto;
 
-                Swal.fire({
-                    title: `Detalles de la Oferta: ${oferta.Titulo_Puesto || 'Sin Título'}`,
-                    html: htmlContent,
-                    icon: 'info',
-                    confirmButtonText: 'Cerrar',
-                    confirmButtonColor: '#112852',
-                    width: '600px', 
-                });
+                // Modalidad
+                if (modalidadElement) modalidadElement.textContent = oferta.modalidad || 'No especificada';
+
+                // Actualizar el enlace "Aplicar a la Oferta"
+                if (aplicarLinkElement) {
+                    aplicarLinkElement.href = `aplicar_oferta.html?id=${oferta.id}`;
+                }
+
             } else {
-                Swal.fire('Error', response.message || 'No se pudieron cargar los detalles de la oferta.', 'error');
+                console.error('Error al cargar detalle de oferta desde el backend:', data.message);
+                if (cardTitleElement) cardTitleElement.textContent = 'Oferta no encontrada';
+                if (cardSubtitleElement) cardSubtitleElement.textContent = '';
+                if (ubicacionElement) ubicacionElement.textContent = data.message;
             }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            Swal.close();
-            console.error("Error AJAX al obtener detalles:", textStatus, errorThrown, jqXHR);
-            Swal.fire('Error de conexión', 'No se pudo comunicar con el servidor para obtener los detalles. Revisa tu conexión.', 'error');
+        } catch (error) {
+            console.error('Error en la petición fetch para detalle de oferta:', error);
+            if (cardTitleElement) cardTitleElement.textContent = 'Error al cargar la oferta';
+            if (cardSubtitleElement) cardSubtitleElement.textContent = '';
+            if (ubicacionElement) ubicacionElement.textContent = 'Hubo un problema al intentar obtener los detalles de la oferta. Por favor, inténtalo de nuevo más tarde.';
         }
-    });
-}
+    }
+});

@@ -7,7 +7,7 @@
     <title>JobTrack - Aplicar a Oferta</title>
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="css/aplicar_oferta.css"> </head>
+</head>
 
 <body>
 
@@ -17,13 +17,13 @@
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
                     <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
-                            Inicio</a></li>
+                                Inicio</a></li>
                     <li><a href="./perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
-                            Perfil</a></li>
+                                Perfil</a></li>
                     <li><a href="./explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
-                            Empleo</a></li>
+                                Empleo</a></li>
                     <li><a href="./administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
-                            Aplicaciones</a></li>
+                                Aplicaciones</a></li>
                     <li><a href="./mensajes_estudiantes.html" class="text-white text-decoration-none"><i class="fas fa-envelope"></i> Mensajes</a>
                     </li>
                     <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
@@ -39,11 +39,11 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title" style="color: #112852;">Resumen de la Oferta</h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-briefcase me-2" style="color: #112852;"></i> [Nombre del Puesto]</h6>
-                    <p class="card-text"><i class="fas fa-building me-2" style="color: #112852;"></i> [Nombre de la Empresa]</p>
-                    <p class="card-text"><i class="fas fa-map-marker-alt me-2" style="color: #112852;"></i> [Ubicación de la Oferta]</p>
-                    <p class="card-text">[Breve descripción de la oferta que se mostró en la lista].</p>
-                    <a href="#" class="btn btn-link" style="color: #112852;"><i class="fas fa-arrow-left me-1"></i> Volver a las Ofertas</a>
+                    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-briefcase me-2" style="color: #112852;"></i> <span id="ofertaTitulo">[Nombre del Puesto]</span></h6>
+                    <p class="card-text"><i class="fas fa-building me-2" style="color: #112852;"></i> <span id="ofertaEmpresa">[Nombre de la Empresa]</span></p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2" style="color: #112852;"></i> <span id="ofertaUbicacion">[Ubicación de la Oferta]</span></p>
+                    <p class="card-text" id="ofertaDescripcionCorta">[Breve descripción de la oferta que se mostró en la lista].</p>
+                    <a href="#" class="btn btn-link" style="color: #112852;" id="volverOfertasBtn"><i class="fas fa-arrow-left me-1"></i> Volver a las Ofertas</a>
                 </div>
             </div>
         </section>
@@ -52,7 +52,8 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title mb-3" style="color: #112852;"><i class="fas fa-clipboard-check me-2"></i> Formulario de Aplicación</h5>
-                    <form>
+                    <div id="mensajeAlerta" class="mb-3" style="display: none;"></div>
+                    <form id="aplicarOfertaForm" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="cvFile" class="form-label">Subir CV <span class="text-danger">*</span></label>
                             <input class="form-control" type="file" id="cvFile" accept=".pdf, .doc, .docx" required>
@@ -73,7 +74,7 @@
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
-            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <p class="m-0">© 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
                 <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
                 <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
@@ -85,7 +86,7 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/aplicar_oferta.js"></script>
+    <script src="../controllers/aplicar_oferta.js"></script>
 
 </body>
 

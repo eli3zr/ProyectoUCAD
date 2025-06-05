@@ -1,105 +1,91 @@
 <?php
-// app/models/actualizar_cv_estudiante.php
+// C:\xampp\htdocs\Jobtrack_Ucad\app\models\actualizar_cv_estudiante.php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-session_start();
-
-// Asegúrate de que la ruta a tu archivo de conexión sea correcta
-// Asumo que 'conexion.php' establece una variable $con que es una instancia de mysqli.
-require_once __DIR__ . '/../config/conexion.php'; 
-
-// Asegúrate de que la conexión a la BD sea válida antes de continuar
-if (!isset($con) || $con->connect_error) {
-    // Si la conexión falla aquí, enviamos la respuesta y salimos
-    sendJsonResponse(false, 'Error de conexión a la base de datos.', 'No se pudo establecer conexión con la base de datos.');
+// Iniciar sesión si no está iniciada (necesario para $_SESSION['ID_Usuario'])
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-$response = []; // Inicializa la variable $response
+// Incluir la conexión a la base de datos
+require_once __DIR__ . '/../config/conexion.php';
 
 // --- Función para generar una respuesta JSON estandarizada y terminar la ejecución ---
-// Esta función se encargará de establecer el encabezado y el echo.
-function sendJsonResponse($success, $message, $error = null) {
-    header('Content-Type: application/json'); // Asegurarse del header
-    echo json_encode([
-        'success' => $success,
-        'msg' => $message,
-        'error' => $error
-    ]);
-    exit(); // Termina la ejecución del script inmediatamente
+// Se define aquí para ser usada en este script.
+if (!function_exists('sendJsonResponse')) {
+    function sendJsonResponse($success, $message, $error = null) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => $success,
+            'msg' => $message, // 'msg' es usado para consistencia con tu código original
+            'error' => $error
+        ]);
+        exit();
+    }
 }
 
+// Verificar que la conexión a la BD sea válida (ya manejado en conexion.php, pero es una doble verificación)
+if (!isset($con) || $con->connect_error) {
+    sendJsonResponse(false, 'Error de conexión a la base de datos. (Verifique conexion.php)');
+}
+
+// Solo procesar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $transaction_successful = false; // Bandera para controlar la transacción
+    // 1. Validar que el usuario esté logueado
+    if (!isset($_SESSION['ID_Usuario']) || empty($_SESSION['ID_Usuario'])) {
+        sendJsonResponse(false, 'Usuario no autenticado. Por favor, inicie sesión.');
+    }
+    $idUsuario = (int)$_SESSION['ID_Usuario']; // Casteo a entero para seguridad
 
-    // --- Iniciar la transacción ---
-    $con->autocommit(false); 
-
-    try {
-        // --- 1. Validar la existencia del archivo subido ---
-        if (!isset($_FILES['cvNuevo']) || $_FILES['cvNuevo']['error'] !== UPLOAD_ERR_OK) {
-            $errorMessage = 'Error al subir el archivo.';
+    // 2. Validar que se recibió el archivo 'cvNuevo' (nombre del input file en el formulario HTML)
+    if (!isset($_FILES['cvNuevo']) || $_FILES['cvNuevo']['error'] !== UPLOAD_ERR_OK) {
+        $error_msg = 'No se recibió ningún archivo CV o hubo un error durante la subida.';
+        if (isset($_FILES['cvNuevo'])) {
+             // Detalle del error de PHP si está disponible
             switch ($_FILES['cvNuevo']['error']) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-                    $errorMessage = 'El archivo es demasiado grande (límites del servidor/formulario).';
+                    $error_msg = 'El archivo CV es demasiado grande (excede el límite del servidor/formulario).';
                     break;
                 case UPLOAD_ERR_PARTIAL:
-                    $errorMessage = 'El archivo no se subió completamente.';
+                    $error_msg = 'El archivo CV solo se subió parcialmente.';
                     break;
                 case UPLOAD_ERR_NO_FILE:
-                    $errorMessage = 'No se seleccionó ningún archivo.';
+                    $error_msg = 'No se seleccionó ningún archivo CV.';
                     break;
                 default:
-                    $errorMessage = 'Ocurrió un error desconocido durante la subida.';
+                    $error_msg = 'Error desconocido al subir el archivo CV.';
                     break;
             }
-            throw new Exception($errorMessage . ' (Código: ' . $_FILES['cvNuevo']['error'] . ')');
         }
+        sendJsonResponse(false, $error_msg, 'Código de error: ' . ($_FILES['cvNuevo']['error'] ?? 'N/A'));
+    }
 
-        $file = $_FILES['cvNuevo'];
-        $fileName = $file['name'];
-        $fileTmpName = $file['tmp_name'];
-        $fileSize = $file['size'];
-        $fileType = $file['type']; // Tipo MIME reportado por el navegador
+    $fileData = $_FILES['cvNuevo'];
+    $fileName = basename($fileData['name']); // `basename` para evitar inyección de ruta
+    $fileTmpName = $fileData['tmp_name'];
+    $fileSize = $fileData['size'];
+    $fileType = $fileData['type'];
 
-        // --- 2. Validaciones de seguridad y negocio (esenciales en el servidor) ---
+    // Iniciar transacción de base de datos
+    $con->autocommit(false);
+    $cv_uploaded_file_path = null; // Variable para mantener la ruta del archivo si algo falla
 
-        // a. Tamaño del archivo (2MB = 2 * 1024 * 1024 bytes)
-        $maxFileSize = 2 * 1024 * 1024;
+    try {
+        // 3. Validaciones de seguridad y negocio (tamaño y tipo de archivo)
+        $maxFileSize = 2 * 1024 * 1024; // 2MB en bytes
         if ($fileSize > $maxFileSize) {
-            throw new Exception('El archivo es demasiado grande. El tamaño máximo permitido para el CV es 2MB.');
+            throw new Exception('El archivo CV es demasiado grande. El tamaño máximo permitido es 2MB.');
         }
 
-        // b. Tipo de archivo (validar MIME types para mayor seguridad)
-        $allowedMimeTypes = [
-            'application/pdf',
-            'application/msword', // .doc
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
-        ];
-        if (!in_array($fileType, $allowedMimeTypes)) {
-            throw new Exception('Formato de archivo no permitido. Formatos de archivo permitidos: PDF, DOC, DOCX.');
-        }
-
-        // c. Extensión del archivo (adicional a la validación MIME)
-        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         $allowedExtensions = ['pdf', 'doc', 'docx'];
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         if (!in_array($fileExt, $allowedExtensions)) {
-            throw new Exception('Extensión de archivo no permitida. Las extensiones permitidas son PDF, DOC, DOCX.');
+            throw new Exception('Formato de archivo no permitido. Los formatos permitidos son PDF, DOC, DOCX.');
         }
 
-        // --- 3. Obtener el ID del estudiante de forma SEGURA (desde la sesión) ---
-        if (!isset($_SESSION['ID_Usuario'])) { 
-            throw new Exception('Usuario no autenticado. Por favor, inicie sesión de nuevo.');
-        }
-        $idUsuario = $_SESSION['ID_Usuario']; // Usar 'id_usuario' como en tu ejemplo
-
-        // Buscar el ID_Perfil_Estudiante asociado a este ID_Usuario.
+        // 4. Obtener ID_Perfil_Estudiante asociado al ID_Usuario (crearlo si no existe)
         $idPerfilEstudiante = null;
-        $sql_get_perfil_id = "SELECT ID_Perfil_Estudiante FROM perfil_estudiante WHERE ID_Usuario = ?";
-        $stmt_get_perfil_id = $con->prepare($sql_get_perfil_id);
-
+        $stmt_get_perfil_id = $con->prepare("SELECT ID_Perfil_Estudiante FROM perfil_estudiante WHERE ID_Usuario = ?");
         if (!$stmt_get_perfil_id) {
             throw new Exception('Error al preparar la consulta para obtener ID de perfil de estudiante: ' . $con->error);
         }
@@ -110,125 +96,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_get_perfil_id->close();
 
         if (is_null($idPerfilEstudiante)) {
-            throw new Exception('No se encontró un perfil de estudiante asociado a este usuario.');
+            // Si el perfil no existe, se crea uno básico automáticamente
+            $stmt_insert_perfil = $con->prepare("INSERT INTO perfil_estudiante (ID_Usuario, Nombre_Completo_Estudiante) VALUES (?, ?)");
+            if (!$stmt_insert_perfil) {
+                throw new Exception('Error al preparar la consulta de inserción de perfil de estudiante: ' . $con->error);
+            }
+            $default_nombre_completo = "Estudiante " . $idUsuario; // Nombre por defecto
+            $stmt_insert_perfil->bind_param('is', $idUsuario, $default_nombre_completo);
+
+            if (!$stmt_insert_perfil->execute()) {
+                throw new Exception('Error al crear un perfil de estudiante por defecto: ' . $stmt_insert_perfil->error);
+            }
+            $idPerfilEstudiante = $con->insert_id; // Obtiene el ID del perfil recién creado
+            $stmt_insert_perfil->close();
         }
 
-        // --- 4. Definir la ruta de almacenamiento del archivo en el servidor ---
-        $uploadDir = __DIR__ . '/../../public/cvs/'; 
+        // Si después de todo aún no tenemos un ID de perfil, algo está mal
+        if (is_null($idPerfilEstudiante)) {
+            throw new Exception('No se pudo obtener o crear el perfil del estudiante necesario para el CV.');
+        }
 
-        // Crear el directorio si no existe
+        // 5. Definir la ruta de almacenamiento del archivo en el servidor y moverlo
+        $uploadDir = __DIR__ . '/../../public/cvs/';
+        // Asegurarse de que el directorio exista y tenga permisos de escritura
         if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0755, true)) {
-                throw new Exception('Error interno del servidor. No se pudo crear el directorio de subida de CVs. Verifique permisos.');
+            if (!mkdir($uploadDir, 0755, true)) { // 0755: permisos de lectura/escritura/ejecución para propietario, lectura/ejecución para grupo y otros
+                throw new Exception('Error interno del servidor. No se pudo crear el directorio de subida de CVs. Verifique los permisos.');
             }
         }
+        $newFileName = uniqid('cv_', true) . '.' . $fileExt; // Nombre de archivo único para evitar colisiones
+        $cv_uploaded_file_path = $uploadDir . $newFileName; // Ruta completa en el servidor
+        $relativePathForDB = '/public/cvs/' . $newFileName; // Ruta relativa para guardar en la base de datos
 
-        // --- 5. Generar un nombre de archivo único ---
-        $newFileName = uniqid('cv_', true) . '.' . $fileExt;
-        $filePath = $uploadDir . $newFileName;
-        $relativePathForDB = '/public/cvs/' . $newFileName; 
-
-        // --- 6. Mover el archivo subido a su destino final ---
-        if (!move_uploaded_file($fileTmpName, $filePath)) {
-            throw new Exception('No se pudo mover el archivo subido al destino final. Verifique permisos y rutas.');
+        if (!move_uploaded_file($fileTmpName, $cv_uploaded_file_path)) {
+            throw new Exception('No se pudo mover el archivo CV subido al destino final. Verifique permisos y rutas.');
         }
 
-        // --- 7. Actualizar/Insertar la información del CV en la base de datos ---
-        $sql_check_exists = "SELECT ID_cv_estudiante, RutaArchivoCV FROM cv_estudiante WHERE perfil_estudiante_ID_Perfil_Estudiante = ?";
-        $stmt_check_exists = $con->prepare($sql_check_exists);
-        if (!$stmt_check_exists) {
-            throw new Exception('Error al preparar la consulta de verificación de CV existente: ' . $con->error);
+        // 6. Insertar la información del CV en la base de datos (cada subida crea una nueva entrada)
+        $fileSizeKB = round($fileSize / 1024); // Convertir bytes a KB
+        $stmt_cv_insert = $con->prepare("INSERT INTO cv_estudiante (perfil_estudiante_ID_Perfil_Estudiante, RutaArchivoCV, NombreOriginalArchivo, TipoMime, TamanoArchivoKB, FechaSubida) VALUES (?, ?, ?, ?, ?, NOW())");
+        if (!$stmt_cv_insert) {
+            throw new Exception('Error al preparar la consulta de inserción de CV: ' . $con->error);
         }
-        $stmt_check_exists->bind_param('i', $idPerfilEstudiante);
-        $stmt_check_exists->execute();
-        $stmt_check_exists->bind_result($existing_cv_id, $existing_cv_ruta);
-        $stmt_check_exists->fetch();
-        $stmt_check_exists->close();
+        $stmt_cv_insert->bind_param('isssi', $idPerfilEstudiante, $relativePathForDB, $fileName, $fileType, $fileSizeKB);
 
-        if ($existing_cv_id) {
-            // Ya existe un CV, así que lo actualizamos
-            $sql_cv_action = "UPDATE cv_estudiante
-                                SET RutaArchivoCV = ?,
-                                    NombreOriginalArchivo = ?,
-                                    TipoMime = ?,
-                                    TamanoArchivoKB = ?,
-                                    FechaSubida = NOW()
-                                WHERE ID_cv_estudiante = ?";
-            $stmt_cv_action = $con->prepare($sql_cv_action);
-            if (!$stmt_cv_action) {
-                throw new Exception('Error al preparar la consulta de actualización de CV: ' . $con->error);
-            }
-            $fileSizeKB = round($fileSize / 1024);
-            $stmt_cv_action->bind_param('sssii', $relativePathForDB, $fileName, $fileType, $fileSizeKB, $existing_cv_id);
-
-            // Opcional: Eliminar el archivo antiguo del servidor
-            if (!empty($existing_cv_ruta)) {
-                $oldFilePath = __DIR__ . '/../..' . $existing_cv_ruta; 
-                if (file_exists($oldFilePath) && is_file($oldFilePath)) {
-                    unlink($oldFilePath); 
-                }
-            }
-
-        } else {
-            // No existe un CV, así que insertamos uno nuevo
-            $sql_cv_action = "INSERT INTO cv_estudiante (perfil_estudiante_ID_Perfil_Estudiante, RutaArchivoCV, NombreOriginalArchivo, TipoMime, TamanoArchivoKB, FechaSubida)
-                                VALUES (?, ?, ?, ?, ?, NOW())";
-            $stmt_cv_action = $con->prepare($sql_cv_action);
-            if (!$stmt_cv_action) {
-                throw new Exception('Error al preparar la consulta de inserción de CV: ' . $con->error);
-            }
-            $fileSizeKB = round($fileSize / 1024);
-            $stmt_cv_action->bind_param('isssi', $idPerfilEstudiante, $relativePathForDB, $fileName, $fileType, $fileSizeKB);
+        if (!$stmt_cv_insert->execute()) {
+            throw new Exception('Error al guardar el CV en la base de datos: ' . $stmt_cv_insert->error);
         }
-        
-        // Ejecutar la consulta SQL (UPDATE o INSERT)
-        if (!$stmt_cv_action->execute()) {
-            throw new Exception('Error al ejecutar la acción del CV en la base de datos: ' . $stmt_cv_action->error);
-        }
-        $stmt_cv_action->close();
+        $stmt_cv_insert->close();
 
-        $con->commit(); // Confirmar la transacción si todo salió bien
-        $transaction_successful = true;
-
-        $response = [
-            'success' => true,
-            'msg' => 'Tu CV ha sido actualizado exitosamente.'
-        ];
+        $con->commit(); // Confirmar la transacción si todo el proceso fue exitoso
+        sendJsonResponse(true, 'Tu CV ha sido subido exitosamente.');
 
     } catch (Exception $e) {
-        // Bloque CATCH para cualquier excepción lanzada
-        $con->rollback(); // Deshacer cualquier cambio en la base de datos
-        
-        // Si el archivo ya se movió al servidor antes de la excepción, elimínalo
-        if (isset($filePath) && file_exists($filePath)) {
-            unlink($filePath);
-        }
-        
-        error_log("Error al actualizar CV: " . $e->getMessage()); // Loguea el error real
-        $response = [
-            'success' => false,
-            'error' => $e->getMessage(), // Muestra el mensaje de la excepción al usuario
-            'msg' => 'Ocurrió un error al procesar tu CV.'
-        ];
+        $con->rollback(); // Deshacer cualquier cambio en la base de datos si ocurre un error
 
+        // Si el archivo ya se movió al servidor y hubo un error en la DB, eliminar el archivo
+        if (isset($cv_uploaded_file_path) && file_exists($cv_uploaded_file_path)) {
+            unlink($cv_uploaded_file_path);
+        }
+
+        error_log("Error en actualizar_cv_estudiante.php: " . $e->getMessage()); // Loguear el error real
+        // Devolver un mensaje de error genérico al usuario en producción
+        sendJsonResponse(false, 'Ocurrió un error al procesar tu CV. Por favor, inténtalo de nuevo más tarde.', $e->getMessage());
     } finally {
-        // Restaurar el autocommit al finalizar, independientemente del resultado
+        // Restaurar el modo autocommit y cerrar la conexión
         if (isset($con)) {
-            $con->autocommit(true); 
+            $con->autocommit(true);
+            $con->close();
         }
     }
 } else {
-    // Si la solicitud no es POST
-    $response = [
-        'success' => false,
-        'error' => 'Método de solicitud no permitido.',
-        'msg' => 'Se esperaba una solicitud POST.'
-    ];
+    // Si la solicitud no es POST, devolver un error
+    sendJsonResponse(false, 'Método de solicitud no permitido.', 'Se esperaba una solicitud POST.');
 }
-
-// Llama a la función sendJsonResponse al final para enviar la respuesta y salir.
-sendJsonResponse($response['success'], $response['msg'], $response['error'] ?? null);
-
-// La conexión se cierra automáticamente cuando el script termina, o si tu 'conexion.php'
-// maneja un cierre explícito. No es necesario un $con->close() aquí.
 ?>

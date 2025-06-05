@@ -1,98 +1,53 @@
+// C:\xampp\htdocs\Jobtrack_Ucad\app\controllers\mis_aplicaciones.js
+
+// Almacenar las aplicaciones originales para filtros y recarga
+let aplicacionesOriginales = [];
+const tablaAplicacionesBody = $('#tablaAplicaciones tbody');
+const filtroPuestoInput = $('#filtroPuesto');
+const filtroEmpresaInput = $('#filtroEmpresa');
+const filtroFechaInput = $('#filtroFecha');
+
 $(function () {
-    // Event listener para el botón "Filtrar"
-    $('.card-body .row .col-md-2 .btn').on('click', function () {
-        const filtroPuesto = $('#filtroPuesto').val().toLowerCase();
-        const filtroEmpresa = $('#filtroEmpresa').val().toLowerCase();
-        const filtroFecha = $('#filtroFecha').val();
+    // Función para obtener y mostrar las aplicaciones
+    async function cargarAplicaciones() {
+        // Mostrar un loader mientras se cargan los datos
+        tablaAplicacionesBody.html('<tr><td colspan="6" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div> Cargando aplicaciones...</td></tr>');
 
-        const aplicacionesFiltradas = aplicacionesOriginales.filter(aplicacion => {
-            const coincidePuesto = aplicacion.puesto.includes(filtroPuesto);
-            const coincideEmpresa = aplicacion.empresa.includes(filtroEmpresa);
-            const coincideFecha = !filtroFecha || aplicacion.fecha === filtroFecha;
+        try {
+            const response = await fetch('http://localhost/Jobtrack_Ucad/app/models/obtener_aplicaciones_estudiante.php');
 
-            return coincidePuesto && coincideEmpresa && coincideFecha;
-        });
-
-        mostrarAplicaciones(aplicacionesFiltradas);
-    });
-
-    // Event listener para el botón "Recargar"
-    $('.card-body .d-flex.justify-content-between.align-items-center.mb-3 div .btn-outline-secondary.btn-sm').on('click', function () {
-        $('#filtroPuesto').val('');
-        $('#filtroEmpresa').val('');
-        $('#filtroFecha').val('');
-        mostrarAplicaciones(aplicacionesOriginales);
-    });
-
-    // Event listener para "Ver Detalles" y "Retirar Aplicación" (Event Delegation)
-    $('#tablaAplicaciones').on('click', 'a .fa-eye', function () {
-        const verDetallesBtn = $(this).closest('a');
-        const row = verDetallesBtn.closest('tr');
-        const puesto = row.find('td:nth-child(2)').text();
-        const empresa = row.find('td:nth-child(3)').text();
-        const fecha = row.find('td:nth-child(4)').text();
-        const estado = row.find('td:nth-child(5)').text();
-
-        Swal.fire({
-            title: 'Detalles de la Aplicación',
-            html: `<b>Puesto:</b> ${puesto}<br>` +
-                `<b>Empresa:</b> ${empresa}<br>` +
-                `<b>Fecha de Aplicación:</b> ${fecha}<br>` +
-                `<b>Estado:</b> ${estado}`,
-            icon: 'info',
-            confirmButtonText: 'Cerrar'
-        });
-    });
-
-    $('#tablaAplicaciones').on('click', 'button .fa-times', function () {
-        const retirarBtn = $(this).closest('button');
-        const row = retirarBtn.closest('tr');
-        const puesto = row.find('td:nth-child(2)').text();
-
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: `¿Deseas retirar tu aplicación para "${puesto}"?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, retirar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                row.remove();
-                Swal.fire(
-                    '¡Retirada!',
-                    `Tu aplicación para "${puesto}" ha sido retirada.`,
-                    'success'
-                );
-                console.log(`Aplicación para "${puesto}" retirada (simulado).`);
+            if (!response.ok) {
+                // Si hay un error HTTP, lanzar una excepción
+                const errorText = await response.text();
+                throw new Error(`Error del servidor: ${response.status} ${response.statusText} - ${errorText}`);
             }
-        });
-    });
 
-    const tablaAplicacionesBody = $('.table-responsive .table tbody');
-    const aplicacionesOriginales = [];
+            const result = await response.json();
 
-    // Función para extraer los datos de las aplicaciones de la tabla
-    function extraerDatosAplicaciones() {
-        tablaAplicacionesBody.find('tr').each(function () {
-            const columnas = $(this).find('td');
-            if (columnas.length > 0) {
-                aplicacionesOriginales.push({
-                    id: columnas.eq(0).text(),
-                    puesto: columnas.eq(1).text().toLowerCase(),
-                    empresa: columnas.eq(2).text().toLowerCase(),
-                    fecha: columnas.eq(3).text(),
-                    estado: columnas.eq(4).find('span').text(),
-                    acciones: columnas.eq(5).html()
-                });
+            if (result.success) {
+                aplicacionesOriginales = result.data.map(app => ({
+                    // Normalizar los nombres de las propiedades para facilitar el manejo
+                    id: app.ID_Aplicacion,
+                    puesto: app.Puesto,
+                    empresa: app.Empresa,
+                    fecha: app.Fecha_Aplicacion,
+                    estado: app.Estado_Aplicacion,
+                    carta_presentacion: app.Carta_Presentacion,
+                    ruta_cv: app.Ruta_CV // Añadir la ruta del CV
+                }));
+                mostrarAplicaciones(aplicacionesOriginales); // Mostrar todas al cargar
+            } else {
+                Swal.fire('Error', result.message || 'No se pudieron cargar las aplicaciones.', 'error');
+                tablaAplicacionesBody.html('<tr><td colspan="6" class="text-center text-danger">Error al cargar aplicaciones: ' + (result.message || 'Desconocido') + '</td></tr>');
             }
-        });
-        mostrarAplicaciones(aplicacionesOriginales); // Mostrar todas las aplicaciones al cargar
+        } catch (error) {
+            console.error('Error al obtener aplicaciones:', error);
+            Swal.fire('Error de Conexión', 'No se pudo conectar con el servidor para obtener las aplicaciones.', 'error');
+            tablaAplicacionesBody.html('<tr><td colspan="6" class="text-center text-danger">Error de conexión al servidor.</td></tr>');
+        }
     }
 
-    // Función para mostrar las aplicaciones en la tabla
+    // Función para mostrar las aplicaciones en la tabla (ya existente, pero adaptada)
     function mostrarAplicaciones(aplicaciones) {
         tablaAplicacionesBody.empty(); // Limpiar la tabla
 
@@ -103,32 +58,183 @@ $(function () {
         }
 
         $.each(aplicaciones, function (index, aplicacion) {
+            // Determinar la clase del badge según el estado
+            let badgeClass = '';
+            let btnRetirarDisabled = '';
+            if (aplicacion.estado === 'Pendiente' || aplicacion.estado === 'Enviada') {
+                badgeClass = 'bg-info text-white';
+            } else if (aplicacion.estado === 'En Revisión') {
+                badgeClass = 'bg-warning text-dark';
+            } else if (aplicacion.estado === 'Contactado') {
+                badgeClass = 'bg-success text-white';
+                // Si ya está contactado, no permitir retirar
+                btnRetirarDisabled = 'disabled';
+            } else if (aplicacion.estado === 'Retirada') {
+                 badgeClass = 'bg-secondary text-white';
+                 btnRetirarDisabled = 'disabled';
+            } else if (aplicacion.estado === 'Rechazado') {
+                 badgeClass = 'bg-danger text-white';
+                 btnRetirarDisabled = 'disabled';
+            }
+
             const row = $('<tr></tr>');
             row.html(`
-                <td>${aplicacion.id}</td>
+                <td>${index + 1}</td>
                 <td>${aplicacion.puesto}</td>
                 <td>${aplicacion.empresa}</td>
                 <td>${aplicacion.fecha}</td>
-                <td>${aplicacion.estado}</td>
-                <td>${aplicacion.acciones}</td>
+                <td><span class="badge ${badgeClass}">${aplicacion.estado}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary ver-detalles"
+                        style="color: #112852; border-color: #112852;" title="Ver Detalles"
+                        data-id="${aplicacion.id}"
+                        data-puesto="${aplicacion.puesto}"
+                        data-empresa="${aplicacion.empresa}"
+                        data-fecha="${aplicacion.fecha}"
+                        data-estado="${aplicacion.estado}"
+                        data-carta="${aplicacion.carta_presentacion || ''}"
+                        data-rutacv="${aplicacion.ruta_cv || ''}">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1 retirar-aplicacion ${btnRetirarDisabled}"
+                        title="Retirar Aplicación"
+                        data-id="${aplicacion.id}"
+                        data-puesto="${aplicacion.puesto}"
+                        ${btnRetirarDisabled}>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
             `);
             tablaAplicacionesBody.append(row);
         });
     }
 
-    // Event listeners para filtrar en tiempo real mientras se escribe (opcional)
-    $('#filtroPuesto').on('input', function () {
-        $('.card-body .row .col-md-2 .btn').click();
+    // --- Event Listeners ---
+
+    // Event listener para el botón "Filtrar"
+    // Ahora el filtro se aplica sobre `aplicacionesOriginales` y se muestra el resultado
+    $('.card-body .row .col-md-2 .btn').on('click', function () {
+        const filtroPuestoVal = filtroPuestoInput.val().toLowerCase();
+        const filtroEmpresaVal = filtroEmpresaInput.val().toLowerCase();
+        const filtroFechaVal = filtroFechaInput.val();
+
+        const aplicacionesFiltradas = aplicacionesOriginales.filter(aplicacion => {
+            const coincidePuesto = aplicacion.puesto.toLowerCase().includes(filtroPuestoVal);
+            const coincideEmpresa = aplicacion.empresa.toLowerCase().includes(filtroEmpresaVal);
+            const coincideFecha = !filtroFechaVal || aplicacion.fecha.startsWith(filtroFechaVal); // `startsWith` para fechas si filtro es 'YYYY-MM-DD'
+
+            return coincidePuesto && coincideEmpresa && coincideFecha;
+        });
+
+        mostrarAplicaciones(aplicacionesFiltradas);
     });
 
-    $('#filtroEmpresa').on('input', function () {
-        $('.card-body .row .col-md-2 .btn').click();
+    // Event listener para el botón "Recargar"
+    $('.btn-outline-secondary.btn-sm').on('click', function () {
+        filtroPuestoInput.val('');
+        filtroEmpresaInput.val('');
+        filtroFechaInput.val('');
+        cargarAplicaciones(); // Vuelve a cargar del servidor para asegurar datos frescos
     });
 
-    $('#filtroFecha').on('input', function () {
-        $('.card-body .row .col-md-2 .btn').click();
+    // Event listener para "Ver Detalles" (Event Delegation)
+    $('#tablaAplicaciones').on('click', '.ver-detalles', function () {
+        const btn = $(this);
+        const id_aplicacion = btn.data('id');
+        const puesto = btn.data('puesto');
+        const empresa = btn.data('empresa');
+        const fecha = btn.data('fecha');
+        const estado = btn.data('estado');
+        const carta = btn.data('carta');
+        const ruta_cv = btn.data('rutacv');
+
+        let cvHtml = '';
+        if (ruta_cv) {
+            // Construir la URL completa del CV. Asume que tu carpeta public está accesible.
+            const fullCvUrl = `http://localhost/Jobtrack_Ucad${ruta_cv}`;
+            cvHtml = `<br><b>CV Adjunto:</b> <a href="${fullCvUrl}" target="_blank" class="btn btn-link p-0">Ver CV <i class="fas fa-external-link-alt"></i></a>`;
+        }
+
+        Swal.fire({
+            title: `Detalles de Aplicación #${id_aplicacion}`,
+            html: `<b>Puesto:</b> ${puesto}<br>` +
+                  `<b>Empresa:</b> ${empresa}<br>` +
+                  `<b>Fecha de Aplicación:</b> ${fecha}<br>` +
+                  `<b>Estado:</b> ${estado}<br>` +
+                  `<b>Carta de Presentación:</b> ${carta || 'No proporcionada.'}${cvHtml}`,
+            icon: 'info',
+            confirmButtonText: 'Cerrar',
+            customClass: {
+                content: 'text-start' // Alineación del contenido del pop-up
+            }
+        });
     });
 
-    // Extraer los datos de las aplicaciones al cargar la página
-    extraerDatosAplicaciones();
-}); 
+    // Event listener para "Retirar Aplicación" (Event Delegation)
+    $('#tablaAplicaciones').on('click', '.retirar-aplicacion:not(.disabled)', function () {
+        const btn = $(this);
+        const id_aplicacion = btn.data('id');
+        const puesto = btn.data('puesto');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `¿Deseas retirar tu aplicación para "${puesto}"? Esta acción no se puede deshacer.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, retirar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('http://localhost/Jobtrack_Ucad/app/models/retirar_aplicacion.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json' // Indicamos que enviamos JSON
+                        },
+                        body: JSON.stringify({ id_aplicacion: id_aplicacion }) // Enviamos el ID de la aplicación
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Error del servidor: ${response.status} ${response.statusText} - ${errorText}`);
+                    }
+
+                    const jsonResponse = await response.json();
+
+                    if (jsonResponse.success) {
+                        Swal.fire(
+                            '¡Retirada!',
+                            jsonResponse.message,
+                            'success'
+                        );
+                        cargarAplicaciones(); // Recargar la tabla para reflejar el cambio de estado
+                    } else {
+                        Swal.fire(
+                            'Error al Retirar',
+                            jsonResponse.message || 'No se pudo retirar la aplicación.',
+                            'error'
+                        );
+                    }
+                } catch (error) {
+                    console.error('Error al retirar aplicación:', error);
+                    Swal.fire(
+                        'Error de Conexión',
+                        'No se pudo conectar con el servidor para retirar la aplicación.',
+                        'error'
+                    );
+                }
+            }
+        });
+    });
+
+    // Event listeners para filtrar en tiempo real (opcional, llama al click del botón Filtrar)
+    // Se dispara el click del botón filtrar cada vez que se escribe
+    filtroPuestoInput.on('input', function () { $('.card-body .row .col-md-2 .btn').click(); });
+    filtroEmpresaInput.on('input', function () { $('.card-body .row .col-md-2 .btn').click(); });
+    filtroFechaInput.on('change', function () { $('.card-body .row .col-md-2 .btn').click(); }); // Para el input date es mejor 'change'
+
+    // Cargar las aplicaciones al cargar la página por primera vez
+    cargarAplicaciones();
+});
