@@ -141,20 +141,20 @@ if (
         // y el checkbox de notificaciones está en el formulario.
         // Asumiendo que 'preferencias_correo_usuario' tiene ID_Usuario y Acepta_Notificaciones (boolean/tinyint)
         if (isset($datos['notificaciones'])) {
-             $acepta_notificaciones = ($datos['notificaciones'] === 'true') ? 1 : 0;
-             $query_notificaciones = "INSERT INTO preferencias_correo_usuario (ID_Usuario, Acepta_Notificaciones) VALUES (?, ?)";
-             $stmt_notificaciones = mysqli_prepare($con, $query_notificaciones);
-             if (!$stmt_notificaciones) {
-                 error_log("Error al preparar la consulta de notificaciones: " . mysqli_error($con));
-                 // No lanzamos una excepción fatal aquí si la tabla es opcional
-             } else {
-                 mysqli_stmt_bind_param($stmt_notificaciones, "ii", $id_nuevo_usuario, $acepta_notificaciones);
-                 mysqli_stmt_execute($stmt_notificaciones);
-                 if (mysqli_stmt_affected_rows($stmt_notificaciones) === 0) {
-                     error_log("No se pudo insertar la preferencia de notificación para el usuario " . $id_nuevo_usuario);
-                 }
-                 mysqli_stmt_close($stmt_notificaciones);
-             }
+            $acepta_notificaciones = ($datos['notificaciones'] === 'true') ? 1 : 0;
+            $query_notificaciones = "INSERT INTO preferencias_correo_usuario (ID_Usuario, Enviar_Notificaciones) VALUES (?, ?)";
+            $stmt_notificaciones = mysqli_prepare($con, $query_notificaciones);
+            if (!$stmt_notificaciones) {
+                error_log("Error al preparar la consulta de notificaciones: " . mysqli_error($con));
+                // No lanzamos una excepción fatal aquí si la tabla es opcional
+            } else {
+                mysqli_stmt_bind_param($stmt_notificaciones, "ii", $id_nuevo_usuario, $acepta_notificaciones);
+                mysqli_stmt_execute($stmt_notificaciones);
+                if (mysqli_stmt_affected_rows($stmt_notificaciones) === 0) {
+                    error_log("No se pudo insertar la preferencia de notificación para el usuario " . $id_nuevo_usuario);
+                }
+                mysqli_stmt_close($stmt_notificaciones);
+            }
         }
 
 

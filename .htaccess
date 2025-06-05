@@ -1,0 +1,24 @@
+# Habilita el motor de reescritura de URLs
+RewriteEngine On
+
+# Evita que el .htaccess afecte a archivos y directorios existentes
+# Esto es crucial para que tus archivos .html, .js, .css, imágenes, etc., sigan funcionando directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Regla principal para redirigir todas las peticiones no existentes a index.html
+# Esto asume que index.html es tu "controlador" principal a través de JS
+RewriteRule ^ index.html [L]
+
+# Opcional: Si quieres forzar HTTPS (recomendado para sitios en producción)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Opcional: Si quieres eliminar el .html de las URLs para tus vistas
+# Esto hará que /app/views/user_profile.html sea accesible como /app/views/user_profile
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_FILENAME}.html -f
+#     RewriteRule ^(.*)$ $1.html [L]
+# </IfModule>
