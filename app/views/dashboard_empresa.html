@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard_empresa.css">
-    </head>
+</head>
 
 <body>
 
@@ -45,13 +45,11 @@
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title fw-bold" style="color: #112852;">Ofertas Activas</h5>
-                        <p class="card-text display-4" style="color: #F0C11A;">3</p>
+                        <p class="card-text display-4" style="color: #F0C11A;" id="ofertasActivasCount">Cargando...</p>
                         <a href="./administrar_ofertas.html" class="btn btn-outline"
                             style="color: #112852; border-color: #112852; font-size: 0.9rem;">Ver Detalles</a>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="col-md-8 mb-4">
@@ -59,62 +57,16 @@
                     <div class="card-header" style="background-color: #F0C11A; color: #112852;">
                         <i class="fas fa-users me-2" style="color: #112852;"></i> Postulantes Recientes
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3 border-bottom pb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title fw-bold" style="color: #112852;">Nombre del Estudiante 1</h6>
-                                    <small class="text-muted">para Desarrollador Web Junior</small><br>
-                                    <small class="text-muted">Fecha de Postulación: 01/06/2025</small>
-                                </div>
-                                <div>
-                                    <a href="#" class="btn btn-sm btn-outline"
-                                        style="color: #112852; border-color: #112852;">Ver Perfil</a>
-                                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 border-bottom pb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title fw-bold" style="color: #112852;">Nombre del Estudiante 2</h6>
-                                    <small class="text-muted">para Diseñador Gráfico (Prácticas)</small><br>
-                                    <small class="text-muted">Fecha de Postulación: 30/05/2025</small>
-                                </div>
-                                <div>
-                                    <a href="#" class="btn btn-sm btn-outline"
-                                        style="color: #112852; border-color: #112852;">Ver Perfil</a>
-                                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 border-bottom pb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title fw-bold" style="color: #112852;">Nombre del Estudiante 3</h6>
-                                    <small class="text-muted">para Asistente Administrativo</small><br>
-                                    <small class="text-muted">Fecha de Postulación: 29/05/2025</small>
-                                </div>
-                                <div>
-                                    <a href="#" class="btn btn-sm btn-outline"
-                                        style="color: #112852; border-color: #112852;">Ver Perfil</a>
-                                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body" id="postulantesRecientesContainer">
+                        <div class="text-center text-muted">Cargando postulantes...</div>
                         <div>
                             <a href="./postulantes.html" class="btn btn-link" style="color: #112852;">Ver todos los postulantes <i
                                     class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </main>
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
@@ -134,7 +86,8 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../controllers/dashboard_empresa.js"></script>
 
-    </body>
+</body>
 
 </html>

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +7,17 @@
     <link rel="stylesheet" href="../../recursos/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
-
 <body>
     <header class="py-3" style="background-color: #112852;">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="text-white"><i class="fas fa-briefcase"></i> JobTrack</h1>
             <nav>
                 <ul class="list-unstyled d-flex m-0" style="gap: 20px;">
-                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i>
-                            Inicio</a></li>
-                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi
-                            Perfil</a></li>
-                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de
-                            Empleo</a></li>
-                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis
-                            Aplicaciones</a></li>
-                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i
-                                class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                    <li><a href="../../index.html" class="text-white text-decoration-none"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="../views/perfil_estudiante.html" class="text-white text-decoration-none"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
+                    <li><a href="../views/explorar_oferta.html" class="text-white text-decoration-none"><i class="fas fa-search"></i> Ofertas de Empleo</a></li>
+                    <li><a href="../views/administrar_aplicaciones.html" class="text-white text-decoration-none"><i class="fas fa-file-alt"></i> Mis Aplicaciones</a></li>
+                    <li><a href="../../index.html" class="btn" style="background-color: #F0C11A; color: #000;"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,24 +30,10 @@
                     <div class="card-header" style="background-color: #112852; color: #FFFFFF;">
                         <i class="fas fa-star me-2" style="color: #F0C11A;"></i> Ofertas Destacadas
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3 border-bottom pb-3">
-                            <h6 class="card-title fw-bold style="color: #112852;>Desarrollador Web Junior</h6>
-                            <p class="card-text text-muted"><i class="fas fa-building me-2" style="color: #112852;"></i>
-                                Empresa Ejemplo S.A.</p>
-                            <a href="#" class="btn btn-sm btn-outline"
-                                style="color: #112852; border-color: #112852;">Ver Detalles</a>
-                        </div>
-                        <div class="mb-3 border-bottom pb-3">
-                            <h6 class="card-title fw-bold text-warning">Diseñador Gráfico (Prácticas)</h6>
-                            <p class="card-text text-muted"><i class="fas fa-building me-2" style="color: #112852;"></i>
-                                Otra Empresa Inc.</p>
-                            <a href="#" class="btn btn-sm btn-outline"
-                                style="color: #F0C11A; border-color: #F0C11A;">Ver Detalles</a>
-                        </div>
+                    <div class="card-body" id="ofertasDestacadasContainer">
+                        <div class="text-center text-muted">Cargando ofertas destacadas...</div>
                         <div>
-                            <a href="./explorar_oferta.html" class="btn btn-link" style="color: #112852;">Ver todas las ofertas <i
-                                    class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a>
+                            <a href="./explorar_oferta.html" class="btn btn-link" style="color: #112852;">Ver todas las ofertas <i class="fas fa-arrow-right ms-1" style="color: #112852;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -68,18 +46,10 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text text-muted">Resumen de tus aplicaciones:</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-spinner fa-pulse text-warning me-2" style="color: #F0C11A;"></i> En
-                                revisión: <span class="fw-bold">3</span></li>
-                            <li><i class="fas fa-check-circle text-success me-2" style="color: #28a745;"></i> Aceptadas:
-                                <span class="fw-bold">1</span>
-                            </li>
-                            <li><i class="fas fa-times-circle text-danger me-2" style="color: #dc3545;"></i> Rechazadas:
-                                <span class="fw-bold">2</span>
-                            </li>
+                        <ul class="list-unstyled" id="resumenAplicacionesList">
+                            <li class="text-center text-muted">Cargando resumen...</li>
                         </ul>
-                        <a href="./administrar_aplicaciones.html" class="btn btn-sm btn-outline" style="color: #F0C11A; border-color: #F0C11A;">Ver
-                            todas mis aplicaciones</a>
+                        <a href="./administrar_aplicaciones.html" class="btn btn-sm btn-outline" style="color: #F0C11A; border-color: #F0C11A;">Ver todas mis aplicaciones</a>
                     </div>
                 </div>
             </div>
@@ -88,7 +58,7 @@
 
     <footer class="py-3 mt-5" style="background-color: #112852; color: #FFFFFF;">
         <div class="container text-center">
-            <p class="m-0">&copy; 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
+            <p class="m-0">© 2025 JobTrack - Universidad Cristiana de las Asambleas de Dios</p>
             <div class="social-icons mt-2">
                 <a href="https://www.facebook.com/universidad.cristiana.ucad" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-facebook fa-2x"></i></a>
                 <a href="https://www.instagram.com/universidad_cristianaad/" class="mx-2" style="color: #FFFFFF;"><i class="fab fa-instagram fa-2x"></i></a>
@@ -100,7 +70,7 @@
     <script src="../../recursos/jquery/jquery.min.js"></script>
     <script src="../../recursos/pooper/popper.min.js"></script>
     <script src="../../recursos/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../controllers/dashboard_estudiante.js"></script>
 
 </body>
-
 </html>
